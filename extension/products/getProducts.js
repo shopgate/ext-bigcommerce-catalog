@@ -14,8 +14,8 @@
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-    cb(null, {
-        totalProductCount: 0,
-        products: []
-    })
+  cb(null, {
+    totalProductCount: 0,
+    products: []
+  })
 }
