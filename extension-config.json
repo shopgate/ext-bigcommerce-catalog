@@ -7,35 +7,48 @@
   },
   "steps": [],
   "configuration": {
-    "cakeUrl": {
-      "type": "static",
-      "destination": "backend",
-      "params": {
-        "value": "https://rapid-php.shopgate.com/"
-      }
-    },
-    "languageId": {
-      "type": "bigApi",
+    "storeHash" : {
+      "type" : "bigApi",
       "destination" : "backend",
+      "default": null,
       "params": {
-        "method" : "GET",
-        "service" : "shop",
-        "path" : "/v1/%(shopId)s",
-        "key" : "languageId"
+        "method":  "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "key": "value.backend.storeHash"
       }
     },
-    "cloudsearch-de": {
-      "type": "static",
-      "destination": "backend",
+    "accessToken" : {
+      "type" : "bigApi",
+      "destination" : "backend",
+      "default": null,
       "params": {
-        "value": "https://search-shopgate-items-de-hdxp45pgwwdvd4umvpq36rejwe.eu-west-1.cloudsearch.amazonaws.com/2013-01-01/search"
+        "method":  "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "key": "value.backend.accessToken"
       }
     },
-    "cloudsearch-en": {
-      "type": "static",
-      "destination": "backend",
+    "clientId": {
+      "type" : "bigApi",
+      "destination" : "backend",
+      "default": null,
       "params": {
-        "value": "https://search-shopgate-items-en-qj4xjcc45jah5zdcxwoqbriivi.eu-west-1.cloudsearch.amazonaws.com/2013-01-01/search"
+        "method":  "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "key": "value.backend.clientId"
+      }
+    },
+    "clientSecret": {
+      "type" : "bigApi",
+      "destination" : "backend",
+      "default": null,
+      "params": {
+        "method":  "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "key": "value.backend.clientSecret"
       }
     },
     "requestTimeout": {
