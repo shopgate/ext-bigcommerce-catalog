@@ -1,0 +1,47 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getProducts_v1",
+    "public": true,
+    "input": [
+      {"key": "categoryId", "id": "1", "optional": true},
+      {"key": "searchPhrase", "id": "2", "optional": true},
+      {"key": "filters", "id": "3", "optional": true},
+      {"key": "offset", "id": "4", "optional": true},
+      {"key": "limit", "id": "5", "optional": true},
+      {"key": "sort", "id": "6", "optional": true},
+      {"key": "productIds", "id": "7", "optional": true},
+      {"key": "skipHighlightLoading", "id": "8", "optional": true},
+      {"key": "skipLiveshoppingLoading", "id": "9", "optional": true},
+      {"key": "showInactive", "id": "15", "optional": true},
+      {"key": "sgxsMeta", "id": "750"},
+      {"key": "characteristics", "id": "751", "optional": true}
+    ],
+    "output": [
+      {"key": "totalProductCount", "id": "1000"},
+      {"key": "products", "id": "1001"}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-products",
+        "path": "@shopgate/bigcommerce-products/products/getProducts.js",
+        "input": [
+          {"key": "categoryId", "id": "1", "optional": true},
+          {"key": "searchPhrase", "id": "2", "optional": true},
+          {"key": "filters", "id": "3", "optional": true},
+          {"key": "offset", "id": "4", "optional": true},
+          {"key": "limit", "id": "5", "optional": true},
+          {"key": "sort", "id": "6", "optional": true},
+          {"key": "productIds", "id": "7", "optional": true},
+          {"key": "showInactive", "id": "15", "optional": true},
+          {"key": "characteristics", "id": "751", "optional": true}
+        ],
+        "output": [
+          {"key": "totalProductCount", "id": "1000"},
+          {"key": "products", "id": "1001"}
+        ]
+      }
+    ]
+  }
+}

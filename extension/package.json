@@ -1,0 +1,33 @@
+{
+  "name": "@shopgate/bigcommerce-products",
+  "version": "1.0.0",
+  "description": "prototype",
+  "scripts": {
+    "test": "JUNIT_REPORT_PATH=../build/mocha.xml JUNIT_REPORT_STACK=1 mocha --recursive test -R mocha-jenkins-reporter",
+    "cover": "istanbul cover _mocha -- --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@stash.localdev.cc:7999/sgx/bigcommerce-products.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "stable": "^0.1.6",
+    "xregexp": "^3.2.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mocha-jenkins-reporter": "^0.3.7",
+    "nock": "^9.0.13",
+    "request": "^2.83.0"
+  },
+  "standard": {
+    "ignore": [
+      "/products/sortCharacteristics.js"
+    ],
+    "env": {
+      "mocha": true
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "languageId": "de-de",
+  "cakeUrl": "https://rapid-php.main.shopgatedev.com/",
+  "cloudsearch-de": "https://search-shopgate-items-de-hdxp45pgwwdvd4umvpq36rejwe.eu-west-1.cloudsearch.amazonaws.com/2013-01-01/search",
+  "cloudsearch-en": "https://search-shopgate-items-en-qj4xjcc45jah5zdcxwoqbriivi.eu-west-1.cloudsearch.amazonaws.com/2013-01-01/search",
+  "requestTimeout": 15000
+}
