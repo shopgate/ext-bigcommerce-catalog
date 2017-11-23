@@ -17,18 +17,29 @@ module.exports = class BigCommerceProduct {
   constructor (bigCommerceApi, bigCommerProduct) {
     this.bigCommerceApi = bigCommerceApi
     this.bigCommerceProduct = bigCommerProduct
+    this.bigCommerceVariant = bigCommerProduct.variants[0]
   }
 
   /**
    * @returns {boolean}
    */
   isActive () {
-    return this.bigCommerceProduct.is_visible
+    return this.bigCommerceProduct.is_visible && !this.isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants)
+  }
+
+  isAtLeatOneVariantPurchasable (variants) {
+    for (let i = 0; i < variants.length; ++i) {
+      if (!variants[i].purchasing_disabled) {
+        return true
+      }
+    }
+
+    return false
   }
 
   getAvailablity () {
     return {
-      text: this.bigCommerceProduct.availability_description,
+      text: this.bigCommerceVariant.purchasing_disabled ? this.bigCommerceVariant.purchasing_disabled_message : this.bigCommerceProduct.availability_description,
       state: (this.bigCommerceProduct.availability === AVAILABILITY_AVAILABLE || this.bigCommerceProduct.availability === AVAILABILITY_PREORDER ? 'ok' : 'alert')
     }
   }
@@ -57,19 +68,11 @@ module.exports = class BigCommerceProduct {
 
   async getBrand () {
     if (this.bigCommerceProduct.brand_id) {
-      let data = await this.bigCommerceApi.get('/catalog/brands/' + this.bigCommerceProduct.brand_id)
+      const data = await this.bigCommerceApi.get('/catalog/brands/' + this.bigCommerceProduct.brand_id)
 
       if (data.data.hasOwnProperty('name')) {
         return data.data.name
       }
-
-
-      return new Promise((resolve, reject) => {
-        resolve(brand)
-
-        reject()
-      })
-
 
       return ''
     }
@@ -79,9 +82,27 @@ module.exports = class BigCommerceProduct {
     return {
       info: '',
       orderable: true,
-      quantity: 12,
-      ignoreQuantity: false
+      quantity: this.getStockQuantity(),
+      ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== INVENTORY_TRACKING_OFF
     }
+  }
+
+  getStockQuantity () {
+    return this.getMaximumStockQuantityForVariants(this.bigCommerceProduct.variants)
+  }
+
+  /**
+   * @param {Array} variants
+   */
+  getMaximumStockQuantityForVariants (variants) {
+    let maximumVariantStockQuantity = 0
+    variants.forEach((variant) => {
+      if (maximumVariantStockQuantity > variant.intenvoryLevel) {
+        maximumVariantStockQuantity = variant.intenvoryLevel
+      }
+    })
+
+    return maximumVariantStockQuantity
   }
 
   getRating () {
@@ -93,27 +114,27 @@ module.exports = class BigCommerceProduct {
   }
 
   getFeaturedImageUrl () {
-    return 'https://cdn3.bigcommerce.com/s-r5s844ad/images/stencil/500x659/products/90/308/HERO_NI_colette_123__74757.1446735324.jpg?c=2'
+    return this.bigCommerceVariant.image_url
   }
 
   getPrice () {
     let prices = {
       tiers: [],
       info: '2€/Kg',
-      unitPrice: this.bigCommerceProduct.calculcatedPrice,
-      unitPriceMin: 5,
-      unitPriceMax: 20,
-      unitPriceNet: 10,
+      unitPrice: this.bigCommerceProduct.calculated_price,
+      //unitPriceMin: 5,
+      //unitPriceMax: 20,
+      unitPriceNet: this.bigCommerceProduct.calculated_price,
       unitPriceWithTax: 11.9,
       taxAmount: 2,
       taxPercent: 19.00,
-      msrp: 40,
+      msrp: this.bigCommerceProduct.retail_price,
       currency: 'EUR'
     }
 
     if (
-      this.bigCommerceProduct.price !== this.bigCommerceProduct.calculcatedPrice &&
-      this.bigCommerceProduct.price > this.bigCommerceProduct.calculcatedPrice
+      this.bigCommerceProduct.price !== this.bigCommerceProduct.calculated_price &&
+      this.bigCommerceProduct.price > this.bigCommerceProduct.calculated_price
     ) {
       prices['unitPriceStriked'] = this.bigCommerceProduct.price
     }
