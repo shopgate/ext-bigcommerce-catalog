@@ -10,16 +10,18 @@ class BigCommerceCategoryApi {
     let resultCategories = []
 
     return this.apiVersion3Client.get('/catalog/categories?parent_id=0&is_visible=1&include_fields=id,name,image_url').then((firstPage) => {
-      let promises = [firstPage]
+      let pagePromises = [firstPage]
 
       if (firstPage.meta.pagination.total_pages > 1) {
         for (let i = 2; i <= firstPage.meta.pagination.total_pages; i++) {
-          promises.push(this.apiVersion3Client.get('/catalog/categories?parent_id=0&is_visible=1&include_fields=id,name,image_url&limit=1&page=' + i))
+          pagePromises.push(this.apiVersion3Client.get('/catalog/categories?parent_id=0&is_visible=1&include_fields=id,name,image_url&page=' + i))
         }
       }
 
-      return Promise.all(promises)
+      return Promise.all(pagePromises)
     }).then((allPages) => {
+      let productCountPerCategoryPromises = []
+
       allPages.forEach((page) => {
         page.data.forEach((bigCommerceCategory) => {
           resultCategories.push({
@@ -28,10 +30,17 @@ class BigCommerceCategoryApi {
             productCount: 0,
             imageUrl: bigCommerceCategory.image_url
           })
+
+          productCountPerCategoryPromises.push(this.apiVersion2Client.get('/products/count?category=' + encodeURIComponent(bigCommerceCategory.name)))
         })
       })
 
-      console.log(resultCategories)
+      return Promise.all(productCountPerCategoryPromises)
+    }).then((productCounts) => {
+      productCounts.forEach((productCount, resultCategoryIndex) => {
+        resultCategories[resultCategoryIndex].productCount = productCount.count
+      })
+
       return resultCategories
     })
   }
