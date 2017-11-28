@@ -36,7 +36,7 @@ class BigCommerceProductApi {
   getProductResultForProductIds (productIds, offset, limit, sort, showInactive) {
     let pagePromises = []
     let parameters = [
-      'include=variants,images,bulk_pricing_rules',
+      'include=variants,images,bulk_pricing_rules'
     ]
 
     if (!showInactive) {
