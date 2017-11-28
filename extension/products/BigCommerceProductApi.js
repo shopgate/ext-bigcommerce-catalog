@@ -56,8 +56,8 @@ class BigCommerceProductApi {
     return Promise.all(pagePromises).then(bigCommerceProductReponses => {
       let promisesForBrands = []
 
-      for (let bigCommerceProductRequest of bigCommerceProductReponses) {
-        for (let bigCommerceProductData of bigCommerceProductRequest.data) {
+      bigCommerceProductReponses.forEach(bigCommerceProductRequest => {
+        bigCommerceProductRequest.data.forEach(bigCommerceProductData => {
           /* @type {BigCommerceProduct} */
           const bigCommerceProduct = new BigCommerceProduct(this.apiVersion3Client, bigCommerceProductData)
 
@@ -78,11 +78,10 @@ class BigCommerceProductApi {
             highlight: bigCommerceProduct.getHighlight(),
             parent: bigCommerceProduct.getParent(),
             type: bigCommerceProduct.getType(),
-            tags: bigCommerceProduct.getTags(),
-            children: []
+            tags: bigCommerceProduct.getTags()
           })
-        }
-      }
+        })
+      })
 
       return Promise.all(promisesForBrands)
     }).then(brands => {
