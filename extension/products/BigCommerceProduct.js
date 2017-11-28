@@ -24,7 +24,8 @@ module.exports = class BigCommerceProduct {
    * @returns {boolean}
    */
   isActive () {
-    return this.bigCommerceProduct.is_visible && !this.isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants)
+    // TODO: global setting don't show "When a product is out of stock"
+    return true
   }
 
   isAtLeatOneVariantPurchasable (variants) {
@@ -52,11 +53,11 @@ module.exports = class BigCommerceProduct {
     let identifiers = {}
 
     if (this.bigCommerceProduct.sku) {
-      identifiers['sku'] = this.bigCommerceProduct.sku
+      identifiers.sku = this.bigCommerceProduct.sku
     }
 
     if (this.bigCommerceProduct.upc) {
-      identifiers['sku'] = this.bigCommerceProduct.upc
+      identifiers.upc = this.bigCommerceProduct.upc
     }
 
     return identifiers
@@ -66,7 +67,10 @@ module.exports = class BigCommerceProduct {
     return PRODUCT_TYPE_SIMPLE
   }
 
-  async getBrand () {
+  /**
+   * @returns {Promise.<string>}
+   */
+  async getBrandAsync () {
     if (this.bigCommerceProduct.brand_id) {
       const data = await this.bigCommerceApi.get('/catalog/brands/' + this.bigCommerceProduct.brand_id)
 
@@ -81,7 +85,7 @@ module.exports = class BigCommerceProduct {
   getStock () {
     return {
       info: '',
-      orderable: true,
+      orderable: this.isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
       quantity: this.getStockQuantity(),
       ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== INVENTORY_TRACKING_OFF
     }
@@ -106,37 +110,53 @@ module.exports = class BigCommerceProduct {
   }
 
   getRating () {
-    return {
-      count: 10,
-      average: this.bigCommerceProduct.reviews_rating_sum,
+    let rating = {
+      //count : 0,
       reviewCount: this.bigCommerceProduct.reviews_count
     }
+
+    if (this.bigCommerceProduct.reviews_count > 0) {
+      rating.average = this.bigCommerceProduct.reviews_rating_sum
+    }
+
+    return rating
   }
 
   getFeaturedImageUrl () {
-    return this.bigCommerceVariant.image_url
+    let bigCommerceProductImage = this.bigCommerceVariant.image_url
+
+    if (typeof bigCommerceProductImage === 'undefined' || bigCommerceProductImage === '') {
+      if (this.bigCommerceProduct.hasOwnProperty('images') && this.bigCommerceProduct.images.length > 0) {
+        bigCommerceProductImage = this.bigCommerceProduct.images[0].url_standard
+      }
+    }
+
+    return bigCommerceProductImage
   }
 
   getPrice () {
     let prices = {
       tiers: [],
-      info: '2€/Kg',
+      info: '',
       unitPrice: this.bigCommerceProduct.calculated_price,
       //unitPriceMin: 5,
       //unitPriceMax: 20,
       unitPriceNet: this.bigCommerceProduct.calculated_price,
-      unitPriceWithTax: 11.9,
-      taxAmount: 2,
+      unitPriceWithTax: this.bigCommerceProduct.calculated_price,
+      taxAmount: 0.00,
       taxPercent: 19.00,
-      msrp: this.bigCommerceProduct.retail_price,
-      currency: 'EUR'
+      currency: 'USD'
     }
 
     if (
       this.bigCommerceProduct.price !== this.bigCommerceProduct.calculated_price &&
       this.bigCommerceProduct.price > this.bigCommerceProduct.calculated_price
     ) {
-      prices['unitPriceStriked'] = this.bigCommerceProduct.price
+      prices.unitPriceStriked = this.bigCommerceProduct.price
+    }
+
+    if (this.bigCommerceProduct.retail_price > 0) {
+      prices.msrp = this.bigCommerceProduct.retail_price
     }
 
     return prices
