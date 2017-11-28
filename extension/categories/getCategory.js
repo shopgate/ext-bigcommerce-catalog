@@ -1,4 +1,24 @@
 const BigCommerce = require('node-bigcommerce')
+const BigCommerceCategoryApi = require('./classes/BigCommerceCategoryApi.js')
+
+const bigCommerceCategoryApi = new BigCommerceCategoryApi(
+  new BigCommerce({
+    logLevel: 'info',
+    clientId: '***',
+    accessToken: '***',
+    storeHash: '***',
+    responseType: 'json',
+    apiVersion: 'v2'
+  }),
+  new BigCommerce({
+    logLevel: 'info',
+    clientId: '***',
+    accessToken: '***',
+    storeHash: '***',
+    responseType: 'json',
+    apiVersion: 'v3'
+  })
+)
 
 /**
  * @param {object} context
@@ -7,33 +27,7 @@ const BigCommerce = require('node-bigcommerce')
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  const bigCommerce = new BigCommerce({
-    logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
-    responseType: 'json',
-    apiVersion: 'v3'
-  })
-  const categoryId = input.categoryId
-
-  bigCommerce.get(`/catalog/categories?id=${categoryId}`).then((bigCommerceCategories) => {
-    console.log(bigCommerceCategories)
-  const category = bigCommerceCategories.data[0]
-
-  const result = {
-    id: category.id,
-    name: category.name,
-    productCount: 0,
-    imageUrl: category.image_url,
-    childrenCount: 0,
-    parent: {id: category.parent_id, name: ''}
-  }
-
-    return cb(null, result)
-
-}).catch(function (error) {
-    console.log(error)
-    return cb(null, {})
-  })
+  bigCommerceCategoryApi.getCategory(input.categoryId).then((category) => {
+    cb(null, category)
+  }).catch(console.err)
 }
