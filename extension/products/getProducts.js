@@ -1,6 +1,27 @@
 const BigCommerce = require('node-bigcommerce')
 const BigCommerceProduct = require('./BigCommerceProduct.js')
 
+const BigCommerceProductApi = require('./BigCommerceProductApi.js')
+
+const bigCommerceProductApi = new BigCommerceProductApi(
+  new BigCommerce({
+    logLevel: 'info',
+    clientId: '***',
+    accessToken: '***',
+    storeHash: '***',
+    responseType: 'json',
+    apiVersion: 'v2'
+  }),
+  new BigCommerce({
+    logLevel: 'info',
+    clientId: '***',
+    accessToken: '***',
+    storeHash: '***',
+    responseType: 'json',
+    apiVersion: 'v3'
+  })
+)
+
 /**
  * @param {object} context
  * @param {object} input - Properties depend on the pipeline this is used for
@@ -17,56 +38,27 @@ const BigCommerceProduct = require('./BigCommerceProduct.js')
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  const bigCommerceApi = new BigCommerce({
-    logLevel: 'info',
-    clientId: '5qsw38039y6dwq37wp6nzabyq11cpru',
-    accessToken: 'evgf1d16l0iu1bpmckjw8an0wkxl9hx',
-    responseType: 'json',
-    storeHash: 'r5s844ad',
-    apiVersion: 'v3' // Default is v2
-  })
-
-  // todo get store currency
-
-  const products = []
-  let promisesForBrands = []
-
-  bigCommerceApi.get('/catalog/products?limit=3&include=variants').then(async data => {
-    for (let bigCommerceProductData of data['data']) {
-      /* @type {BigCommerceProduct} */
-      const bigCommerceProduct = new BigCommerceProduct(bigCommerceApi, bigCommerceProductData)
-
-      promisesForBrands.push(bigCommerceProduct.getBrand())
-
-      products.push({
-        id: bigCommerceProduct.getId(),
-        active: bigCommerceProduct.isActive(),
-        availability: bigCommerceProduct.getAvailablity(),
-        identifiers: bigCommerceProduct.getIdentifiers(),
-        manufacturer: '',
-        name: bigCommerceProduct.getName(),
-        stock: bigCommerceProduct.getStock(),
-        rating: bigCommerceProduct.getRating(),
-        featuredImageUrl: bigCommerceProduct.getFeaturedImageUrl(),
-        price: bigCommerceProduct.getPrice(),
-        flags: bigCommerceProduct.getTags(),
-        liveshoppings: [],
-        highlight: bigCommerceProduct.getHighlight(),
-        parent: bigCommerceProduct.getParent(),
-        type: bigCommerceProduct.getType(),
-        tags: bigCommerceProduct.getTags()
-      })
-    }
-
-    Promise.all(promisesForBrands).then(brands => {
-      for (let i = 0; i < brands.length; ++i) {
-        products[i].manufacturer = brands[i]
-      }
-
-      cb(null, {
-        totalProductCount: 0,
-        products: products
-      })
+  if (input.hasOwnProperty('productIds') && input.productIds) {
+    bigCommerceProductApi.getProductResultForProductIds(
+      input.productIds,
+      input.hasOwnProperty('offset') ? input.offset : 0,
+      input.hasOwnProperty('limit') ? input.limit : 20,
+      input.hasOwnProperty('sort') ? input.sort : 'random',
+      input.hasOwnProperty('showInactive') ? input.showInactive : false
+    ).then(productResult => {
+      cb(null, productResult)
     })
-  })
+  }
+
+  if (input.hasOwnProperty('categoryId') && input.categoryId) {
+    bigCommerceProductApi.getProductResultForCategoryId(
+      input.categoryId,
+      input.hasOwnProperty('offset') ? input.offset : 0,
+      input.hasOwnProperty('limit') ? input.limit : 20,
+      input.hasOwnProperty('sort') ? input.sort : 'random',
+      input.hasOwnProperty('showInactive') ? input.showInactive : false
+    ).then(productResult => {
+      cb(null, productResult)
+    })
+  }
 }
