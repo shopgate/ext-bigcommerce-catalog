@@ -14,8 +14,7 @@ const PRODUCT_TYPE_VARIANT = 'variant'
  * @type {module.BigCommerceProduct}
  */
 module.exports = class BigCommerceProduct {
-  constructor (bigCommerceApi, bigCommerProduct) {
-    this.bigCommerceApi = bigCommerceApi
+  constructor (bigCommerProduct) {
     this.bigCommerceProduct = bigCommerProduct
     this.bigCommerceVariant = bigCommerProduct.variants[0]
   }
@@ -67,19 +66,8 @@ module.exports = class BigCommerceProduct {
     return PRODUCT_TYPE_SIMPLE
   }
 
-  /**
-   * @returns {Promise.<string>}
-   */
-  async getBrandAsync () {
-    if (this.bigCommerceProduct.brand_id) {
-      const data = await this.bigCommerceApi.get('/catalog/brands/' + this.bigCommerceProduct.brand_id)
-
-      if (data.data.hasOwnProperty('name')) {
-        return data.data.name
-      }
-
-      return ''
-    }
+  getBrandId () {
+    return this.bigCommerceProduct.brand_id
   }
 
   getStock () {
@@ -171,7 +159,7 @@ module.exports = class BigCommerceProduct {
   }
 
   getHighlight () {
-    return false
+    return this.bigCommerceProduct.is_featured
   }
 
   getParent () {
