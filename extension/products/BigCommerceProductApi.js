@@ -11,6 +11,14 @@ class BigCommerceProductApi {
     this.apiVersion3Client = apiVersion3Client
   }
 
+  /**
+   * @param {int} categoryId
+   * @param {int} offset
+   * @param {int} limit
+   * @param {string} sort
+   * @param showInactive
+   * @returns {{totalProductCount: {int}, products: {Array}}}
+   */
   getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
     let parameters = [
       'include=variants,images,bulk_pricing_rules',
@@ -40,6 +48,14 @@ class BigCommerceProductApi {
     })
   }
 
+  /**
+   * @param {int[]} productIds
+   * @param {int} offset
+   * @param {int} limit
+   * @param {string} sort
+   * @param showInactive
+   * @returns {{totalProductCount: {int}, products: {Array}}}
+   */
   getProductResultForProductIds (productIds, offset, limit, sort, showInactive) {
     let pagePromises = []
     let parameters = [
@@ -59,6 +75,11 @@ class BigCommerceProductApi {
     return this.getProducts(pagePromises, productIds.length)
   }
 
+  /**
+   * @param {Promise[]} pagePromises
+   * @param {int} totalProductsCount
+   * @returns {{totalProductCount: {int}, products: {Array}}}
+   */
   getProducts (pagePromises, totalProductsCount) {
     const products = []
 
