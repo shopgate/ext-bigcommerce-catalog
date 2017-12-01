@@ -96,7 +96,7 @@ class BigCommerceProductApi {
       let promisesForBrands = []
 
       for (let bigCommerceProductRequest of bigCommerceProductReponses) {
-        for (let bigCommerceProductData of bigCommerceProductRequest) {
+        for (let bigCommerceProductData of bigCommerceProductRequest.data) {
           const bigCommerceProduct = new BigCommerceProduct(bigCommerceProductData)
 
           promisesForBrands.push(this.getBrandAsync(bigCommerceProduct.getBrandId()))
