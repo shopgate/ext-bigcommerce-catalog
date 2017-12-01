@@ -12,64 +12,73 @@ class BigCommerceProductApi {
   }
 
   /**
-   * @param {int} categoryId
-   * @param {int} offset
-   * @param {int} limit
+   * @param {number} categoryId
+   * @param {number} offset
+   * @param {number} limit
    * @param {string} sort
-   * @param showInactive
-   * @returns {{totalProductCount: {int}, products: {Array}}}
+   * @param {boolean} showInactive
+   * @returns {{totalProductCount: {number}, products: {Array}}}
    */
   getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
-    let parameters = [
-      'include=variants,images,bulk_pricing_rules',
-      'categories:in=' + categoryId
-    ]
+    let bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
-    if (!showInactive) {
-      parameters.push('is_visible=1')
-    }
+    bigCommerceGetParameters.push('categories:in=' + categoryId)
 
-    parameters = this.addSorting(parameters, sort)
-
-    const apiUrl = '/catalog/products?' + parameters.join('&')
-    let totalProductsCount = 0
-
-    return this.apiVersion3Client.get(apiUrl).then((firstPage) => {
-      let pagePromises = [firstPage]
-      totalProductsCount = firstPage.meta.pagination.total
-
-      if (firstPage.meta.pagination.total_pages > 1) {
-        for (let i = 2; i <= firstPage.meta.pagination.total_pages; i++) {
-          pagePromises.push(this.apiVersion3Client.get(apiUrl + '&page=' + i))
-        }
-      }
-
-      return this.getProducts(pagePromises, totalProductsCount)
+    return this.apiVersion3Client.get(
+      '/catalog/products?' + bigCommerceGetParameters.join('&')
+    ).then((firstPage) => {
+      return this.getProducts([firstPage], firstPage.meta.pagination.total)
     })
   }
 
   /**
-   * @param {int[]} productIds
-   * @param {int} offset
-   * @param {int} limit
-   * @param {string} sort
-   * @param showInactive
-   * @returns {{totalProductCount: {int}, products: {Array}}}
+   * @param {number} offset
+   * @param {number} limit
+   * @returns {number}
    */
-  getProductResultForProductIds (productIds, offset, limit, sort, showInactive) {
-    let pagePromises = []
-    let parameters = [
-      'include=variants,images,bulk_pricing_rules'
-    ]
+  calculateCurrentBigCommercePage (offset, limit) {
+    return Math.floor(offset / limit) + 1
+  }
+
+  /**
+   * @param {boolean} showInactive
+   * @param {number} offset
+   * @param {number} limit
+   * @param {string} sort
+   * @returns {Array}
+   */
+  prepareParametersForGetProducts (offset, limit, sort, showInactive) {
+    let parameters = []
 
     if (!showInactive) {
       parameters.push('is_visible=1')
     }
 
-    parameters = this.addSorting(parameters, sort)
+    parameters.push('include=variants,images,bulk_pricing_rules')
+    parameters.push('type=physical')
+    parameters.push('availability=available')
+    parameters.push('page=' + this.calculateCurrentBigCommercePage(offset, limit))
+    parameters.push('limit=' + limit)
+
+    Array.prototype.push.apply(parameters, this.getSortingParameters(sort))
+
+    return parameters
+  }
+
+  /**
+   * @param {string[]} productIds
+   * @param {number} offset
+   * @param {number} limit
+   * @param {string} sort
+   * @param {boolean} showInactive
+   * @returns {{totalProductCount: {number}, products: {Array}}}
+   */
+  getProductsResultForProductIds (productIds, offset, limit, sort, showInactive) {
+    let pagePromises = []
+    let bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     for (let productId of productIds) {
-      pagePromises.push(this.apiVersion3Client.get('/catalog/products?' + parameters.join('&') + '&id=' + productId))
+      pagePromises.push(this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&') + '&id=' + productId))
     }
 
     return this.getProducts(pagePromises, productIds.length)
@@ -77,8 +86,8 @@ class BigCommerceProductApi {
 
   /**
    * @param {Promise[]} pagePromises
-   * @param {int} totalProductsCount
-   * @returns {{totalProductCount: {int}, products: {Array}}}
+   * @param {number} totalProductsCount
+   * @returns {{totalProductCount: {number}, products: {Array}}}
    */
   getProducts (pagePromises, totalProductsCount) {
     const products = []
@@ -86,9 +95,8 @@ class BigCommerceProductApi {
     return Promise.all(pagePromises).then(bigCommerceProductReponses => {
       let promisesForBrands = []
 
-      bigCommerceProductReponses.forEach(bigCommerceProductRequest => {
-        bigCommerceProductRequest.data.forEach(bigCommerceProductData => {
-          /* @type {BigCommerceProduct} */
+      for (let bigCommerceProductRequest of bigCommerceProductReponses) {
+        for (let bigCommerceProductData of bigCommerceProductRequest) {
           const bigCommerceProduct = new BigCommerceProduct(bigCommerceProductData)
 
           promisesForBrands.push(this.getBrandAsync(bigCommerceProduct.getBrandId()))
@@ -110,15 +118,15 @@ class BigCommerceProductApi {
             type: bigCommerceProduct.getType(),
             tags: bigCommerceProduct.getTags()
           })
-        })
-      })
-
+        }
+      }
       return Promise.all(promisesForBrands)
     }).then(brands => {
       for (let i = 0; i < brands.length; ++i) {
         if (typeof brands[i] === 'undefined') {
           continue
         }
+
         products[i].manufacturer = brands[i]
       }
 
@@ -130,30 +138,31 @@ class BigCommerceProductApi {
   }
 
   /**
-   * @param {array} parameters
    * @param {string} sort
-   * @returns {array}
+   * @returns {Array}
    */
-  addSorting (parameters, sort) {
+  getSortingParameters (sort) {
+    let sortingParameters = []
+
     switch (sort) {
       case SORT_PRICE_ASC:
-        parameters.push('sort=price')
-        parameters.push('direction=asc')
+        sortingParameters.push('sort=price')
+        sortingParameters.push('direction=asc')
         break
       case SORT_PRICE_DESC:
-        parameters.push('sort=price')
-        parameters.push('direction=desc')
+        sortingParameters.push('sort=price')
+        sortingParameters.push('direction=desc')
         break
       case SORT_RELEVANCE:
-        parameters.push('sort=total_sold')
-        parameters.push('direction=desc')
+        sortingParameters.push('sort=total_sold')
+        sortingParameters.push('direction=desc')
         break
       case SORT_RANDOM:
       default:
         break
     }
 
-    return parameters
+    return sortingParameters
   }
 
   /**
@@ -161,7 +170,8 @@ class BigCommerceProductApi {
    */
   async getBrandAsync (brandId) {
     if (brandId) {
-      const data = await this.apiVersion3Client.get('/catalog/brands/' + brandId)
+      const data = await
+        this.apiVersion3Client.get('/catalog/brands/' + brandId)
 
       if (data.data.hasOwnProperty('name')) {
         return data.data.name
