@@ -156,7 +156,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{text: {string}, state: {string}}}
+   * @returns {{text: string, state: string}}
    */
   getAvailablity () {
     return {
@@ -173,7 +173,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{sku?: {string}, upc?: {string}}}
+   * @returns {{sku?: string, upc?: string}}
    */
   getIdentifiers () {
     let identifiers = {}
@@ -204,7 +204,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{info: {string}, orderable: {boolean}, quantity: {number}, ignoreQuantity: {boolean}}}
+   * @returns {{info: string, orderable: boolean, quantity: number, ignoreQuantity: boolean}}
    */
   getStock () {
     return {
@@ -246,7 +246,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{reviewCount: {number}, average?: {number}}}
+   * @returns {{reviewCount: number, average?: number}}
    */
   getRating () {
     let rating = {
@@ -277,7 +277,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{tiers: {Array}, info: {string}, unitPrice: {number}, unitPriceNet: {number}, unitPriceWithTax: {number}, unitPriceStriked?: {number}, taxAmount: {number}, taxPercent: {number}, currency: {string}}}
+   * @returns {{tiers: Array, info: string, unitPrice: number, unitPriceNet: number, unitPriceWithTax: number, unitPriceStriked?: number, taxAmount: number, taxPercent: number, currency: string}}
    */
   getPrice () {
     let prices = {
@@ -308,7 +308,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{hasChildren: {boolean}, hasVariants: {boolean}, hasOptions: {boolean}}}
+   * @returns {{hasChildren: boolean, hasVariants: boolean, hasOptions: boolean}}
    */
   /* getFlags () {
     return {

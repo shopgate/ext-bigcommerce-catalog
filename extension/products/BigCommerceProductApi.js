@@ -6,8 +6,7 @@ const SORT_RELEVANCE = 'relevance'
 const SORT_RANDOM = 'random'
 
 class BigCommerceProductApi {
-  constructor (apiVersion2Client, apiVersion3Client) {
-    this.apiVersion2Client = apiVersion2Client
+  constructor (apiVersion3Client) {
     this.apiVersion3Client = apiVersion3Client
   }
 
@@ -17,7 +16,7 @@ class BigCommerceProductApi {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: {number}, products: {Array}}}
+   * @returns {{totalProductCount: number, products: Array}}
    */
   getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
     let bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
@@ -71,7 +70,7 @@ class BigCommerceProductApi {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: {number}, products: {Array}}}
+   * @returns {{totalProductCount: number, products: Array}}
    */
   getProductsResultForProductIds (productIds, offset, limit, sort, showInactive) {
     let pagePromises = []
@@ -87,7 +86,7 @@ class BigCommerceProductApi {
   /**
    * @param {Promise[]} pagePromises
    * @param {number} totalProductsCount
-   * @returns {{totalProductCount: {number}, products: {Array}}}
+   * @returns {{totalProductCount: number, products: Array}}
    */
   getProducts (pagePromises, totalProductsCount) {
     const products = []
