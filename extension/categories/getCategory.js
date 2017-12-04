@@ -34,6 +34,6 @@ module.exports = function (context, input, cb) {
     console.log('Error in bigCommerceCategoryApi.getCategory:')
     console.log(e)
     console.log('---------------------------')
-    cb(null, {categories: []})
+    cb(null, {})
   })
 }
