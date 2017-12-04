@@ -1,7 +1,8 @@
 const BigCommerce = require('node-bigcommerce')
-const BigCommerceCategoryApi = require('./Repository/BigcommerceCategory.js')
+const BigcommerceCategory = require('./Repository/BigcommerceCategory.js')
 
-const bigCommerceCategoryApi = new BigCommerceCategoryApi(
+const bigcommerceCategory = new BigcommerceCategory(
+  {},
   new BigCommerce({
     logLevel: 'info',
     clientId: '***',
@@ -27,7 +28,7 @@ const bigCommerceCategoryApi = new BigCommerceCategoryApi(
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  bigCommerceCategoryApi.getCategory(parseInt(input.categoryId)).then((category) => {
+  bigcommerceCategory.getCategory(parseInt(input.categoryId)).then((category) => {
     cb(null, category)
   }).catch(function (e) {
     console.log('---------------------------')

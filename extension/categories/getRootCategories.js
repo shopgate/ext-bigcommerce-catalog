@@ -1,24 +1,6 @@
 const BigCommerce = require('node-bigcommerce')
-const BigCommerceCategoryApi = require('./classes/BigCommerceCategoryApi.js')
-
-const bigCommerceCategoryApi = new BigCommerceCategoryApi(
-  new BigCommerce({
-    logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
-    responseType: 'json',
-    apiVersion: 'v2'
-  }),
-  new BigCommerce({
-    logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
-    responseType: 'json',
-    apiVersion: 'v3'
-  })
-)
+const BigcommerceCategory = require('./Repository/BigcommerceCategory.js')
+const GetAllVisibleCategoriesByParentId = require('./Repository/Command/GetAllVisibleCategoriesByParentId')
 
 /**
  * @param {object} context
@@ -26,11 +8,25 @@ const bigCommerceCategoryApi = new BigCommerceCategoryApi(
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  bigCommerceCategoryApi.getRootCategories().then((categories) => {
+  const bigcommerceCategoryRepository = new BigcommerceCategory(
+    new GetAllVisibleCategoriesByParentId(
+      new BigCommerce({
+        logLevel: 'info',
+        clientId: '***',
+        accessToken: '***',
+        storeHash: '***',
+        responseType: 'json',
+        apiVersion: 'v3'
+      })
+    ),
+    null, null // todo remove
+  )
+
+  bigcommerceCategoryRepository.getRootCategories().then((categories) => {
     cb(null, {categories: categories})
   }).catch(function (e) {
     console.log('---------------------------')
-    console.log('Error in bigCommerceCategoryApi.getRootCategories:')
+    console.log('Error in bigcommerceCategory.getRootCategories:')
     console.log(e)
     console.log('---------------------------')
     cb(null, {categories: []})

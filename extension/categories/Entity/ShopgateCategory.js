@@ -14,6 +14,10 @@ class ShopgateCategory {
     this.parent = parent
   }
 
+  /**
+   * @param {BigcommerceCategory} bigcommerceCategory
+   * @return {ShopgateCategory}
+   */
   static fromBigcommerceCategory (bigcommerceCategory) {
     return new this(
       bigcommerceCategory.id,

@@ -2,10 +2,12 @@ const ShopgateCategory = require('../Entity/ShopgateCategory')
 
 class BigcommerceCategory {
   /**
+   * @param {GetAllVisibleCategoriesByParentId} getAllCategories
    * @param {BigCommerce} apiVersion2Client
    * @param {BigCommerce} apiVersion3Client
    */
-  constructor (apiVersion2Client, apiVersion3Client) {
+  constructor (getAllCategories, apiVersion2Client, apiVersion3Client) {
+    this.getAllCategories = getAllCategories
     this.apiVersion2Client = apiVersion2Client
     this.apiVersion3Client = apiVersion3Client
   }
@@ -14,20 +16,22 @@ class BigcommerceCategory {
    * @return PromiseLike<ShopgateCategory[]>
    */
   async getRootCategories () {
-    const pages = await this.getAllCategories(0, true, ['id', 'parent_id', 'name', 'image_url'])
+    this.getAllCategories.parentId = 0
+    this.getAllCategories.includeFields = ['id', 'parent_id', 'name', 'image_url']
 
-    return this.buildResultCategoriesFromPages(pages)
+    return this.buildShopgateCategories(await this.getAllCategories.execute())
   }
 
   /**
    * @param {number} categoryId
    *
-   * @return PromiseLike<ShopgateCategory[]>
+   * @return ShopgateCategory[]
    */
   async getCategoryChildren (categoryId) {
-    const pages = await this.getAllCategories(categoryId, true, ['id', 'parent_id', 'name', 'image_url'])
+    this.getAllCategories.parentId = categoryId
+    this.getAllCategories.includeFields = ['id', 'parent_id', 'name', 'image_url']
 
-    return this.buildResultCategoriesFromPages(pages)
+    return this.buildShopgateCategories(await this.getAllCategories.execute())
   }
 
   /**
@@ -51,91 +55,13 @@ class BigcommerceCategory {
   }
 
   /**
-   * @param {number} parentId
-   * @param {boolean} isVisible
-   * @param {string[]} includeFields
-   *
-   * @return Promise<BigcommerceCategoryPage[]>
-   */
-  async getAllCategories (parentId, isVisible, includeFields) {
-    const firstPage = await this.getCategoryFirstPage(parentId, isVisible, 250, includeFields)
-    const subsequentPages = await this.getCategorySubsequentPages(
-      firstPage.meta.pagination.total_pages,
-      parentId,
-      isVisible,
-      250,
-      includeFields
-    )
-
-    return Promise.all([firstPage].concat(subsequentPages))
-  }
-
-  /**
-   * @param {number} parentId
-   * @param {boolean} isVisible
-   * @param {number} pageSize
-   * @param {string[]} includeFields
-   *
-   * @return Promise<BigCommerceCategoryPage>
-   */
-  getCategoryFirstPage (parentId, isVisible, pageSize, includeFields) {
-    return this.apiVersion3Client.get(
-      '/catalog/categories?parent_id=' + parentId +
-      '&limit=' + pageSize +
-      '&is_visible=' + (isVisible ? 1 : 0) +
-      '&include_fields=' + includeFields.join(',')
-    )
-  }
-
-  /**
-   * @param {number} totalPages
-   * @param {number} parentId
-   * @param {boolean} isVisible
-   * @param {number} pageSize
-   * @param {string[]} includeFields
-   *
-   * @return Promise<BigcommerceCategoryPage>[]
-   */
-  getCategorySubsequentPages (totalPages, parentId, isVisible, pageSize, includeFields) {
-    let pagePromises = []
-
-    for (let page = 2; page < totalPages; page++) {
-      pagePromises.push(
-        this.apiVersion3Client.get(
-          '/catalog/categories?parent_id=' + parentId +
-          '&limit=' + pageSize +
-          '&is_visible=' + (isVisible ? 1 : 0) +
-          '&include_fields=' + includeFields.join(',')
-        )
-      )
-    }
-
-    return pagePromises
-  }
-
-  /**
-   * @param {BigcommerceCategoryPage[]} pages
-   *
+   * @param {BigcommerceCategory[]} bigcommerceCategories
    * @return ShopgateCategory[]
    */
-  buildResultCategoriesFromPages (pages) {
+  buildShopgateCategories (bigcommerceCategories) {
     let resultCategories = []
 
-    for (let page of pages) {
-      Array.prototype.push.apply(resultCategories, this.buildResultCategories(page))
-    }
-
-    return resultCategories
-  }
-
-  /**
-   * @param {BigcommerceCategoryPage} page
-   * @return ShopgateCategory[]
-   */
-  buildResultCategories (page) {
-    let resultCategories = []
-
-    for (let bigcommerceCategory of page.data) {
+    for (let bigcommerceCategory of bigcommerceCategories) {
       resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory))
     }
 
