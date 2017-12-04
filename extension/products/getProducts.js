@@ -54,6 +54,8 @@ module.exports = function (context, input, cb) {
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
+    }).catch(e => {
+      console.log(e)
     })
   }
 
@@ -66,6 +68,8 @@ module.exports = function (context, input, cb) {
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
+    }).catch(e => {
+      console.log(e)
     })
   }
 }
