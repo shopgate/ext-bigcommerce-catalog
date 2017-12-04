@@ -1,36 +1,6 @@
-/**
- * @typedef {Object} BigcommerceCategory
- * @property {number} id
- * @property {string} name
- * @property {string} image_url
- * @property {number} parent_id
- */
+const ShopgateCategory = require('../Entity/ShopgateCategory')
 
-/**
- * @typedef {Object} BigcommercePagination
- * @property {number} total_pages
- */
-
-/**
- * @typedef {Object} BigcommerceCategoryMeta
- * @property {BigcommercePagination} pagination
- */
-
-/**
- * @typedef {Object} BigcommerceCategoryPage
- * @property {BigcommerceCategory[]} data
- * @property {BigcommerceCategoryMeta} meta
- */
-
-/**
- * @typedef {Object} ResultCategory
- * @property {number} id
- * @property {string} name
- * @property {string} imageUrl
- * @property {{id: number}, {name: string}} parent
- */
-
-class BigCommerceCategoryApi {
+class BigcommerceCategory {
   /**
    * @param {BigCommerce} apiVersion2Client
    * @param {BigCommerce} apiVersion3Client
@@ -41,7 +11,7 @@ class BigCommerceCategoryApi {
   }
 
   /**
-   * @return PromiseLike<ResultCategory[]>
+   * @return PromiseLike<ShopgateCategory[]>
    */
   async getRootCategories () {
     const pages = await this.getAllCategories(0, true, ['id', 'parent_id', 'name', 'image_url'])
@@ -52,7 +22,7 @@ class BigCommerceCategoryApi {
   /**
    * @param {number} categoryId
    *
-   * @return PromiseLike<ResultCategory[]>
+   * @return PromiseLike<ShopgateCategory[]>
    */
   async getCategoryChildren (categoryId) {
     const pages = await this.getAllCategories(categoryId, true, ['id', 'parent_id', 'name', 'image_url'])
@@ -63,11 +33,11 @@ class BigCommerceCategoryApi {
   /**
    * @param {number} categoryId
    *
-   * @return ResultCategory
+   * @return ShopgateCategory
    */
   async getCategory (categoryId) {
     const categories = await this.apiVersion3Client.get('/catalog/categories?id=' + categoryId)
-    const resultCategory = await this.buildCategory(categories.data[0])
+    const resultCategory = ShopgateCategory.fromBigcommerceCategory(categories.data[0])
 
     let countPromises = [resultCategory]
     countPromises.push(this.apiVersion2Client.get('/products/count?category=' + encodeURIComponent(resultCategory.name)))
@@ -146,7 +116,7 @@ class BigCommerceCategoryApi {
   /**
    * @param {BigcommerceCategoryPage[]} pages
    *
-   * @return ResultCategory[]
+   * @return ShopgateCategory[]
    */
   buildResultCategoriesFromPages (pages) {
     let resultCategories = []
@@ -160,31 +130,17 @@ class BigCommerceCategoryApi {
 
   /**
    * @param {BigcommerceCategoryPage} page
-   * @return ResultCategory[]
+   * @return ShopgateCategory[]
    */
   buildResultCategories (page) {
     let resultCategories = []
 
     for (let bigcommerceCategory of page.data) {
-      resultCategories.push(this.buildCategory(bigcommerceCategory))
+      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory))
     }
 
     return resultCategories
   }
-
-  /**
-   * @param {BigcommerceCategory} bigcommerceCategory
-   *
-   * @return ResultCategory
-   */
-  buildCategory (bigcommerceCategory) {
-    return {
-      id: bigcommerceCategory.id,
-      name: bigcommerceCategory.name,
-      imageUrl: bigcommerceCategory.image_url,
-      parent: {id: bigcommerceCategory.parent_id, name: ''}
-    }
-  }
 }
 
-module.exports = BigCommerceCategoryApi
+module.exports = BigcommerceCategory

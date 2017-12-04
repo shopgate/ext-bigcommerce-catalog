@@ -1,5 +1,5 @@
 const BigCommerce = require('node-bigcommerce')
-const BigCommerceCategoryApi = require('./classes/BigCommerceCategoryApi.js')
+const BigCommerceCategoryApi = require('./Repository/BigcommerceCategory.js')
 
 const bigCommerceCategoryApi = new BigCommerceCategoryApi(
   new BigCommerce({
