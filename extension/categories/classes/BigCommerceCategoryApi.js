@@ -85,7 +85,7 @@ class BigCommerceCategoryApi {
    * @param {boolean} isVisible
    * @param {string[]} includeFields
    *
-   * @return Promise<Pages[]>
+   * @return Promise<BigcommerceCategoryPage[]>
    */
   async getAllCategories (parentId, isVisible, includeFields) {
     const firstPage = await this.getCategoryFirstPage(parentId, isVisible, 250, includeFields)

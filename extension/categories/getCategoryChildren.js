@@ -27,7 +27,13 @@ const bigCommerceCategoryApi = new BigCommerceCategoryApi(
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  bigCommerceCategoryApi.getCategoryChildren(input.categoryId).then((categories) => {
+  bigCommerceCategoryApi.getCategoryChildren(parseInt(input.categoryId)).then((categories) => {
     cb(null, {children: categories})
-  }).catch(console.err)
+  }).catch(function (e) {
+    console.log('---------------------------')
+    console.log('Error in bigCommerceCategoryApi.getCategoryChildren:')
+    console.log(e)
+    console.log('---------------------------')
+    cb(null, {categories: []})
+  })
 }
