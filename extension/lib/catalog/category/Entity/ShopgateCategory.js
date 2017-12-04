@@ -1,4 +1,4 @@
-const ShopgateParentCategoryInformation = require('../Entity/ShopgateParentCategoryInformation')
+const ShopgateParentCategoryInformation = require('./ShopgateParentCategoryInformation')
 
 class ShopgateCategory {
   /**
