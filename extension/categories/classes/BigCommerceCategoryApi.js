@@ -106,7 +106,7 @@ class BigCommerceCategoryApi {
    * @param {number} pageSize
    * @param {string[]} includeFields
    *
-   * @return PromiseLike<BigCommerceCategoryPage>
+   * @return Promise<BigCommerceCategoryPage>
    */
   getCategoryFirstPage (parentId, isVisible, pageSize, includeFields) {
     return this.apiVersion3Client.get(
@@ -124,7 +124,7 @@ class BigCommerceCategoryApi {
    * @param {number} pageSize
    * @param {string[]} includeFields
    *
-   * @return PromiseLike<BigcommerceCategoryPage>[]
+   * @return Promise<BigcommerceCategoryPage>[]
    */
   getCategorySubsequentPages (totalPages, parentId, isVisible, pageSize, includeFields) {
     let pagePromises = []
