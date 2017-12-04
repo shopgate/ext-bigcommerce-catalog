@@ -1,24 +1,19 @@
 const BigCommerce = require('node-bigcommerce')
 const BigcommerceCategory = require('./Repository/BigcommerceCategory.js')
+const GetCategoryById = require('./Repository/Command/GetCategoryById')
 
 const bigcommerceCategory = new BigcommerceCategory(
-  {},
-  new BigCommerce({
-    logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
-    responseType: 'json',
-    apiVersion: 'v2'
-  }),
-  new BigCommerce({
-    logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
-    responseType: 'json',
-    apiVersion: 'v3'
-  })
+  null,
+  new GetCategoryById(
+    new BigCommerce({
+      logLevel: 'info',
+      clientId: '***',
+      accessToken: '***',
+      storeHash: '***',
+      responseType: 'json',
+      apiVersion: 'v3'
+    })
+  )
 )
 
 /**

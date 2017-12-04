@@ -1,17 +1,25 @@
 class GetAllVisibleCategoriesByParentId {
   /**
    * @param {BigCommerce} apiVersion3Client
+   * @param {number} pageSize
    */
-  constructor (apiVersion3Client) {
-    this.apiVersion3Client = apiVersion3Client
+  constructor (apiVersion3Client, pageSize = 250) {
+    this._apiVersion3Client = apiVersion3Client
     this._parentId = null
     this._includeFields = []
+    this._pageSize = pageSize
   }
 
+  /**
+   * @param {number} value
+   */
   set parentId (value) {
     this._parentId = value
   }
 
+  /**
+   * @param {string[]} value
+   */
   set includeFields (value) {
     this._includeFields = value
   }
@@ -21,8 +29,8 @@ class GetAllVisibleCategoriesByParentId {
    */
   async execute () {
     const firstPage = await this._getFirstPage()
-    const subsequentPages = this._getSubsequentPages(firstPage.meta.pagination.total_pages)
-    const allPages = await Promise.all([firstPage].concat(subsequentPages))
+    const subsequentPages = await this._getSubsequentPages(firstPage.meta.pagination.total_pages)
+    const allPages = [firstPage].concat(subsequentPages)
 
     let resultCategories = []
     for (let page of allPages) {
@@ -38,9 +46,9 @@ class GetAllVisibleCategoriesByParentId {
    * @private
    */
   _getFirstPage () {
-    return this.apiVersion3Client.get(
+    return this._apiVersion3Client.get(
       '/catalog/categories?parent_id=' + this._parentId +
-      '&limit=250' +
+      '&limit=' + this._pageSize +
       '&is_visible=1' +
       '&include_fields=' + this._includeFields.join(',')
     )
@@ -53,14 +61,14 @@ class GetAllVisibleCategoriesByParentId {
    *
    * @private
    */
-  _getSubsequentPages (totalPages) {
+  async _getSubsequentPages (totalPages) {
     let pagePromises = []
 
     for (let pageCounter = 2; pageCounter < totalPages; pageCounter++) {
       pagePromises.push(
-        this.apiVersion3Client.get(
+        this._apiVersion3Client.get(
           '/catalog/categories?parent_id=' + this._parentId +
-          '&limit=250' +
+          '&limit=' + this._pageSize +
           '&is_visible=1' +
           '&include_fields=' + this._includeFields.join(',') +
           '&page=' + pageCounter
@@ -68,7 +76,7 @@ class GetAllVisibleCategoriesByParentId {
       )
     }
 
-    return pagePromises
+    return Promise.all(pagePromises)
   }
 }
 

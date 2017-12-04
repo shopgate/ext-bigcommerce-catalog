@@ -20,7 +20,7 @@ module.exports = function (context, input, cb) {
         apiVersion: 'v3'
       })
     ),
-    null, null // todo remove
+    null
   )
 
   bigcommerceCategory.getCategoryChildren(parseInt(input.categoryId)).then((categories) => {

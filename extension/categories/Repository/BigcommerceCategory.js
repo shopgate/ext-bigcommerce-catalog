@@ -3,23 +3,21 @@ const ShopgateCategory = require('../Entity/ShopgateCategory')
 class BigcommerceCategory {
   /**
    * @param {GetAllVisibleCategoriesByParentId} getAllCategories
-   * @param {BigCommerce} apiVersion2Client
-   * @param {BigCommerce} apiVersion3Client
+   * @param {GetCategoryById} getCategoryById
    */
-  constructor (getAllCategories, apiVersion2Client, apiVersion3Client) {
-    this.getAllCategories = getAllCategories
-    this.apiVersion2Client = apiVersion2Client
-    this.apiVersion3Client = apiVersion3Client
+  constructor (getAllCategories, getCategoryById) {
+    this._getAllCategories = getAllCategories
+    this._getCategoryById = getCategoryById
   }
 
   /**
    * @return PromiseLike<ShopgateCategory[]>
    */
   async getRootCategories () {
-    this.getAllCategories.parentId = 0
-    this.getAllCategories.includeFields = ['id', 'parent_id', 'name', 'image_url']
+    this._getAllCategories.parentId = 0
+    this._getAllCategories.includeFields = ['id', 'parent_id', 'name', 'image_url']
 
-    return this.buildShopgateCategories(await this.getAllCategories.execute())
+    return this._buildShopgateCategories(await this._getAllCategories.execute())
   }
 
   /**
@@ -28,10 +26,10 @@ class BigcommerceCategory {
    * @return ShopgateCategory[]
    */
   async getCategoryChildren (categoryId) {
-    this.getAllCategories.parentId = categoryId
-    this.getAllCategories.includeFields = ['id', 'parent_id', 'name', 'image_url']
+    this._getAllCategories.parentId = categoryId
+    this._getAllCategories.includeFields = ['id', 'parent_id', 'name', 'image_url']
 
-    return this.buildShopgateCategories(await this.getAllCategories.execute())
+    return this._buildShopgateCategories(await this._getAllCategories.execute())
   }
 
   /**
@@ -40,25 +38,19 @@ class BigcommerceCategory {
    * @return ShopgateCategory
    */
   async getCategory (categoryId) {
-    const categories = await this.apiVersion3Client.get('/catalog/categories?id=' + categoryId)
-    const resultCategory = ShopgateCategory.fromBigcommerceCategory(categories.data[0])
+    this._getCategoryById.categoryId = categoryId
 
-    let countPromises = [resultCategory]
-    countPromises.push(this.apiVersion2Client.get('/products/count?category=' + encodeURIComponent(resultCategory.name)))
-    countPromises.push(this.apiVersion3Client.get('/catalog/categories?parent_id=' + resultCategory.id))
-
-    const fulfilledCountPromises = await Promise.all(countPromises)
-    resultCategory.productCount = fulfilledCountPromises[1].count
-    resultCategory.childrenCount = fulfilledCountPromises[2].data.length
-
-    return resultCategory
+    return ShopgateCategory.fromBigcommerceCategory(await this._getCategoryById.execute())
   }
 
   /**
    * @param {BigcommerceCategory[]} bigcommerceCategories
+   *
    * @return ShopgateCategory[]
+   *
+   * @private
    */
-  buildShopgateCategories (bigcommerceCategories) {
+  _buildShopgateCategories (bigcommerceCategories) {
     let resultCategories = []
 
     for (let bigcommerceCategory of bigcommerceCategories) {
