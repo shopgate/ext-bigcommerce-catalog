@@ -5,6 +5,13 @@ const SORT_PRICE_DESC = 'priceDesc'
 const SORT_RELEVANCE = 'relevance'
 const SORT_RANDOM = 'random'
 
+/**
+ * @typedef {Object} BigCommercePage
+ * @property {Object} [meta]
+ * @property {Object} [meta.pagination]
+ * @property {number} [meta.pagination.total]
+ */
+
 class BigCommerceProductApi {
   constructor (apiVersion3Client) {
     this.apiVersion3Client = apiVersion3Client
@@ -23,6 +30,9 @@ class BigCommerceProductApi {
 
     bigCommerceGetParameters.push('categories:in=' + categoryId)
 
+    /**
+     * @type BigCommercePage
+     */
     const firstPage = await this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
 
     return this.getProducts([firstPage], firstPage.meta.pagination.total)

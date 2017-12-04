@@ -18,14 +18,14 @@ const bigCommerceProductApi = new BigCommerceProductApi(
  */
 
 /**
- @typedef {Object} AdditionalPropFilter
- @property {number} [input.filters.additionalProp1.minimum]
- @property {number} [input.filters.additionalProp1.maximum]
- @property {string[]} [input.filters.additionalProp1.values]
- @property {string} [input.filters.additionalProp1.source]
- /*
+ * @typedef {Object} AdditionalPropFilter
+ * @property {number} [input.filters.additionalProp1.minimum]
+ * @property {number} [input.filters.additionalProp1.maximum]
+ * @property {string[]} [input.filters.additionalProp1.values]
+ * @property {string} [input.filters.additionalProp1.source]
+ */
 
- /**
+/**
  * @param {Object} context
  * @param {Object} input - Properties depend on the pipeline this is used for
  * @param {pipelineCallback} cb
