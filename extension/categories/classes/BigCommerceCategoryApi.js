@@ -43,10 +43,10 @@ class BigCommerceCategoryApi {
   /**
    * @return PromiseLike<ResultCategory[]>
    */
-  getRootCategories () {
-    return this.getAllCategories(0, true, ['id', 'parent_id', 'name', 'image_url']).then((pages) => {
-      return this.buildResultCategoriesFromPages(pages)
-    })
+  async getRootCategories () {
+    const pages = await this.getAllCategories(0, true, ['id', 'parent_id', 'name', 'image_url'])
+
+    return this.buildResultCategoriesFromPages(pages)
   }
 
   /**
@@ -54,34 +54,30 @@ class BigCommerceCategoryApi {
    *
    * @return PromiseLike<ResultCategory[]>
    */
-  getCategoryChildren (categoryId) {
-    return this.getAllCategories(categoryId, true, ['id', 'parent_id', 'name', 'image_url']).then((pages) => {
-      return this.buildResultCategoriesFromPages(pages)
-    })
+  async getCategoryChildren (categoryId) {
+    const pages = await this.getAllCategories(categoryId, true, ['id', 'parent_id', 'name', 'image_url'])
+
+    return this.buildResultCategoriesFromPages(pages)
   }
 
   /**
    * @param {number} categoryId
    *
-   * @return PromiseLike<ResultCategory>
+   * @return ResultCategory
    */
-  getCategory (categoryId) {
-    return this.apiVersion3Client.get('/catalog/categories?id=' + categoryId).then((categories) => {
-      return this.buildCategory(categories.data[0])
-    }).then((resultCategory) => {
-      let countPromises = [resultCategory]
+  async getCategory (categoryId) {
+    const categories = await this.apiVersion3Client.get('/catalog/categories?id=' + categoryId)
+    const resultCategory = await this.buildCategory(categories.data[0])
 
-      countPromises.push(this.apiVersion2Client.get('/products/count?category=' + encodeURIComponent(resultCategory.name)))
-      countPromises.push(this.apiVersion3Client.get('/catalog/categories?parent_id=' + resultCategory.id))
+    let countPromises = [resultCategory]
+    countPromises.push(this.apiVersion2Client.get('/products/count?category=' + encodeURIComponent(resultCategory.name)))
+    countPromises.push(this.apiVersion3Client.get('/catalog/categories?parent_id=' + resultCategory.id))
 
-      return Promise.all(countPromises)
-    }).then((promises) => {
-      let resultCategory = promises[0]
-      resultCategory.productCount = promises[1].count
-      resultCategory.childrenCount = promises[2].data.length
+    const fulfilledCountPromises = await Promise.all(countPromises)
+    resultCategory.productCount = fulfilledCountPromises[1].count
+    resultCategory.childrenCount = fulfilledCountPromises[2].data.length
 
-      return resultCategory
-    })
+    return resultCategory
   }
 
   /**
@@ -89,22 +85,19 @@ class BigCommerceCategoryApi {
    * @param {boolean} isVisible
    * @param {string[]} includeFields
    *
-   * @return PromiseLike<Pages[]>
+   * @return Promise<Pages[]>
    */
-  getAllCategories (parentId, isVisible, includeFields) {
-    return this.getCategoryFirstPage(parentId, isVisible, 250, includeFields).then((firstPage) => {
-      return Promise.all(
-        [firstPage].concat(
-          this.getCategorySubsequentPages(
-            firstPage.meta.pagination.total_pages,
-            parentId,
-            isVisible,
-            250,
-            includeFields
-          )
-        )
-      )
-    })
+  async getAllCategories (parentId, isVisible, includeFields) {
+    const firstPage = await this.getCategoryFirstPage(parentId, isVisible, 250, includeFields)
+    const subsequentPages = await this.getCategorySubsequentPages(
+      firstPage.meta.pagination.total_pages,
+      parentId,
+      isVisible,
+      250,
+      includeFields
+    )
+
+    return Promise.all([firstPage].concat(subsequentPages))
   }
 
   /**
