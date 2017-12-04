@@ -5,9 +5,15 @@ const SORT_PRICE_DESC = 'priceDesc'
 const SORT_RELEVANCE = 'relevance'
 const SORT_RANDOM = 'random'
 
+/**
+ * @typedef {Object} BigCommercePage
+ * @property {Object} [meta]
+ * @property {Object} [meta.pagination]
+ * @property {number} [meta.pagination.total]
+ */
+
 class BigCommerceProductApi {
-  constructor (apiVersion2Client, apiVersion3Client) {
-    this.apiVersion2Client = apiVersion2Client
+  constructor (apiVersion3Client) {
     this.apiVersion3Client = apiVersion3Client
   }
 
@@ -17,18 +23,19 @@ class BigCommerceProductApi {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: {number}, products: {Array}}}
+   * @returns {{totalProductCount: number, products: Array}}
    */
-  getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
+  async getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
     let bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     bigCommerceGetParameters.push('categories:in=' + categoryId)
 
-    return this.apiVersion3Client.get(
-      '/catalog/products?' + bigCommerceGetParameters.join('&')
-    ).then((firstPage) => {
-      return this.getProducts([firstPage], firstPage.meta.pagination.total)
-    })
+    /**
+     * @type BigCommercePage
+     */
+    const firstPage = await this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
+
+    return this.getProducts([firstPage], firstPage.meta.pagination.total)
   }
 
   /**
@@ -41,10 +48,10 @@ class BigCommerceProductApi {
   }
 
   /**
-   * @param {boolean} showInactive
    * @param {number} offset
    * @param {number} limit
    * @param {string} sort
+   * @param {boolean} showInactive
    * @returns {Array}
    */
   prepareParametersForGetProducts (offset, limit, sort, showInactive) {
@@ -71,7 +78,7 @@ class BigCommerceProductApi {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: {number}, products: {Array}}}
+   * @returns {{totalProductCount: number, products: Array}}
    */
   getProductsResultForProductIds (productIds, offset, limit, sort, showInactive) {
     let pagePromises = []
@@ -87,54 +94,63 @@ class BigCommerceProductApi {
   /**
    * @param {Promise[]} pagePromises
    * @param {number} totalProductsCount
-   * @returns {{totalProductCount: {number}, products: {Array}}}
+   * @returns {{totalProductCount: number, products: Array}}
    */
-  getProducts (pagePromises, totalProductsCount) {
+  async getProducts (pagePromises, totalProductsCount) {
     const products = []
 
-    return Promise.all(pagePromises).then(bigCommerceProductReponses => {
-      let promisesForBrands = []
+    const bigCommerceProductReponses = await Promise.all(pagePromises)
 
-      for (let bigCommerceProductRequest of bigCommerceProductReponses) {
-        for (let bigCommerceProductData of bigCommerceProductRequest.data) {
-          const bigCommerceProduct = new BigCommerceProduct(bigCommerceProductData)
+    let promisesForBrands = []
+    for (let bigCommerceProductRequest of bigCommerceProductReponses) {
+      for (let bigCommerceProductData of bigCommerceProductRequest.data) {
+        const bigCommerceProduct = new BigCommerceProduct(bigCommerceProductData)
 
-          promisesForBrands.push(this.getBrandAsync(bigCommerceProduct.getBrandId()))
+        promisesForBrands.push(this.getBrandAsync(bigCommerceProduct.getBrandId()))
 
-          products.push({
-            id: bigCommerceProduct.getId(),
-            active: bigCommerceProduct.isActive(),
-            availability: bigCommerceProduct.getAvailablity(),
-            identifiers: bigCommerceProduct.getIdentifiers(),
-            name: bigCommerceProduct.getName(),
-            stock: bigCommerceProduct.getStock(),
-            rating: bigCommerceProduct.getRating(),
-            featuredImageUrl: bigCommerceProduct.getFeaturedImageUrl(),
-            price: bigCommerceProduct.getPrice(),
-            flags: bigCommerceProduct.getTags(),
-            liveshoppings: [],
-            highlight: bigCommerceProduct.getHighlight(),
-            parent: bigCommerceProduct.getParent(),
-            type: bigCommerceProduct.getType(),
-            tags: bigCommerceProduct.getTags()
-          })
-        }
+        products.push({
+          id: bigCommerceProduct.getId(),
+          active: bigCommerceProduct.isActive(),
+          availability: bigCommerceProduct.getAvailablity(),
+          identifiers: bigCommerceProduct.getIdentifiers(),
+          name: bigCommerceProduct.getName(),
+          stock: bigCommerceProduct.getStock(),
+          rating: bigCommerceProduct.getRating(),
+          featuredImageUrl: bigCommerceProduct.getFeaturedImageUrl(),
+          price: bigCommerceProduct.getPrice(),
+          flags: bigCommerceProduct.getTags(),
+          liveshoppings: [],
+          highlight: bigCommerceProduct.getHighlight(),
+          parent: bigCommerceProduct.getParent(),
+          type: bigCommerceProduct.getType(),
+          tags: bigCommerceProduct.getTags()
+        })
       }
-      return Promise.all(promisesForBrands)
-    }).then(brands => {
-      for (let i = 0; i < brands.length; ++i) {
-        if (typeof brands[i] === 'undefined') {
-          continue
-        }
+    }
 
-        products[i].manufacturer = brands[i]
+    const brands = await Promise.all(promisesForBrands)
+    this.updateProductManufacturer(brands, products)
+
+    return {
+      totalProductCount: totalProductsCount,
+      products: products
+    }
+  }
+
+  /**
+   * @param {string[]} brands
+   * @param {Array} products
+   */
+  updateProductManufacturer (brands, products) {
+    for (let i = 0; i < brands.length; ++i) {
+      if (typeof brands[i] === 'undefined') {
+        continue
       }
 
-      return {
-        totalProductCount: totalProductsCount,
-        products: products
-      }
-    })
+      products[i].manufacturer = brands[i]
+    }
+
+    return products
   }
 
   /**
@@ -169,16 +185,17 @@ class BigCommerceProductApi {
    * @returns {Promise.<string>}
    */
   async getBrandAsync (brandId) {
-    if (brandId) {
-      const data = await
-        this.apiVersion3Client.get('/catalog/brands/' + brandId)
-
-      if (data.data.hasOwnProperty('name')) {
-        return data.data.name
-      }
-
+    if (!brandId) {
       return ''
     }
+
+    const data = await this.apiVersion3Client.get('/catalog/brands/' + brandId)
+
+    if (data.data.hasOwnProperty('name')) {
+      return data.data.name
+    }
+
+    return ''
   }
 }
 

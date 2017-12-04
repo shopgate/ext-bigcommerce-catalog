@@ -8,14 +8,6 @@ const bigCommerceProductApi = new BigCommerceProductApi(
     accessToken: '***',
     storeHash: '***',
     responseType: 'json',
-    apiVersion: 'v2'
-  }),
-  new BigCommerce({
-    logLevel: 'info',
-    clientId: '5qsw38039y6dwq37wp6nzabyq11cpru',
-    accessToken: 'evgf1d16l0iu1bpmckjw8an0wkxl9hx',
-    storeHash: 'r5s844ad',
-    responseType: 'json',
     apiVersion: 'v3'
   })
 )
@@ -26,14 +18,14 @@ const bigCommerceProductApi = new BigCommerceProductApi(
  */
 
 /**
- @typedef {Object} AdditionalPropFilter
- @property {number} [input.filters.additionalProp1.minimum]
- @property {number} [input.filters.additionalProp1.maximum]
- @property {string[]} [input.filters.additionalProp1.values]
- @property {string} [input.filters.additionalProp1.source]
- /*
+ * @typedef {Object} AdditionalPropFilter
+ * @property {number} [input.filters.additionalProp1.minimum]
+ * @property {number} [input.filters.additionalProp1.maximum]
+ * @property {string[]} [input.filters.additionalProp1.values]
+ * @property {string} [input.filters.additionalProp1.source]
+ */
 
- /**
+/**
  * @param {Object} context
  * @param {Object} input - Properties depend on the pipeline this is used for
  * @param {pipelineCallback} cb
@@ -62,6 +54,8 @@ module.exports = function (context, input, cb) {
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
+    }).catch(e => {
+      console.log(e)
     })
   }
 
@@ -74,6 +68,8 @@ module.exports = function (context, input, cb) {
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
+    }).catch(e => {
+      console.log(e)
     })
   }
 }
