@@ -4,9 +4,9 @@ const BigCommerceProductApi = require('./BigCommerceProductApi.js')
 const bigCommerceProductApi = new BigCommerceProductApi(
   new BigCommerce({
     logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
+    clientId: '5qsw38039y6dwq37wp6nzabyq11cpru',
+    accessToken: 'evgf1d16l0iu1bpmckjw8an0wkxl9hx',
+    storeHash: 'r5s844ad',
     responseType: 'json',
     apiVersion: 'v3'
   })

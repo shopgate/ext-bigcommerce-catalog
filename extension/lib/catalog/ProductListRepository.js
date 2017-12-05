@@ -1,4 +1,4 @@
-const BigCommerceProduct = require('./BigCommerceProduct.js')
+const BigCommerceProduct = require('../../products/BigCommerceProduct.js')
 
 const SORT_PRICE_ASC = 'priceAsc'
 const SORT_PRICE_DESC = 'priceDesc'

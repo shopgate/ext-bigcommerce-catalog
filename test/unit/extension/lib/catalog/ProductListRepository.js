@@ -1,4 +1,4 @@
-const BigCommerceProductApi = require('../../products/BigCommerceProductApi.js')
+const BigCommerceProductApi = require('../../../../../extension/lib/catalog/ProductListRepository.js')
 const BigCommerce = require('node-bigcommerce')
 const assert = require('assert')
 const chai = require('chai')
@@ -6,7 +6,7 @@ const chaiAsPromised = require('chai-as-promised')
 
 chai.use(chaiAsPromised).should()
 
-describe('BigCommerceProductApi', function () {
+describe('ProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({
     logLevel: 'info',
     clientId: '***',
