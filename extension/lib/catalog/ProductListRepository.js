@@ -12,7 +12,7 @@ const SORT_RANDOM = 'random'
  * @property {number} [meta.pagination.total]
  */
 
-class BigCommerceProductApi {
+class ProductListRepository {
   constructor (apiVersion3Client) {
     this.apiVersion3Client = apiVersion3Client
   }
@@ -199,4 +199,4 @@ class BigCommerceProductApi {
   }
 }
 
-module.exports = BigCommerceProductApi
+module.exports = ProductListRepository

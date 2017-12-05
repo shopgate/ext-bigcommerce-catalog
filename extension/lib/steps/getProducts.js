@@ -1,5 +1,5 @@
 const BigCommerce = require('node-bigcommerce')
-const BigCommerceProductApi = require('./BigCommerceProductApi.js')
+const BigCommerceProductApi = require('../../lib/catalog/ProductListRepository.js')
 
 const bigCommerceProductApi = new BigCommerceProductApi(
   new BigCommerce({
