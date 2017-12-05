@@ -1,3 +1,5 @@
+const ShopgateProduct = require('./entity/ShopgateProduct.js')
+
 const INVENTORY_TRACKING_OFF = 'none'
 // const INVENTORY_TRACKING_SKU = 'sku'
 
@@ -10,127 +12,39 @@ const PRODUCT_TYPE_SIMPLE = 'simple'
 // const PRODUCT_TYPE_VARIANT = 'variant'
 
 /**
- @typedef {Object} BigCommerceVariantDefinition
- @property {?string} bin_picking_number
- @property {?number} calculated_price
- @property {?number} calculated_weight
- @property {?number} cost_price
- @property {?number} depth
- @property {?number} fixed_cost_shipping_price
- @property {?string} gtin
- @property {?number} height
- @property {?number} id
- @property {?string} image_url
- @property {?number} inventory_level
- @property {?number} inventory_warning_level
- @property {?boolean} is_free_shipping
- @property {?string} mpn
- @property {?Array} option_values
- @property {?number} price
- @property {?number} product_id
- @property {?boolean} purchasing_disabled
- @property {?string} purchasing_disabled_message
- @property {?string} sku
- @property {?number} sku_id
- @property {?string} upc
- @property {?number} weight
- @property {?number} width
+ * @type {module.ShopgateProductBuilder}
  */
-
-/**
- @typedef {Object} BigCommerceImageDefinition
- @property {?boolean} is_thumbnail
- @property {?number} sort_order
- @property {?string} description
- @property {?number} id
- @property {?number} product_id
- @property {?string} image_file
- @property {?string} url_zoom
- @property {?string} url_standard
- @property {?string} url_thumbnail
- @property {?string} url_tiny
- @property {?string} date_modified
- */
-
-/**
- @typedef {Object} BigCommerceProductDefinition
- @property {?string} availability
- @property {?string} availability_description
- @property {?number} base_variant_id
- @property {?string} bin_picking_number
- @property {?string} brand_id
- @property {?Array} bulk_pricing_rules
- @property {number} calculated_price
- @property {?Array} categories
- @property {?string} condition
- @property {?number} cost_price
- @property {?Object} custom_url
- @property {?boolean} is_customized
- @property {?string} url
- @property {?string} date_created
- @property {?string} date_modified
- @property {?number} depth
- @property {?string} description
- @property {?number} fixed_cost_shipping_price
- @property {?Array} gift_wrapping_options_list
- @property {?string} gift_wrapping_options_type
- @property {?string} gtin
- @property {number} height
- @property {?number} id
- @property {?BigCommerceImageDefinition[]} images
- @property {?number} inventory_level
- @property {?string} inventory_tracking
- @property {?number} inventory_warning_level
- @property {?boolean} is_condition_shown
- @property {?boolean} is_featured
- @property {?boolean} is_free_shipping
- @property {?boolean} is_preorder_only
- @property {?boolean} is_price_hidden
- @property {?boolean} is_visible
- @property {?string} layout_file
- @property {?string} meta_description
- @property {?Array} meta_keywords
- @property {?string} mpn
- @property {?string} name
- @property {?string} option_set_display
- @property {?number} option_set_id
- @property {?number} order_quantity_maximum
- @property {?number} order_quantity_minimum
- @property {?string} page_title
- @property {?string} preorder_message
- @property {?string} preorder_release_date
- @property {?number} price
- @property {?string} price_hidden_label
- @property {?string} product_tax_code
- @property {?number[]} related_products
- @property {?number} retail_price
- @property {?number} reviews_count
- @property {?number} reviews_rating_sum
- @property {?number} sale_price
- @property {?string} search_keywords
- @property {?string} sku
- @property {?number} sort_order
- @property {?number} tax_class_id
- @property {?number} total_sold
- @property {?string} type
- @property {?string} upc
- @property {?BigCommerceVariantDefinition[]} variants
- @property {?number} view_count
- @property {?string} warranty
- @property {?number} weight
- @property {?number} width
- /*
-
- /**
- * @type {module.BigCommerceProduct}
- */
-module.exports = class BigCommerceProduct {
+module.exports = class ShopgateProductBuilder {
   /**
-   * @param {BigCommerceProductDefinition} bigCommerProduct
+   * @param {BigCommerceApiProduct} bigCommerProduct
    */
   constructor (bigCommerProduct) {
     this.bigCommerceProduct = bigCommerProduct
     this.bigCommerceVariant = bigCommerProduct.variants[0]
+  }
+
+  /**
+   * @returns {ShopgateProduct}
+   */
+  build () {
+    return new ShopgateProduct({
+      id: this.getId(),
+      active: this.isActive(),
+      availability: this.getAvailablity(),
+      identifiers: this.getIdentifiers(),
+      name: this.getName(),
+      stock: this.getStock(),
+      rating: this.getRating(),
+      ageRating: 0,
+      featuredImageUrl: this.getFeaturedImageUrl(),
+      price: this.getPrice(),
+      flags: this.getTags(),
+      liveshoppings: [],
+      highlight: this.getHighlight(),
+      parent: this.getParent(),
+      type: this.getType(),
+      tags: this.getTags()
+    })
   }
 
   /**
@@ -142,7 +56,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @param {BigCommerceVariantDefinition[]} variants
+   * @param {BigCommerceApiProductVariant[]} variants
    * @returns {boolean}
    */
   isAtLeatOneVariantPurchasable (variants) {
@@ -156,7 +70,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{text: string, state: string}}
+   * @returns ShopgateProductAvailability
    */
   getAvailablity () {
     return {
@@ -173,7 +87,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{sku?: string, upc?: string}}
+   * @returns ShopgateProductIdentifiers
    */
   getIdentifiers () {
     let identifiers = {}
@@ -204,7 +118,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{info: string, orderable: boolean, quantity: number, ignoreQuantity: boolean}}
+   * @returns ShopgateProductStock
    */
   getStock () {
     return {
@@ -223,7 +137,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @param {BigCommerceVariantDefinition[]} variants
+   * @param {BigCommerceApiProductVariant[]} variants
    *
    * @returns {number}
    */
@@ -246,7 +160,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{reviewCount: number, average?: number}}
+   * @returns ShopgateProductRating
    */
   getRating () {
     let rating = {
@@ -277,8 +191,8 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{tiers: Array, info: string, unitPrice: number, unitPriceNet: number, unitPriceWithTax: number, unitPriceStriked?: number, taxAmount: number, taxPercent: number, currency: string}}
-   */
+   * @returns ShopgateProductPrice
+   * */
   getPrice () {
     let prices = {
       tiers: [],
@@ -308,7 +222,7 @@ module.exports = class BigCommerceProduct {
   }
 
   /**
-   * @returns {{hasChildren: boolean, hasVariants: boolean, hasOptions: boolean}}
+   * @returns ShopgateProductFlags
    */
   /* getFlags () {
     return {

@@ -1,24 +1,20 @@
-const BigCommerceProduct = require('../../products/BigCommerceProduct.js')
+const ShopgateProductBuilder = require('./product/ShopgateProductBuilder.js')
 
 const SORT_PRICE_ASC = 'priceAsc'
 const SORT_PRICE_DESC = 'priceDesc'
 const SORT_RELEVANCE = 'relevance'
 const SORT_RANDOM = 'random'
 
-/**
- * @typedef {Object} BigCommercePage
- * @property {Object} [meta]
- * @property {Object} [meta.pagination]
- * @property {number} [meta.pagination.total]
- */
-
 class ProductListRepository {
+  /**
+   * @param {BigCommerce} apiVersion3Client
+   */
   constructor (apiVersion3Client) {
     this.apiVersion3Client = apiVersion3Client
   }
 
   /**
-   * @param {number} categoryId
+   * @param {string} categoryId
    * @param {number} offset
    * @param {number} limit
    * @param {string} sort
@@ -31,7 +27,7 @@ class ProductListRepository {
     bigCommerceGetParameters.push('categories:in=' + categoryId)
 
     /**
-     * @type BigCommercePage
+     * @type BigCommerceApiPage
      */
     const firstPage = await this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
 
@@ -97,6 +93,9 @@ class ProductListRepository {
    * @returns {{totalProductCount: number, products: Array}}
    */
   async getProducts (pagePromises, totalProductsCount) {
+    /**
+     * @type {ShopgateProduct[]}
+     */
     const products = []
 
     const bigCommerceProductReponses = await Promise.all(pagePromises)
@@ -104,27 +103,11 @@ class ProductListRepository {
     let promisesForBrands = []
     for (let bigCommerceProductRequest of bigCommerceProductReponses) {
       for (let bigCommerceProductData of bigCommerceProductRequest.data) {
-        const bigCommerceProduct = new BigCommerceProduct(bigCommerceProductData)
+        const shopgateProductBuilder = new ShopgateProductBuilder(bigCommerceProductData)
 
-        promisesForBrands.push(this.getBrandAsync(bigCommerceProduct.getBrandId()))
+        products.push(shopgateProductBuilder.build())
 
-        products.push({
-          id: bigCommerceProduct.getId(),
-          active: bigCommerceProduct.isActive(),
-          availability: bigCommerceProduct.getAvailablity(),
-          identifiers: bigCommerceProduct.getIdentifiers(),
-          name: bigCommerceProduct.getName(),
-          stock: bigCommerceProduct.getStock(),
-          rating: bigCommerceProduct.getRating(),
-          featuredImageUrl: bigCommerceProduct.getFeaturedImageUrl(),
-          price: bigCommerceProduct.getPrice(),
-          flags: bigCommerceProduct.getTags(),
-          liveshoppings: [],
-          highlight: bigCommerceProduct.getHighlight(),
-          parent: bigCommerceProduct.getParent(),
-          type: bigCommerceProduct.getType(),
-          tags: bigCommerceProduct.getTags()
-        })
+        promisesForBrands.push(this.getBrandAsync(shopgateProductBuilder.getBrandId()))
       }
     }
 
