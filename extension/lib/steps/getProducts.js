@@ -23,7 +23,7 @@ module.exports = function (context, input, cb) {
       input.productIds,
       input.hasOwnProperty('offset') ? input.offset : 0,
       input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : 'random',
+      input.hasOwnProperty('sort') ? input.sort : BigCommerceProductApi.SORT_RANDOM,
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
@@ -37,7 +37,7 @@ module.exports = function (context, input, cb) {
       input.categoryId,
       input.hasOwnProperty('offset') ? input.offset : 0,
       input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : 'random',
+      input.hasOwnProperty('sort') ? input.sort : BigCommerceProductApi.SORT_RANDOM,
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)

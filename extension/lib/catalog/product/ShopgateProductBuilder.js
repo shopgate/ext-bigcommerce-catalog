@@ -1,15 +1,15 @@
 const ShopgateProduct = require('./entity/ShopgateProduct.js')
 
-const INVENTORY_TRACKING_OFF = 'none'
-// const INVENTORY_TRACKING_SKU = 'sku'
+export const INVENTORY_TRACKING_OFF = 'none'
+// export const INVENTORY_TRACKING_SKU = 'sku'
 
-const AVAILABILITY_AVAILABLE = 'available'
-// const AVAILABILITY_DISABLED = 'disabled'
-const AVAILABILITY_PREORDER = 'preorder'
+export const AVAILABILITY_AVAILABLE = 'available'
+// export const AVAILABILITY_DISABLED = 'disabled'
+export const AVAILABILITY_PREORDER = 'preorder'
 
-const PRODUCT_TYPE_SIMPLE = 'simple'
-// const PRODUCT_TYPE_PARENT = 'parent'
-// const PRODUCT_TYPE_VARIANT = 'variant'
+export const PRODUCT_TYPE_SIMPLE = 'simple'
+// export const PRODUCT_TYPE_PARENT = 'parent'
+// export const PRODUCT_TYPE_VARIANT = 'variant'
 
 /**
  * @type {module.ShopgateProductBuilder}

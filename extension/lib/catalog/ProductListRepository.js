@@ -1,9 +1,9 @@
 const ShopgateProductBuilder = require('./product/ShopgateProductBuilder.js')
 
-const SORT_PRICE_ASC = 'priceAsc'
-const SORT_PRICE_DESC = 'priceDesc'
-const SORT_RELEVANCE = 'relevance'
-const SORT_RANDOM = 'random'
+export const SORT_PRICE_ASC = 'priceAsc'
+export const SORT_PRICE_DESC = 'priceDesc'
+export const SORT_RELEVANCE = 'relevance'
+export const SORT_RANDOM = 'random'
 
 class ProductListRepository {
   /**
