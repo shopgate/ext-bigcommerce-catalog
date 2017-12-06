@@ -4,9 +4,9 @@ const BigCommerceProductApi = require('../../lib/catalog/ProductListRepository.j
 const bigCommerceProductApi = new BigCommerceProductApi(
   new BigCommerce({
     logLevel: 'info',
-    clientId: '5qsw38039y6dwq37wp6nzabyq11cpru',
-    accessToken: 'evgf1d16l0iu1bpmckjw8an0wkxl9hx',
-    storeHash: 'r5s844ad',
+    clientId: '***',
+    accessToken: '***',
+    storeHash: '***',
     responseType: 'json',
     apiVersion: 'v3'
   })
