@@ -83,24 +83,24 @@
 
 /**
  * @typedef {Object} ShopgateProductDefinition
- * @property {number} id
- * @property {boolean} active
- * @property {ShopgateProductAvailability} availability
- * @property {ShopgateProductIdentifiers} identifiers
- * @property {string} manufacturer
- * @property {string} name
- * @property {number} ageRating
- * @property {ShopgateProductStock} stock
- * @property {ShopgateProductRating} rating
- * @property {string} featuredImageUrl
- * @property {ShopgateProductPrice} price
- * @property {ShopgateProductFlags} flags
- * @property {ShopgateProductLiveShoppings} liveshoppings
- * @property {boolean} highlight
- * @property {ShopgateProductDefinition} parent
- * @property {ShopgateProductCharacteristics[]} characteristics
- * @property {string} type
- * @property {string} tags
+ * @property {number} [id]
+ * @property {boolean} [active]
+ * @property {ShopgateProductAvailability} [availability]
+ * @property {ShopgateProductIdentifiers} [identifiers]
+ * @property {string} [manufacturer]
+ * @property {string} [name]
+ * @property {number} [ageRating]
+ * @property {ShopgateProductStock} [stock]
+ * @property {ShopgateProductRating} [rating]
+ * @property {string} [featuredImageUrl]
+ * @property {ShopgateProductPrice} [price]
+ * @property {ShopgateProductFlags} [flags]
+ * @property {ShopgateProductLiveShoppings} [liveshoppings]
+ * @property {boolean} [highlight]
+ * @property {ShopgateProductDefinition} [parent]
+ * @property {ShopgateProductCharacteristics[]} [characteristics]
+ * @property {string} [type]
+ * @property {string} [tags]
  */
 
 /**

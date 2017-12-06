@@ -48,7 +48,7 @@ class ProductListRepository {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {Array}
+   * @returns {string[]}
    */
   prepareParametersForGetProducts (offset, limit, sort, showInactive) {
     let parameters = []
@@ -138,7 +138,7 @@ class ProductListRepository {
 
   /**
    * @param {string} sort
-   * @returns {Array}
+   * @returns {string[]}
    */
   getSortingParameters (sort) {
     let sortingParameters = []

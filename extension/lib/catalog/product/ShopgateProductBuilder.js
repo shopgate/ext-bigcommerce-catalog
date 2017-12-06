@@ -35,13 +35,13 @@ module.exports = class ShopgateProductBuilder {
       name: this.getName(),
       stock: this.getStock(),
       rating: this.getRating(),
-      ageRating: 0,
       featuredImageUrl: this.getFeaturedImageUrl(),
       price: this.getPrice(),
-      flags: this.getTags(),
-      liveshoppings: [],
+      flags: this.getFlags(),
       highlight: this.getHighlight(),
+      liveshoppings: this.getLiveShoppings(),
       parent: this.getParent(),
+      characteristics: this.getCharacteristics(),
       type: this.getType(),
       tags: this.getTags()
     })
@@ -108,6 +108,20 @@ module.exports = class ShopgateProductBuilder {
    */
   getType () {
     return PRODUCT_TYPE_SIMPLE
+  }
+
+  /**
+   * @returns ShopgateProductCharacteristics[]
+   */
+  getCharacteristics () {
+    return []
+  }
+
+  /**
+   * @returns ShopgateProductLiveShoppings|null
+   */
+  getLiveShoppings () {
+    return null
   }
 
   /**
@@ -224,13 +238,13 @@ module.exports = class ShopgateProductBuilder {
   /**
    * @returns ShopgateProductFlags
    */
-  /* getFlags () {
+  getFlags () {
     return {
       hasChildren: true,
       hasVariants: false,
       hasOptions: false
     }
-  } */
+  }
 
   /**
    * @returns {boolean}
@@ -240,10 +254,10 @@ module.exports = class ShopgateProductBuilder {
   }
 
   /**
-   * @returns {boolean}
+   * @returns {ShopgateProductDefinition}
    */
   getParent () {
-    return false
+    return {}
   }
 
   /**
