@@ -19,7 +19,7 @@ class ProductListRepository {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: number, products: Array}}
+   * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
    */
   async getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
     let bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
@@ -74,7 +74,7 @@ class ProductListRepository {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: number, products: Array}}
+   * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
    */
   getProductsResultForProductIds (productIds, offset, limit, sort, showInactive) {
     let pagePromises = []
@@ -90,7 +90,7 @@ class ProductListRepository {
   /**
    * @param {Promise[]} pagePromises
    * @param {number} totalProductsCount
-   * @returns {{totalProductCount: number, products: Array}}
+   * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
    */
   async getProducts (pagePromises, totalProductsCount) {
     /**
@@ -122,7 +122,7 @@ class ProductListRepository {
 
   /**
    * @param {string[]} brands
-   * @param {Array} products
+   * @param {ShopgateProduct[]} products
    */
   updateProductManufacturer (brands, products) {
     for (let i = 0; i < brands.length; ++i) {

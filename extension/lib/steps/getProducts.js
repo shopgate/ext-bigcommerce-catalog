@@ -1,8 +1,8 @@
-const BigCommerce = require('node-bigcommerce')
-const BigCommerceProductApi = require('../../lib/catalog/ProductListRepository.js')
+const BigCommerceApi = require('node-bigcommerce')
+const ProductListRepository = require('../../lib/catalog/ProductListRepository.js')
 
-const bigCommerceProductApi = new BigCommerceProductApi(
-  new BigCommerce({
+const productListRepository = new ProductListRepository(
+  new BigCommerceApi({
     logLevel: 'info',
     clientId: '***',
     accessToken: '***',
@@ -19,11 +19,11 @@ const bigCommerceProductApi = new BigCommerceProductApi(
  */
 module.exports = function (context, input, cb) {
   if (input.hasOwnProperty('productIds') && input.productIds) {
-    bigCommerceProductApi.getProductsResultForProductIds(
+    productListRepository.getProductsResultForProductIds(
       input.productIds,
       input.hasOwnProperty('offset') ? input.offset : 0,
       input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : BigCommerceProductApi.SORT_RANDOM,
+      input.hasOwnProperty('sort') ? input.sort : ProductListRepository.SORT_RANDOM,
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
@@ -33,11 +33,11 @@ module.exports = function (context, input, cb) {
   }
 
   if (input.hasOwnProperty('categoryId') && input.categoryId) {
-    bigCommerceProductApi.getProductResultForCategoryId(
+    productListRepository.getProductResultForCategoryId(
       input.categoryId,
       input.hasOwnProperty('offset') ? input.offset : 0,
       input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : BigCommerceProductApi.SORT_RANDOM,
+      input.hasOwnProperty('sort') ? input.sort : ProductListRepository.SORT_RANDOM,
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
