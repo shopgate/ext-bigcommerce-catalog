@@ -1,5 +1,6 @@
 const BigCommerceApi = require('node-bigcommerce')
-const ProductListRepository = require('../../lib/catalog/ProductListRepository.js')
+const ProductListRepository = require('../../lib/catalog/ShopgateProductListRepository.js')
+const ShopgateSort = require('../catalog/product/ShopgateSort.js')
 
 const productListRepository = new ProductListRepository(
   new BigCommerceApi({
@@ -23,7 +24,7 @@ module.exports = function (context, input, cb) {
       input.productIds,
       input.hasOwnProperty('offset') ? input.offset : 0,
       input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : ProductListRepository.SORT_RANDOM,
+      input.hasOwnProperty('sort') ? input.sort : ShopgateSort.RANDOM,
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)
@@ -37,7 +38,7 @@ module.exports = function (context, input, cb) {
       input.categoryId,
       input.hasOwnProperty('offset') ? input.offset : 0,
       input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : ProductListRepository.SORT_RANDOM,
+      input.hasOwnProperty('sort') ? input.sort : ShopgateSort.RANDOM,
       input.hasOwnProperty('showInactive') ? input.showInactive : false
     ).then(productResult => {
       cb(null, productResult)

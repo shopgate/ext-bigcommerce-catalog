@@ -66,3 +66,14 @@
  * @property {?number} weight
  * @property {?number} width
  */
+
+module.exports.Inventory = {
+  TRACKING_OFF: 'none',
+  TRACKING_SKU: 'sku'
+}
+
+module.exports.Availability = {
+  AVAILABLE: 'available',
+  DISABLED: 'disabled',
+  PREORDER: 'preorder'
+}

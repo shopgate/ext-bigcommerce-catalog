@@ -1,15 +1,6 @@
 const ShopgateProduct = require('./entity/ShopgateProduct.js')
-
-export const INVENTORY_TRACKING_OFF = 'none'
-// export const INVENTORY_TRACKING_SKU = 'sku'
-
-export const AVAILABILITY_AVAILABLE = 'available'
-// export const AVAILABILITY_DISABLED = 'disabled'
-export const AVAILABILITY_PREORDER = 'preorder'
-
-export const PRODUCT_TYPE_SIMPLE = 'simple'
-// export const PRODUCT_TYPE_PARENT = 'parent'
-// export const PRODUCT_TYPE_VARIANT = 'variant'
+const BigCommerceApiProduct = require('./readmodel/BigCommerceApiProduct.js')
+const ShopgateProductType = require('./ShopgateProductType.js')
 
 /**
  * @type {module.ShopgateProductBuilder}
@@ -75,7 +66,7 @@ module.exports = class ShopgateProductBuilder {
   getAvailablity () {
     return {
       text: this.bigCommerceVariant.purchasing_disabled ? this.bigCommerceVariant.purchasing_disabled_message : this.bigCommerceProduct.availability_description,
-      state: (this.bigCommerceProduct.availability === AVAILABILITY_AVAILABLE || this.bigCommerceProduct.availability === AVAILABILITY_PREORDER ? 'ok' : 'alert')
+      state: (this.bigCommerceProduct.availability === BigCommerceApiProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceApiProduct.Availability.PREORDER ? 'ok' : 'alert')
     }
   }
 
@@ -107,7 +98,7 @@ module.exports = class ShopgateProductBuilder {
    * @returns {string}
    */
   getType () {
-    return PRODUCT_TYPE_SIMPLE
+    return ShopgateProductType.SIMPLE
   }
 
   /**
@@ -139,7 +130,7 @@ module.exports = class ShopgateProductBuilder {
       info: '',
       orderable: this.isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
       quantity: this.getStockQuantity(),
-      ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== INVENTORY_TRACKING_OFF
+      ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== BigCommerceApiProduct.Inventory.TRACKING_OFF
     }
   }
 

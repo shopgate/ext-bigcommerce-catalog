@@ -1,11 +1,7 @@
-const ShopgateProductBuilder = require('./product/ShopgateProductBuilder.js')
+const ShopgateProductBuilder = require('./product/ShopgateProductBuilder')
+const Sort = require('./product/ShopgateSort.js')
 
-export const SORT_PRICE_ASC = 'priceAsc'
-export const SORT_PRICE_DESC = 'priceDesc'
-export const SORT_RELEVANCE = 'relevance'
-export const SORT_RANDOM = 'random'
-
-class ProductListRepository {
+class ShopgateProductListRepository {
   /**
    * @param {BigCommerce} apiVersion3Client
    */
@@ -144,19 +140,19 @@ class ProductListRepository {
     let sortingParameters = []
 
     switch (sort) {
-      case SORT_PRICE_ASC:
+      case Sort.PRICE_ASC:
         sortingParameters.push('sort=price')
         sortingParameters.push('direction=asc')
         break
-      case SORT_PRICE_DESC:
+      case Sort.PRICE_DESC:
         sortingParameters.push('sort=price')
         sortingParameters.push('direction=desc')
         break
-      case SORT_RELEVANCE:
+      case Sort.RELEVANCE:
         sortingParameters.push('sort=total_sold')
         sortingParameters.push('direction=desc')
         break
-      case SORT_RANDOM:
+      case Sort.RANDOM:
       default:
         break
     }
@@ -182,4 +178,4 @@ class ProductListRepository {
   }
 }
 
-module.exports = ProductListRepository
+module.exports = ShopgateProductListRepository

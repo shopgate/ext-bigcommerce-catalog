@@ -1,4 +1,4 @@
-const BigCommerceProductApi = require('../../../../../extension/lib/catalog/ProductListRepository.js')
+const BigCommerceProductApi = require('../../../../../extension/lib/catalog/ShopgateProductListRepository.js')
 const BigCommerce = require('node-bigcommerce')
 const assert = require('assert')
 const chai = require('chai')
@@ -6,7 +6,7 @@ const chaiAsPromised = require('chai-as-promised')
 
 chai.use(chaiAsPromised).should()
 
-describe('ProductListRepository', function () {
+describe('ShopgateProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({
     logLevel: 'info',
     clientId: '***',
