@@ -9,7 +9,11 @@ chai.use(chaiAsPromised).should()
 
 describe('ShopgateProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({})
-  const subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi)
+  let subjectUnderTest
+
+  beforeEach(function () {
+    subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi)
+  })
 
   describe('Calculation of the current BigCommerce page', function () {
     it('should return current page for a given valid limit/offset', function () {

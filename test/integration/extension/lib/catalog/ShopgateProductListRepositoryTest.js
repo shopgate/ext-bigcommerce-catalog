@@ -16,7 +16,11 @@ describe('ShopgateProductListRepository', function () {
     responseType: 'json',
     apiVersion: 'v3'
   })
-  const subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi)
+
+  let subjectUnderTest
+  beforeEach(function () {
+    subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi)
+  })
 
   describe('getByCategoryId', function () {
     it('should responed with two products', function () {
