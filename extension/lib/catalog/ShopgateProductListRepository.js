@@ -15,7 +15,7 @@ class ShopgateProductListRepository {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
+   * @returns {Promise<GetProductsResponse>}
    */
   async getByCategoryId (categoryId, offset, limit, sort, showInactive) {
     const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
@@ -35,7 +35,7 @@ class ShopgateProductListRepository {
    * @param {number} limit
    * @returns {number}
    */
-  calculateCurrentBigCommercePage (offset, limit) {
+  _calculateCurrentBigCommercePage (offset, limit) {
     return Math.floor(offset / limit) + 1
   }
 
@@ -56,7 +56,7 @@ class ShopgateProductListRepository {
     parameters.push('include=variants,images,bulk_pricing_rules')
     parameters.push('type=physical')
     parameters.push('availability=available')
-    parameters.push('page=' + this.calculateCurrentBigCommercePage(offset, limit))
+    parameters.push('page=' + this._calculateCurrentBigCommercePage(offset, limit))
     parameters.push('limit=' + limit)
 
     Array.prototype.push.apply(parameters, this.getSortingParameters(sort))
@@ -70,7 +70,7 @@ class ShopgateProductListRepository {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
+   * @returns {Promise<GetProductsResponse>}
    */
   async getByProductIds (productIds, offset, limit, sort, showInactive) {
     const pagePromises = []
@@ -86,7 +86,7 @@ class ShopgateProductListRepository {
   /**
    * @param {Promise[]} pagePromises
    * @param {number} totalProductsCount
-   * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
+   * @returns {Promise<GetProductsResponse>}
    */
   async getProducts (pagePromises, totalProductsCount) {
     /**
@@ -161,7 +161,7 @@ class ShopgateProductListRepository {
   }
 
   /**
-   * @returns {Promise.<string>}
+   * @returns {Promise<string>}
    */
   async getBrandAsync (brandId) {
     if (!brandId) {

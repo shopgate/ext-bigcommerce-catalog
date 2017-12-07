@@ -13,11 +13,11 @@ describe('ShopgateProductListRepository', function () {
 
   describe('Calculation of the current BigCommerce page', function () {
     it('should return current page for a given valid limit/offset', function () {
-      assert.equal(subjectUnderTest.calculateCurrentBigCommercePage(0, 5), 1)
+      assert.equal(subjectUnderTest._calculateCurrentBigCommercePage(0, 5), 1)
     })
 
     it('should return the next lower page in case offset is not a multiple of limit', function () {
-      assert.equal(subjectUnderTest.calculateCurrentBigCommercePage(8, 5), 2)
+      assert.equal(subjectUnderTest._calculateCurrentBigCommercePage(8, 5), 2)
     })
   })
 
