@@ -1,6 +1,6 @@
 const BigCommerceApi = require('node-bigcommerce')
 const ProductListRepository = require('../../lib/catalog/ShopgateProductListRepository.js')
-const ShopgateSort = require('../catalog/product/ShopgateSort.js')
+const ShopgateGetProducts = require('../catalog/product/ShopgateGetProducts.js')
 
 const productListRepository = new ProductListRepository(
   new BigCommerceApi({
@@ -32,10 +32,10 @@ module.exports = function (context, input, cb) {
   if (getByProductIds) {
     productListRepository.getProductsResultForProductIds(
       input.productIds,
-      input.hasOwnProperty('offset') ? input.offset : 0,
-      input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : ShopgateSort.RANDOM,
-      input.hasOwnProperty('showInactive') ? input.showInactive : false
+      input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
+      input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_OFFSET,
+      input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
+      input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
     ).then(productResult => {
       cb(null, productResult)
     }).catch(e => {
@@ -46,10 +46,10 @@ module.exports = function (context, input, cb) {
   if (getByCategoryId) {
     productListRepository.getProductResultForCategoryId(
       input.categoryId,
-      input.hasOwnProperty('offset') ? input.offset : 0,
-      input.hasOwnProperty('limit') ? input.limit : 20,
-      input.hasOwnProperty('sort') ? input.sort : ShopgateSort.RANDOM,
-      input.hasOwnProperty('showInactive') ? input.showInactive : false
+      input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
+      input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_LIMIT,
+      input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
+      input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
     ).then(productResult => {
       cb(null, productResult)
     }).catch(e => {
