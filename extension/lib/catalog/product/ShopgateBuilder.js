@@ -4,11 +4,11 @@ const ShopgateProductType = require('./ShopgateType.js')
 
 class ShopgateBuilder {
   /**
-   * @param {BigCommerceProduct} bigCommerProduct
+   * @param {BigCommerceProduct} bigCommereProduct
    */
-  constructor (bigCommerProduct) {
-    this.bigCommerceProduct = bigCommerProduct
-    this.bigCommerceVariant = bigCommerProduct.variants[0]
+  constructor (bigCommereProduct) {
+    this.bigCommerceProduct = bigCommereProduct
+    this.bigCommerceVariant = bigCommereProduct.variants[0]
   }
 
   /**
