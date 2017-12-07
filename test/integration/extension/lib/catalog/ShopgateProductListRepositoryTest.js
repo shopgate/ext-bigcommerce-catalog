@@ -67,8 +67,6 @@ describe('ShopgateProductListRepository', function () {
       ]
 
       return Promise.all([
-        response.should.eventually.have.property('products').to.have.nested.property('[0].name', '[Integration Test] Nutellabrot *Do not touch* '),
-        response.should.eventually.have.property('products').to.have.nested.property('[1].name', '[Integration Test][Sample] Collette, alligator clutch *Do not touch*'),
         response.should.eventually.have.property('products').containSubset(integrationTestProducts)
       ])
     })
