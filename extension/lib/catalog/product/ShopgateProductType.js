@@ -1,5 +1,5 @@
 module.exports = {
   SIMPLE: 'simple',
-  PPARENT: 'parent',
+  PARENT: 'parent',
   VARIANT: 'variant'
 }
