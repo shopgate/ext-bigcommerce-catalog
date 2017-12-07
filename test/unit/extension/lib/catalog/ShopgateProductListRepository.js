@@ -1,5 +1,6 @@
-const BigCommerceProductApi = require('../../../../../extension/lib/catalog/ShopgateProductListRepository.js')
 const BigCommerce = require('node-bigcommerce')
+const ShopgateProductListRepository = require('../../../../../extension/lib/catalog/ShopgateProductListRepository.js')
+const ShopgateProduct = require('../../../../../extension/lib/catalog/product/entity/ShopgateProduct.js')
 const assert = require('assert')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
@@ -15,7 +16,7 @@ describe('ShopgateProductListRepository', function () {
     responseType: 'json',
     apiVersion: 'v3'
   })
-  const subjectUnderTest = new BigCommerceProductApi(BigCommerceApi)
+  const subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi)
 
   describe('Calculation of the current BigCommerce page', function () {
     it('should return current page for a given valid limit/offset', function () {
@@ -67,6 +68,25 @@ describe('ShopgateProductListRepository', function () {
           'limit=20'
         ]
       )
+    })
+
+    it('shouldn\'t return is_visible=1 when inactive products shouldn\'t be returned', function () {
+      assert.equal(subjectUnderTest.prepareParametersForGetProducts(0, 20, 'random', true).indexOf('is_visible=1') === -1, true)
+    })
+  })
+
+  describe('updating manufacturer', function () {
+    it('should apply all the brands to the manufacturer field:', function () {
+      const brands = ['first Manufacturer', 'second Manufacturer']
+      /**
+       * @type {ShopgateProduct[]}
+       */
+      const products = [new ShopgateProduct({}), new ShopgateProduct({})]
+
+      subjectUnderTest.updateProductManufacturer(brands, products)
+
+      assert.equal(products[0].manufacturer, 'first Manufacturer')
+      assert.equal(products[1].manufacturer, 'second Manufacturer')
     })
 
     it('shouldn\'t return is_visible=1 when inactive products shouldn\'t be returned', function () {
