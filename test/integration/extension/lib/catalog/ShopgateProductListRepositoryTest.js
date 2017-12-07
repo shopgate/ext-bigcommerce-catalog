@@ -18,9 +18,9 @@ describe('ShopgateProductListRepository', function () {
   })
   const subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi)
 
-  describe('getProductResultForCategoryId', function () {
+  describe('getByCategoryId', function () {
     it('should responed with two products', function () {
-      const response = subjectUnderTest.getProductResultForCategoryId('19', 0, 2, ShopgateSort.RANDOM, false)
+      const response = subjectUnderTest.getByCategoryId('19', 0, 2, ShopgateSort.RANDOM, false)
 
       return Promise.all([
         response.should.eventually.have.property('totalProductCount'),
@@ -29,9 +29,9 @@ describe('ShopgateProductListRepository', function () {
     })
   })
 
-  describe('getProductsResultForProductIds', function () {
+  describe('getByProductIds', function () {
     it('should responed with two products', function () {
-      const response = subjectUnderTest.getProductsResultForProductIds(['112', '113'], 0, 10, ShopgateSort.RANDOM, true)
+      const response = subjectUnderTest.getByProductIds(['112', '113'], 0, 10, ShopgateSort.RANDOM, true)
 
       const integrationTestProducts = [
         {

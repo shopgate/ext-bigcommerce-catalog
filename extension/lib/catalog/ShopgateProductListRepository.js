@@ -17,7 +17,7 @@ class ShopgateProductListRepository {
    * @param {boolean} showInactive
    * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
    */
-  async getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
+  async getByCategoryId (categoryId, offset, limit, sort, showInactive) {
     const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     bigCommerceGetParameters.push('categories:in=' + categoryId)
@@ -72,7 +72,7 @@ class ShopgateProductListRepository {
    * @param {boolean} showInactive
    * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
    */
-  getProductsResultForProductIds (productIds, offset, limit, sort, showInactive) {
+  async getByProductIds (productIds, offset, limit, sort, showInactive) {
     const pagePromises = []
     const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 

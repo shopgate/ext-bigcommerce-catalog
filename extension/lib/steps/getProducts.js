@@ -30,7 +30,7 @@ module.exports = function (context, input, cb) {
   }
 
   if (getByProductIds) {
-    productListRepository.getProductsResultForProductIds(
+    productListRepository.getByProductIds(
       input.productIds,
       input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
       input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_OFFSET,
@@ -44,7 +44,7 @@ module.exports = function (context, input, cb) {
   }
 
   if (getByCategoryId) {
-    productListRepository.getProductResultForCategoryId(
+    productListRepository.getByCategoryId(
       input.categoryId,
       input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
       input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_LIMIT,
