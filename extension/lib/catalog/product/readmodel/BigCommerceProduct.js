@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} BigCommerceApiProduct
+ * @typedef {Object} BigCommerceProduct
  * @property {?string} availability
  * @property {?string} availability_description
  * @property {?number} base_variant_id
@@ -23,7 +23,7 @@
  * @property {?string} gtin
  * @property {number} height
  * @property {?number} id
- * @property {?BigCommerceApiProductImage[]} images
+ * @property {?BigCommerceProductImage[]} images
  * @property {?number} inventory_level
  * @property {?string} inventory_tracking
  * @property {?number} inventory_warning_level
@@ -60,7 +60,7 @@
  * @property {?number} total_sold
  * @property {?string} type
  * @property {?string} upc
- * @property {?BigCommerceApiProductVariant[]} variants
+ * @property {?BigCommerceProductVariant[]} variants
  * @property {?number} view_count
  * @property {?string} warranty
  * @property {?number} weight

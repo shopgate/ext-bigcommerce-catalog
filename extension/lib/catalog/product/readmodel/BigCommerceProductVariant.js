@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} BigCommerceApiProductVariant
+ * @typedef {Object} BigCommerceProductVariant
  * @property {?string} bin_picking_number
  * @property {?number} calculated_price
  * @property {?number} calculated_weight

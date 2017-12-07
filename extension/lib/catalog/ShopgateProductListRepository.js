@@ -23,7 +23,7 @@ class ShopgateProductListRepository {
     bigCommerceGetParameters.push('categories:in=' + categoryId)
 
     /**
-     * @type BigCommerceApiPage
+     * @type BigCommercePage
      */
     const firstPage = await this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
 

@@ -1,5 +1,5 @@
 const ShopgateProduct = require('./entity/ShopgateProduct.js')
-const BigCommerceApiProduct = require('./readmodel/BigCommerceApiProduct.js')
+const BigCommerceProduct = require('./readmodel/BigCommerceProduct.js')
 const ShopgateProductType = require('./ShopgateProductType.js')
 
 /**
@@ -7,7 +7,7 @@ const ShopgateProductType = require('./ShopgateProductType.js')
  */
 module.exports = class ShopgateProductBuilder {
   /**
-   * @param {BigCommerceApiProduct} bigCommerProduct
+   * @param {BigCommerceProduct} bigCommerProduct
    */
   constructor (bigCommerProduct) {
     this.bigCommerceProduct = bigCommerProduct
@@ -47,7 +47,7 @@ module.exports = class ShopgateProductBuilder {
   }
 
   /**
-   * @param {BigCommerceApiProductVariant[]} variants
+   * @param {BigCommerceProductVariant[]} variants
    * @returns {boolean}
    */
   isAtLeatOneVariantPurchasable (variants) {
@@ -66,7 +66,7 @@ module.exports = class ShopgateProductBuilder {
   getAvailablity () {
     return {
       text: this.bigCommerceVariant.purchasing_disabled ? this.bigCommerceVariant.purchasing_disabled_message : this.bigCommerceProduct.availability_description,
-      state: (this.bigCommerceProduct.availability === BigCommerceApiProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceApiProduct.Availability.PREORDER ? 'ok' : 'alert')
+      state: (this.bigCommerceProduct.availability === BigCommerceProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceProduct.Availability.PREORDER ? 'ok' : 'alert')
     }
   }
 
@@ -130,7 +130,7 @@ module.exports = class ShopgateProductBuilder {
       info: '',
       orderable: this.isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
       quantity: this.getStockQuantity(),
-      ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== BigCommerceApiProduct.Inventory.TRACKING_OFF
+      ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== BigCommerceProduct.Inventory.TRACKING_OFF
     }
   }
 
@@ -142,7 +142,7 @@ module.exports = class ShopgateProductBuilder {
   }
 
   /**
-   * @param {BigCommerceApiProductVariant[]} variants
+   * @param {BigCommerceProductVariant[]} variants
    *
    * @returns {number}
    */

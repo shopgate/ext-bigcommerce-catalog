@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} BigCommerceApiProductImage
+ * @typedef {Object} BigCommerceProductImage
  * @property {?boolean} is_thumbnail
  * @property {?number} sort_order
  * @property {?string} description
