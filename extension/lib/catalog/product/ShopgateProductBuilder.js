@@ -81,7 +81,7 @@ module.exports = class ShopgateProductBuilder {
    * @returns ShopgateProductIdentifiers
    */
   getIdentifiers () {
-    let identifiers = {}
+    const identifiers = {}
 
     if (this.bigCommerceProduct.sku) {
       identifiers.sku = this.bigCommerceProduct.sku
@@ -168,7 +168,7 @@ module.exports = class ShopgateProductBuilder {
    * @returns ShopgateProductRating
    */
   getRating () {
-    let rating = {
+    const rating = {
       // count : 0,
       reviewCount: this.bigCommerceProduct.reviews_count
     }
@@ -199,7 +199,7 @@ module.exports = class ShopgateProductBuilder {
    * @returns ShopgateProductPrice
    * */
   getPrice () {
-    let prices = {
+    const prices = {
       tiers: [],
       info: '',
       unitPrice: this.bigCommerceProduct.calculated_price,

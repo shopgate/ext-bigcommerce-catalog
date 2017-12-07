@@ -76,7 +76,7 @@ class ShopgateProductListRepository {
     const pagePromises = []
     const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
-    for (let productId of productIds) {
+    for (const productId of productIds) {
       pagePromises.push(this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&') + '&id=' + productId))
     }
 
@@ -97,8 +97,8 @@ class ShopgateProductListRepository {
     const bigCommerceProductReponses = await Promise.all(pagePromises)
 
     let promisesForBrands = []
-    for (let bigCommerceProductRequest of bigCommerceProductReponses) {
-      for (let bigCommerceProductData of bigCommerceProductRequest.data) {
+    for (const bigCommerceProductRequest of bigCommerceProductReponses) {
+      for (const bigCommerceProductData of bigCommerceProductRequest.data) {
         const shopgateProductBuilder = new ShopgateProductBuilder(bigCommerceProductData)
 
         products.push(shopgateProductBuilder.build())
