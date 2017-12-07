@@ -8,14 +8,7 @@ const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised).should()
 
 describe('ShopgateProductListRepository', function () {
-  const BigCommerceApi = new BigCommerce({
-    logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
-    responseType: 'json',
-    apiVersion: 'v3'
-  })
+  const BigCommerceApi = new BigCommerce({})
   const subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi)
 
   describe('Calculation of the current BigCommerce page', function () {
