@@ -6,3 +6,4 @@ extension/node_modules
 npm-debug.log
 .vscode
 extension/test
+.integration-credentials.js
