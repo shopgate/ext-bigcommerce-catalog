@@ -16,29 +16,29 @@ class ShopgateBuilder {
    */
   build () {
     return new ShopgateProduct({
-      id: this.getId(),
-      active: this.isActive(),
-      availability: this.getAvailablity(),
-      identifiers: this.getIdentifiers(),
-      name: this.getName(),
-      stock: this.getStock(),
-      rating: this.getRating(),
-      featuredImageUrl: this.getFeaturedImageUrl(),
-      price: this.getPrice(),
-      flags: this.getFlags(),
-      highlight: this.getHighlight(),
-      liveshoppings: this.getLiveShoppings(),
-      parent: this.getParent(),
-      characteristics: this.getCharacteristics(),
-      type: this.getType(),
-      tags: this.getTags()
+      id: this._getId(),
+      active: this._isActive(),
+      availability: this._getAvailablity(),
+      identifiers: this._getIdentifiers(),
+      name: this._getName(),
+      stock: this._getStock(),
+      rating: this._getRating(),
+      featuredImageUrl: this._getFeaturedImageUrl(),
+      price: this._getPrice(),
+      flags: this._getFlags(),
+      highlight: this._getHighlight(),
+      liveshoppings: this._getLiveShoppings(),
+      parent: this._getParent(),
+      characteristics: this._getCharacteristics(),
+      type: this._getType(),
+      tags: this._getTags()
     })
   }
 
   /**
    * @returns {boolean}
    */
-  isActive () {
+  _isActive () {
     // TODO: global setting don't show "When a product is out of stock"
     return true
   }
@@ -47,7 +47,7 @@ class ShopgateBuilder {
    * @param {BigCommerceProductVariant[]} variants
    * @returns {boolean}
    */
-  isAtLeatOneVariantPurchasable (variants) {
+  _isAtLeatOneVariantPurchasable (variants) {
     for (let i = 0; i < variants.length; ++i) {
       if (!variants[i].purchasing_disabled) {
         return true
@@ -60,7 +60,7 @@ class ShopgateBuilder {
   /**
    * @returns ShopgateProductAvailability
    */
-  getAvailablity () {
+  _getAvailablity () {
     return {
       text: this.bigCommerceVariant.purchasing_disabled ? this.bigCommerceVariant.purchasing_disabled_message : this.bigCommerceProduct.availability_description,
       state: (this.bigCommerceProduct.availability === BigCommerceProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceProduct.Availability.PREORDER ? 'ok' : 'alert')
@@ -70,14 +70,14 @@ class ShopgateBuilder {
   /**
    * @returns {number}
    */
-  getId () {
+  _getId () {
     return this.bigCommerceProduct.id
   }
 
   /**
    * @returns ShopgateProductIdentifiers
    */
-  getIdentifiers () {
+  _getIdentifiers () {
     const identifiers = {}
 
     if (this.bigCommerceProduct.sku) {
@@ -94,21 +94,21 @@ class ShopgateBuilder {
   /**
    * @returns {string}
    */
-  getType () {
+  _getType () {
     return ShopgateProductType.SIMPLE
   }
 
   /**
    * @returns ShopgateProductCharacteristics[]
    */
-  getCharacteristics () {
+  _getCharacteristics () {
     return []
   }
 
   /**
    * @returns ShopgateProductLiveShoppings|null
    */
-  getLiveShoppings () {
+  _getLiveShoppings () {
     return null
   }
 
@@ -122,11 +122,11 @@ class ShopgateBuilder {
   /**
    * @returns ShopgateProductStock
    */
-  getStock () {
+  _getStock () {
     return {
       info: '',
-      orderable: this.isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
-      quantity: this.getStockQuantity(),
+      orderable: this._isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
+      quantity: this._getStockQuantity(),
       ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== BigCommerceProduct.Inventory.TRACKING_OFF
     }
   }
@@ -134,8 +134,8 @@ class ShopgateBuilder {
   /**
    * @returns {number}
    */
-  getStockQuantity () {
-    return this.getMaximumStockQuantityForVariants(this.bigCommerceProduct.variants)
+  _getStockQuantity () {
+    return this._getMaximumStockQuantityForVariants(this.bigCommerceProduct.variants)
   }
 
   /**
@@ -143,7 +143,7 @@ class ShopgateBuilder {
    *
    * @returns {number}
    */
-  getMaximumStockQuantityForVariants (variants) {
+  _getMaximumStockQuantityForVariants (variants) {
     let maximumVariantStockQuantity = 0
 
     variants.forEach(variant => {
@@ -164,7 +164,7 @@ class ShopgateBuilder {
   /**
    * @returns ShopgateProductRating
    */
-  getRating () {
+  _getRating () {
     const rating = {
       // count : 0,
       reviewCount: this.bigCommerceProduct.reviews_count
@@ -180,7 +180,7 @@ class ShopgateBuilder {
   /**
    * @returns {string}
    */
-  getFeaturedImageUrl () {
+  _getFeaturedImageUrl () {
     let bigCommerceProductImage = this.bigCommerceVariant.image_url
 
     if (typeof bigCommerceProductImage === 'undefined' || bigCommerceProductImage === '') {
@@ -195,7 +195,7 @@ class ShopgateBuilder {
   /**
    * @returns ShopgateProductPrice
    * */
-  getPrice () {
+  _getPrice () {
     const prices = {
       tiers: [],
       info: '',
@@ -226,7 +226,7 @@ class ShopgateBuilder {
   /**
    * @returns ShopgateProductFlags
    */
-  getFlags () {
+  _getFlags () {
     return {
       hasChildren: true,
       hasVariants: false,
@@ -237,28 +237,28 @@ class ShopgateBuilder {
   /**
    * @returns {boolean}
    */
-  getHighlight () {
+  _getHighlight () {
     return this.bigCommerceProduct.is_featured
   }
 
   /**
    * @returns {ShopgateProductDefinition}
    */
-  getParent () {
+  _getParent () {
     return {}
   }
 
   /**
    * @returns {string}
    */
-  getTags () {
+  _getTags () {
     return this.bigCommerceProduct.search_keywords
   }
 
   /**
    * @return {string}
    */
-  getName () {
+  _getName () {
     return this.bigCommerceProduct.name
   }
 }
