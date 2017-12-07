@@ -29,7 +29,7 @@ module.exports = function (context, input, cb) {
     ).then(productResult => {
       cb(null, productResult)
     }).catch(e => {
-      console.log(e)
+      cb(new Error(e.message))
     })
   }
 
@@ -43,7 +43,7 @@ module.exports = function (context, input, cb) {
     ).then(productResult => {
       cb(null, productResult)
     }).catch(e => {
-      console.log(e)
+      cb(new Error(e.message))
     })
   }
 }

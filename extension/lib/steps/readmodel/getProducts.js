@@ -1,7 +1,7 @@
 /**
  * @callback GetProductsPipelineCallback
- * @param {Error} errorMessage
- * @param {Object} responseObject
+ * @param {Error} [errorMessage]
+ * @param {Object} [responseObject]
  */
 
 /**
