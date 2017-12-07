@@ -18,7 +18,7 @@ class ShopgateProductListRepository {
    * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
    */
   async getProductResultForCategoryId (categoryId, offset, limit, sort, showInactive) {
-    let bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
+    const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     bigCommerceGetParameters.push('categories:in=' + categoryId)
 
@@ -47,7 +47,7 @@ class ShopgateProductListRepository {
    * @returns {string[]}
    */
   prepareParametersForGetProducts (offset, limit, sort, showInactive) {
-    let parameters = []
+    const parameters = []
 
     if (!showInactive) {
       parameters.push('is_visible=1')
@@ -73,8 +73,8 @@ class ShopgateProductListRepository {
    * @returns {{totalProductCount: number, products: ShopgateProduct[]}}
    */
   getProductsResultForProductIds (productIds, offset, limit, sort, showInactive) {
-    let pagePromises = []
-    let bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
+    const pagePromises = []
+    const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     for (let productId of productIds) {
       pagePromises.push(this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&') + '&id=' + productId))
@@ -137,7 +137,7 @@ class ShopgateProductListRepository {
    * @returns {string[]}
    */
   getSortingParameters (sort) {
-    let sortingParameters = []
+    const sortingParameters = []
 
     switch (sort) {
       case Sort.PRICE_ASC:
