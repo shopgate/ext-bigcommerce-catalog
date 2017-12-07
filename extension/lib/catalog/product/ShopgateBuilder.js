@@ -1,11 +1,8 @@
 const ShopgateProduct = require('./entity/ShopgateProduct.js')
 const BigCommerceProduct = require('./readmodel/BigCommerceProduct.js')
-const ShopgateProductType = require('./ShopgateProductType.js')
+const ShopgateProductType = require('./ShopgateType.js')
 
-/**
- * @type {module.ShopgateProductBuilder}
- */
-module.exports = class ShopgateProductBuilder {
+class ShopgateBuilder {
   /**
    * @param {BigCommerceProduct} bigCommerProduct
    */
@@ -265,3 +262,5 @@ module.exports = class ShopgateProductBuilder {
     return this.bigCommerceProduct.name
   }
 }
+
+module.exports = ShopgateBuilder
