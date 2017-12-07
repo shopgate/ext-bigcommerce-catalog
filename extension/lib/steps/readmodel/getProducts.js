@@ -1,7 +1,13 @@
 /**
  * @callback GetProductsPipelineCallback
  * @param {Error} [errorMessage]
- * @param {Object} [responseObject]
+ * @param {GetProductsResponse} [responseObject]
+ */
+
+/**
+ * @typedef {Object} GetProductsResponse
+ * @property {number} [totalProductCount]
+ * @property {ShopgateProduct[]} [products]
  */
 
 /**
