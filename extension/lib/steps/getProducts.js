@@ -19,7 +19,17 @@ const productListRepository = new ProductListRepository(
  * @param {GetProductsPipelineCallback} cb
  */
 module.exports = function (context, input, cb) {
-  if (input.hasOwnProperty('productIds') && input.productIds) {
+  const getByCategoryId = input.hasOwnProperty('categoryId') && input.categoryId
+  const getByProductIds = input.hasOwnProperty('productIds') && input.productIds
+
+  if (!getByCategoryId && !getByProductIds) {
+    cb(null, {
+      totalProductCount: 0,
+      products: []
+    })
+  }
+
+  if (getByProductIds) {
     productListRepository.getProductsResultForProductIds(
       input.productIds,
       input.hasOwnProperty('offset') ? input.offset : 0,
@@ -33,7 +43,7 @@ module.exports = function (context, input, cb) {
     })
   }
 
-  if (input.hasOwnProperty('categoryId') && input.categoryId) {
+  if (getByCategoryId) {
     productListRepository.getProductResultForCategoryId(
       input.categoryId,
       input.hasOwnProperty('offset') ? input.offset : 0,
