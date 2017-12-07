@@ -22,8 +22,5 @@
  * @property {boolean} [showInactive=false]
  * @property {string[]} [productIds]
  * @property {boolean} [characteristics]
- * @property {Object} [filters]
- * @property {AdditionalPropFilter} [filters.additionalProp1]
- * @property {AdditionalPropFilter} [filters.additionalProp2]
- * @property {AdditionalPropFilter} [filters.additionalProp3]
+ * @property {AdditionalPropFilter[]} [filters]
  */
