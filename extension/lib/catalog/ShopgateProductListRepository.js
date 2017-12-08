@@ -15,7 +15,7 @@ class ShopgateProductListRepository {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {Promise<GetProductsResponse>}
+   * @returns {Promise<ShopgateProductsResponse>}
    */
   async getByCategoryId (categoryId, offset, limit, sort, showInactive) {
     const bigCommerceGetParameters = this._prepareParametersForGetProducts(offset, limit, sort, showInactive)
@@ -70,7 +70,7 @@ class ShopgateProductListRepository {
    * @param {number} limit
    * @param {string} sort
    * @param {boolean} showInactive
-   * @returns {Promise<GetProductsResponse>}
+   * @returns {Promise<ShopgateProductsResponse>}
    */
   async getByProductIds (productIds, offset, limit, sort, showInactive) {
     const pagePromises = []
@@ -86,7 +86,7 @@ class ShopgateProductListRepository {
   /**
    * @param {Promise[]} pagePromises
    * @param {number} totalProductsCount
-   * @returns {Promise<GetProductsResponse>}
+   * @returns {Promise<ShopgateProductsResponse>}
    */
   async getProducts (pagePromises, totalProductsCount) {
     /**
