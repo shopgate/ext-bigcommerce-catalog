@@ -35,8 +35,9 @@ module.exports = function (context, input, cb) {
       input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
     ).then(productResult => {
       cb(null, productResult)
-    }).catch(e => {
-      cb(e)
+    }).catch(error => {
+      context.log.error('Unable to get products for productIds: ' + input.productIds, error)
+      cb(error)
     })
   }
 
@@ -49,8 +50,9 @@ module.exports = function (context, input, cb) {
       input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
     ).then(productResult => {
       cb(null, productResult)
-    }).catch(e => {
-      cb(e)
+    }).catch(error => {
+      context.log.error('Unable to get products for categoryId: ' + input.categoryId, error)
+      cb(error)
     })
   }
 }
