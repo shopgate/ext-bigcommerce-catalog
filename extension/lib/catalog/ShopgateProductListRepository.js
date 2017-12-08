@@ -108,6 +108,7 @@ class ShopgateProductListRepository {
     }
 
     const brands = await Promise.all(promisesForBrands)
+
     this._updateProductManufacturer(brands, products)
 
     return {
@@ -119,6 +120,8 @@ class ShopgateProductListRepository {
   /**
    * @param {string[]} brands
    * @param {ShopgateProduct[]} products
+   *
+   * @post products have the manufacturer property set if a name exists
    */
   _updateProductManufacturer (brands, products) {
     for (let i = 0; i < brands.length; ++i) {
@@ -128,8 +131,6 @@ class ShopgateProductListRepository {
 
       products[i].manufacturer = brands[i]
     }
-
-    return products
   }
 
   /**
