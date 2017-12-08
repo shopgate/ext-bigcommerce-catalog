@@ -25,7 +25,7 @@
       {
         "type": "extension",
         "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/products/getProducts.js",
+        "path": "@shopgate/bigcommerce-products/lib/steps/getProducts.js",
         "input": [
           {"key": "categoryId", "id": "1", "optional": true},
           {"key": "searchPhrase", "id": "2", "optional": true},

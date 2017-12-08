@@ -1,0 +1,260 @@
+const ShopgateProduct = require('./entity/ShopgateProduct.js')
+const ShopgateAvailibility = require('./ShopgateAvailability.js')
+const BigCommerceProduct = require('./readmodel/BigCommerceProduct.js')
+const ShopgateProductType = require('./ShopgateType.js')
+
+class ShopgateBuilder {
+  /**
+   * @param {BigCommerceProduct} bigCommereProduct
+   */
+  constructor (bigCommereProduct) {
+    this.bigCommerceProduct = bigCommereProduct
+    this.bigCommerceVariant = bigCommereProduct.variants[0]
+  }
+
+  /**
+   * @returns {ShopgateProduct}
+   */
+  build () {
+    return new ShopgateProduct({
+      id: this._getId(),
+      active: this._isActive(),
+      availability: this._getAvailablity(),
+      identifiers: this._getIdentifiers(),
+      name: this._getName(),
+      stock: this._getStock(),
+      rating: this._getRating(),
+      featuredImageUrl: this._getFeaturedImageUrl(),
+      price: this._getPrice(),
+      flags: this._getFlags(),
+      highlight: this._getHighlight(),
+      liveshoppings: this._getLiveShoppings(),
+      parent: this._getParent(),
+      characteristics: this._getCharacteristics(),
+      type: this._getType(),
+      tags: this._getTags()
+    })
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  _isActive () {
+    // TODO: global setting don't show "When a product is out of stock"
+    return true
+  }
+
+  /**
+   * @param {BigCommerceProductVariant[]} variants
+   * @returns {boolean}
+   */
+  _isAtLeatOneVariantPurchasable (variants) {
+    for (let i = 0; i < variants.length; ++i) {
+      if (!variants[i].purchasing_disabled) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /**
+   * @returns {ShopgateProductAvailability}
+   */
+  _getAvailablity () {
+    return {
+      text: this.bigCommerceVariant.purchasing_disabled ? this.bigCommerceVariant.purchasing_disabled_message : this.bigCommerceProduct.availability_description,
+      state: (this.bigCommerceProduct.availability === BigCommerceProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceProduct.Availability.PREORDER ? ShopgateAvailibility.OK : ShopgateAvailibility.ALERT)
+    }
+  }
+
+  /**
+   * @returns {number}
+   */
+  _getId () {
+    return this.bigCommerceProduct.id
+  }
+
+  /**
+   * @returns {ShopgateProductIdentifiers}
+   */
+  _getIdentifiers () {
+    const identifiers = {}
+
+    if (this.bigCommerceProduct.sku) {
+      identifiers.sku = this.bigCommerceProduct.sku
+    }
+
+    if (this.bigCommerceProduct.upc) {
+      identifiers.upc = this.bigCommerceProduct.upc
+    }
+
+    return identifiers
+  }
+
+  /**
+   * @returns {string}
+   */
+  _getType () {
+    return ShopgateProductType.SIMPLE
+  }
+
+  /**
+   * @returns {ShopgateProductCharacteristics[]}
+   */
+  _getCharacteristics () {
+    return []
+  }
+
+  /**
+   * @returns {ShopgateProductLiveShoppings|null}
+   */
+  _getLiveShoppings () {
+    return null
+  }
+
+  /**
+   * @returns {ShopgateProductStock}
+   */
+  _getStock () {
+    return {
+      info: '',
+      orderable: this._isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
+      quantity: this._getStockQuantity(),
+      ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== BigCommerceProduct.Inventory.TRACKING_OFF
+    }
+  }
+
+  /**
+   * @returns {number}
+   */
+  _getStockQuantity () {
+    return this._getMaximumStockQuantityForVariants(this.bigCommerceProduct.variants)
+  }
+
+  /**
+   * @param {BigCommerceProductVariant[]} variants
+   *
+   * @returns {number}
+   */
+  _getMaximumStockQuantityForVariants (variants) {
+    let maximumVariantStockQuantity = 0
+
+    variants.forEach(variant => {
+      if (maximumVariantStockQuantity > variant.inventory_level) {
+        maximumVariantStockQuantity = variant.inventory_level
+      }
+    })
+
+    for (let variant in variants) {
+      if (maximumVariantStockQuantity > variant.inventory_level) {
+        maximumVariantStockQuantity = variant.inventory_level
+      }
+    }
+
+    return maximumVariantStockQuantity
+  }
+
+  /**
+   * @returns {ShopgateProductRating}
+   */
+  _getRating () {
+    const rating = {
+      // count : 0,
+      reviewCount: this.bigCommerceProduct.reviews_count
+    }
+
+    if (this.bigCommerceProduct.reviews_count > 0) {
+      rating.average = this.bigCommerceProduct.reviews_rating_sum
+    }
+
+    return rating
+  }
+
+  /**
+   * @returns {string}
+   */
+  _getFeaturedImageUrl () {
+    let bigCommerceProductImage = this.bigCommerceVariant.image_url
+
+    if (typeof bigCommerceProductImage === 'undefined' || bigCommerceProductImage === '') {
+      if (this.bigCommerceProduct.hasOwnProperty('images') && this.bigCommerceProduct.images.length > 0) {
+        bigCommerceProductImage = this.bigCommerceProduct.images[0].url_standard
+      }
+    }
+
+    return bigCommerceProductImage
+  }
+
+  /**
+   * @returns {ShopgateProductPrice}
+   * */
+  _getPrice () {
+    const prices = {
+      tiers: [],
+      info: '',
+      unitPrice: this.bigCommerceProduct.calculated_price,
+      // unitPriceMin: 5,
+      // unitPriceMax: 20,
+      unitPriceNet: this.bigCommerceProduct.calculated_price,
+      unitPriceWithTax: this.bigCommerceProduct.calculated_price,
+      taxAmount: 0.00,
+      taxPercent: 19.00,
+      currency: 'USD'
+    }
+
+    if (
+      this.bigCommerceProduct.price !== this.bigCommerceProduct.calculated_price &&
+      this.bigCommerceProduct.price > this.bigCommerceProduct.calculated_price
+    ) {
+      prices.unitPriceStriked = this.bigCommerceProduct.price
+    }
+
+    if (this.bigCommerceProduct.retail_price > 0) {
+      prices.msrp = this.bigCommerceProduct.retail_price
+    }
+
+    return prices
+  }
+
+  /**
+   * @returns {ShopgateProductFlags}
+   */
+  _getFlags () {
+    return {
+      hasChildren: true,
+      hasVariants: false,
+      hasOptions: false
+    }
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  _getHighlight () {
+    return this.bigCommerceProduct.is_featured
+  }
+
+  /**
+   * @returns {ShopgateProductDefinition}
+   */
+  _getParent () {
+    return {}
+  }
+
+  /**
+   * @returns {string}
+   */
+  _getTags () {
+    return this.bigCommerceProduct.search_keywords
+  }
+
+  /**
+   * @return {string}
+   */
+  _getName () {
+    return this.bigCommerceProduct.name
+  }
+}
+
+module.exports = ShopgateBuilder
