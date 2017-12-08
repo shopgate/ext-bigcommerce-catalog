@@ -58,7 +58,7 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns ShopgateProductAvailability
+   * @returns {ShopgateProductAvailability}
    */
   _getAvailablity () {
     return {
@@ -75,7 +75,7 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns ShopgateProductIdentifiers
+   * @returns {ShopgateProductIdentifiers}
    */
   _getIdentifiers () {
     const identifiers = {}
@@ -99,14 +99,14 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns ShopgateProductCharacteristics[]
+   * @returns {ShopgateProductCharacteristics[]}
    */
   _getCharacteristics () {
     return []
   }
 
   /**
-   * @returns ShopgateProductLiveShoppings|null
+   * @returns {ShopgateProductLiveShoppings|null}
    */
   _getLiveShoppings () {
     return null
@@ -120,7 +120,7 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns ShopgateProductStock
+   * @returns {ShopgateProductStock}
    */
   _getStock () {
     return {
@@ -162,7 +162,7 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns ShopgateProductRating
+   * @returns {ShopgateProductRating}
    */
   _getRating () {
     const rating = {
@@ -193,7 +193,7 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns ShopgateProductPrice
+   * @returns {ShopgateProductPrice}
    * */
   _getPrice () {
     const prices = {
@@ -224,7 +224,7 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns ShopgateProductFlags
+   * @returns {ShopgateProductFlags}
    */
   _getFlags () {
     return {
