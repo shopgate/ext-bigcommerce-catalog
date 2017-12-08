@@ -3,5 +3,9 @@
   "env": {
     "node": true,
     "mocha": true
-  }
+  },
+  "plugins": [
+    "chai",
+    "chai-expect"
+  ]
 }
