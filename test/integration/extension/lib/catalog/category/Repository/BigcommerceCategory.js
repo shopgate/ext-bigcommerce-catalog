@@ -3,8 +3,8 @@ const BigcommerceCategory = require('../../../../../../../extension/lib/catalog/
 const BigCommerceFactory = require('../../../../../../../extension/lib/steps/BigCommerceFactory.js')
 const BigcommerceRepositoryCommand = require('../../../../../../../extension/lib/catalog/category/Factory/BigcommerceRepositoryCommand')
 const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
 const chaiSubset = require('chai-subset')
+const chaiAsPromised = require('chai-as-promised')
 
 chai
   .use(chaiSubset)
