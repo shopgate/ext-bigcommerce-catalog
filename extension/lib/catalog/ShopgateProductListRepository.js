@@ -27,7 +27,7 @@ class ShopgateProductListRepository {
      */
     const firstPage = await this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
 
-    return this.getProducts([firstPage], firstPage.meta.pagination.total)
+    return this._getProducts([firstPage], firstPage.meta.pagination.total)
   }
 
   /**
@@ -80,7 +80,7 @@ class ShopgateProductListRepository {
       pagePromises.push(this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&') + '&id=' + productId))
     }
 
-    return this.getProducts(pagePromises, productIds.length)
+    return this._getProducts(pagePromises, productIds.length)
   }
 
   /**
@@ -88,7 +88,7 @@ class ShopgateProductListRepository {
    * @param {number} totalProductsCount
    * @returns {Promise<ShopgateProductsResponse>}
    */
-  async getProducts (pagePromises, totalProductsCount) {
+  async _getProducts (pagePromises, totalProductsCount) {
     /**
      * @type {ShopgateProduct[]}
      */
@@ -103,7 +103,7 @@ class ShopgateProductListRepository {
 
         products.push(shopgateProductBuilder.build())
 
-        promisesForBrands.push(this.getBrandAsync(bigCommerceProductData.brand_id))
+        promisesForBrands.push(this._getBrandAsync(bigCommerceProductData.brand_id))
       }
     }
 
@@ -164,7 +164,7 @@ class ShopgateProductListRepository {
   /**
    * @returns {Promise<string>}
    */
-  async getBrandAsync (brandId) {
+  async _getBrandAsync (brandId) {
     if (!brandId) {
       return ''
     }
