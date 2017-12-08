@@ -38,8 +38,16 @@ class BigcommerceCategory {
   async getCategoryChildren (categoryId) {
     this._getAllCategories.parentId = categoryId
     this._getAllCategories.includeFields = ['id', 'parent_id', 'name', 'image_url']
+    let shopgateCategories = this._buildShopgateRootCategories(await this._getAllCategories.execute())
 
-    return this._buildShopgateCategories(await this._getAllCategories.execute())
+    this._getProductCountsByCategoryIds.categoryIds = shopgateCategories.map(category => category.id)
+    let bigcommerceProductCounts = await this._getProductCountsByCategoryIds.execute()
+
+    for (let i = 0; i < shopgateCategories.length; i++) {
+      shopgateCategories[i].productCount = bigcommerceProductCounts[i].count
+    }
+
+    return shopgateCategories
   }
 
   /**
