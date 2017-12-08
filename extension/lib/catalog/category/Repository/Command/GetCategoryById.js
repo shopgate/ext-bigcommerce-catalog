@@ -4,11 +4,11 @@
  */
 class GetCategoryById {
   /**
-   * @param {BigCommerce} apiVersion2Client
+   * @param {BigCommerce} apiVersion3Client
    * @param {number} categoryId
    */
-  constructor (apiVersion2Client, categoryId) {
-    this._apiVersion2Client = apiVersion2Client
+  constructor (apiVersion3Client, categoryId) {
+    this._apiVersion3Client = apiVersion3Client
     this._categoryId = categoryId
   }
 
@@ -16,7 +16,7 @@ class GetCategoryById {
    * @return {BigcommerceCategory}
    */
   async execute () {
-    return (await this._apiVersion2Client.get('/catalog/categories/' + this._categoryId)).data
+    return (await this._apiVersion3Client.get('/catalog/categories/' + this._categoryId)).data
   }
 }
 
