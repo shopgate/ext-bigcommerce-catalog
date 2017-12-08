@@ -27,25 +27,25 @@ describe('ShopgateProductListRepository', function () {
 
   describe('Sorting of products', function () {
     it('sorting "random" should return an empty array', function () {
-      assert.deepEqual(subjectUnderTest.getSortingParameters('random'), [])
+      assert.deepEqual(subjectUnderTest._getSortingParameters('random'), [])
     })
 
     it('sorting "priceAsc" should return sort parameter for price and asc', function () {
-      assert.deepEqual(subjectUnderTest.getSortingParameters('priceAsc'), [
+      assert.deepEqual(subjectUnderTest._getSortingParameters('priceAsc'), [
         'sort=price',
         'direction=asc'
       ])
     })
 
     it('sorting "priceDesc" should return sort parameter for price and desc"', function () {
-      assert.deepEqual(subjectUnderTest.getSortingParameters('priceDesc'), [
+      assert.deepEqual(subjectUnderTest._getSortingParameters('priceDesc'), [
         'sort=price',
         'direction=desc'
       ])
     })
 
     it('sorting "relevance" should return sort parameter for total_sold and desc', function () {
-      assert.deepEqual(subjectUnderTest.getSortingParameters('relevance'), [
+      assert.deepEqual(subjectUnderTest._getSortingParameters('relevance'), [
         'sort=total_sold',
         'direction=desc'
       ])
@@ -55,7 +55,7 @@ describe('ShopgateProductListRepository', function () {
   describe('Parameters for get products call', function () {
     it('should return for default - these parameters:', function () {
       assert.deepEqual(
-        subjectUnderTest.prepareParametersForGetProducts(0, 20, 'random', false),
+        subjectUnderTest._prepareParametersForGetProducts(0, 20, 'random', false),
         [
           'is_visible=1',
           'include=variants,images,bulk_pricing_rules',
@@ -68,7 +68,7 @@ describe('ShopgateProductListRepository', function () {
     })
 
     it('shouldn\'t return is_visible=1 when inactive products shouldn\'t be returned', function () {
-      assert.equal(subjectUnderTest.prepareParametersForGetProducts(0, 20, 'random', true).indexOf('is_visible=1') === -1, true)
+      assert.equal(subjectUnderTest._prepareParametersForGetProducts(0, 20, 'random', true).indexOf('is_visible=1') === -1, true)
     })
   })
 
@@ -80,14 +80,14 @@ describe('ShopgateProductListRepository', function () {
        */
       const products = [new ShopgateProduct({}), new ShopgateProduct({})]
 
-      subjectUnderTest.updateProductManufacturer(brands, products)
+      subjectUnderTest._updateProductManufacturer(brands, products)
 
       assert.equal(products[0].manufacturer, 'first Manufacturer')
       assert.equal(products[1].manufacturer, 'second Manufacturer')
     })
 
     it('shouldn\'t return is_visible=1 when inactive products shouldn\'t be returned', function () {
-      assert.equal(subjectUnderTest.prepareParametersForGetProducts(0, 20, 'random', true).indexOf('is_visible=1') === -1, true)
+      assert.equal(subjectUnderTest._prepareParametersForGetProducts(0, 20, 'random', true).indexOf('is_visible=1') === -1, true)
     })
   })
 })

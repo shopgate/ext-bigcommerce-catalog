@@ -18,7 +18,7 @@ class ShopgateProductListRepository {
    * @returns {Promise<GetProductsResponse>}
    */
   async getByCategoryId (categoryId, offset, limit, sort, showInactive) {
-    const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
+    const bigCommerceGetParameters = this._prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     bigCommerceGetParameters.push('categories:in=' + categoryId)
 
@@ -46,7 +46,7 @@ class ShopgateProductListRepository {
    * @param {boolean} showInactive
    * @returns {string[]}
    */
-  prepareParametersForGetProducts (offset, limit, sort, showInactive) {
+  _prepareParametersForGetProducts (offset, limit, sort, showInactive) {
     const parameters = []
 
     if (!showInactive) {
@@ -59,7 +59,7 @@ class ShopgateProductListRepository {
     parameters.push('page=' + this._calculateCurrentBigCommercePage(offset, limit))
     parameters.push('limit=' + limit)
 
-    Array.prototype.push.apply(parameters, this.getSortingParameters(sort))
+    Array.prototype.push.apply(parameters, this._getSortingParameters(sort))
 
     return parameters
   }
@@ -74,7 +74,7 @@ class ShopgateProductListRepository {
    */
   async getByProductIds (productIds, offset, limit, sort, showInactive) {
     const pagePromises = []
-    const bigCommerceGetParameters = this.prepareParametersForGetProducts(offset, limit, sort, showInactive)
+    const bigCommerceGetParameters = this._prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     for (const productId of productIds) {
       pagePromises.push(this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&') + '&id=' + productId))
@@ -108,7 +108,7 @@ class ShopgateProductListRepository {
     }
 
     const brands = await Promise.all(promisesForBrands)
-    this.updateProductManufacturer(brands, products)
+    this._updateProductManufacturer(brands, products)
 
     return {
       totalProductCount: totalProductsCount,
@@ -120,7 +120,7 @@ class ShopgateProductListRepository {
    * @param {string[]} brands
    * @param {ShopgateProduct[]} products
    */
-  updateProductManufacturer (brands, products) {
+  _updateProductManufacturer (brands, products) {
     for (let i = 0; i < brands.length; ++i) {
       if (typeof brands[i] === 'undefined') {
         continue
@@ -136,7 +136,7 @@ class ShopgateProductListRepository {
    * @param {string} sort
    * @returns {string[]}
    */
-  getSortingParameters (sort) {
+  _getSortingParameters (sort) {
     const sortingParameters = []
 
     switch (sort) {
