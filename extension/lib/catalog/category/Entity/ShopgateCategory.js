@@ -12,7 +12,7 @@ class ShopgateCategory {
    * @param {string} id
    * @param {string} name
    * @param {string} imageUrl
-   * @param {ShopgateParentCategoryInformation} parent
+   * @param {ShopgateParentCategoryInformation|null} parent
    * @param {number} productCount
    */
   constructor (id, name, imageUrl, parent = null, productCount = 1) {
@@ -32,7 +32,7 @@ class ShopgateCategory {
   static fromBigcommerceCategory (bigcommerceCategory, productCount = 1) {
     let parentCategory
     if (bigcommerceCategory.hasOwnProperty('parent_id')) {
-      parentCategory = new ShopgateParentCategoryInformation(bigcommerceCategory.parent_id, '')
+      parentCategory = new ShopgateParentCategoryInformation(bigcommerceCategory.parent_id.toString(), '')
     }
 
     return new this(

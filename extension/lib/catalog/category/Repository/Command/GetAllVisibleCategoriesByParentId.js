@@ -1,27 +1,21 @@
+/**
+ * @property {BigCommerce} _apiVersion3Client
+ * @property {number} _parentId
+ * @property {string[]} _includeFields
+ * @property {number} _pageSize
+ */
 class GetAllVisibleCategoriesByParentId {
   /**
    * @param {BigCommerce} apiVersion3Client
+   * @param {number} parentId
+   * @param {string[]} includeFields
    * @param {number} pageSize
    */
-  constructor (apiVersion3Client, pageSize = 250) {
+  constructor (apiVersion3Client, parentId = 0, includeFields = [], pageSize = 250) {
     this._apiVersion3Client = apiVersion3Client
-    this._parentId = null
-    this._includeFields = []
+    this._parentId = parentId
+    this._includeFields = includeFields
     this._pageSize = pageSize
-  }
-
-  /**
-   * @param {number} value
-   */
-  set parentId (value) {
-    this._parentId = value
-  }
-
-  /**
-   * @param {string[]} value
-   */
-  set includeFields (value) {
-    this._includeFields = value
   }
 
   /**

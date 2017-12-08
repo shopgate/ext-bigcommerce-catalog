@@ -1,6 +1,6 @@
 const BigcommerceCategory = require('../catalog/category/Repository/BigcommerceCategory.js')
-const GetCategoryById = require('../catalog/category/Repository/Command/GetCategoryById')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
+const BigcommerceRepositoryCommand = require('../catalog/category/Factory/BigcommerceRepositoryCommand')
 
 /**
  * @param {object} context
@@ -9,16 +9,14 @@ const BigCommerceFactory = require('./BigCommerceFactory.js')
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  const bigCommerceFactory = new BigCommerceFactory(
-    context.config.clientId,
-    context.config.accessToken,
-    context.config.storeHash
-  )
-
   const bigcommerceCategoryRepository = new BigcommerceCategory(
-    null,
-    new GetCategoryById(bigCommerceFactory.createV3()),
-    null
+    new BigcommerceRepositoryCommand(
+      new BigCommerceFactory(
+        context.config.clientId,
+        context.config.accessToken,
+        context.config.storeHash
+      )
+    )
   )
 
   bigcommerceCategoryRepository.getCategory(parseInt(input.categoryId)).then((category) => {
