@@ -6,10 +6,10 @@
 
 /**
  * @typedef {Object} AdditionalPropFilter
- * @property {number} [input.filters.additionalProp1.minimum]
- * @property {number} [input.filters.additionalProp1.maximum]
- * @property {string[]} [input.filters.additionalProp1.values]
- * @property {string} [input.filters.additionalProp1.source]
+ * @property {number} [minimum]
+ * @property {number} [maximum]
+ * @property {string[]} [values]
+ * @property {string} [source]
  */
 
 /**
