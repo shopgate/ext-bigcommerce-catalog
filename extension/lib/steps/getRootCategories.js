@@ -19,16 +19,12 @@ module.exports = function (context, input, cb) {
   )
 
   bigcommerceCategoryRepository.getRootCategories().then((categories) => {
-    context.log.info('Successfully executed @shopgate/bigcommerce-products/getRootCategories_v1')
-    context.log.info('Result:')
-    context.log.info(categories)
+    context.log.info('Successfully executed @shopgate/bigcommerce-products/getRootCategories_v1.')
+    context.log.info('Result: ' + JSON.stringify(categories))
 
     cb(null, {categories: categories})
   }).catch(function (e) {
-    console.log('---------------------------')
-    console.log('Error in bigcommerceCategory.getRootCategories:')
-    console.log(e)
-    console.log('---------------------------')
-    cb(null, {categories: []})
+    context.log.error('Failed executing @shopgate/bigcommerce-products/getRootCategories_v1.')
+    cb(e)
   })
 }

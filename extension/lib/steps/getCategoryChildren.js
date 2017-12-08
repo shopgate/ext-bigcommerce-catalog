@@ -20,17 +20,12 @@ module.exports = function (context, input, cb) {
   )
 
   bigcommerceCategoryRepository.getCategoryChildren(parseInt(input.categoryId)).then((categories) => {
-    context.log.info('Successfully executed @shopgate/bigcommerce-products/getCategoryChildren_v1')
-    context.log.info('Requested category ID: ' + input.categoryId)
-    context.log.info('Result:')
-    context.log.info(categories)
+    context.log.debug('Successfully executed @shopgate/bigcommerce-products/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
+    context.log.debug('Result: ' + JSON.stringify(categories))
 
     cb(null, {children: categories})
   }).catch(function (e) {
-    console.log('---------------------------')
-    console.log('Error in bigcommerceCategory.getCategoryChildren:')
-    console.log(e)
-    console.log('---------------------------')
-    cb(null, {children: []})
+    context.log.error('Failed executing @shopgate/bigcommerce-products/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
+    cb(e)
   })
 }
