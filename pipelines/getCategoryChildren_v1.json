@@ -12,7 +12,7 @@
       {
         "type": "extension",
         "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/categories/getCategoryChildren.js",
+        "path": "@shopgate/bigcommerce-products/lib/catalog/category/getCategoryChildren.js",
         "input": [{"key": "categoryId", "id": "1"}],
         "output": [{"key": "children", "id": "10"}]
       }, {

@@ -1,6 +1,7 @@
 const BigCommerce = require('node-bigcommerce')
 const BigcommerceCategory = require('./Repository/BigcommerceCategory.js')
 const GetAllVisibleCategoriesByParentId = require('./Repository/Command/GetAllVisibleCategoriesByParentId')
+const GetProductCountsByCategoryIds = require('./Repository/Command/GetProductCountsByCategoryIds')
 
 /**
  * @param {object} context
@@ -19,7 +20,17 @@ module.exports = function (context, input, cb) {
         apiVersion: 'v3'
       })
     ),
-    null
+    null,
+    new GetProductCountsByCategoryIds(
+      new BigCommerce({
+        logLevel: 'info',
+        clientId: '***',
+        accessToken: '***',
+        storeHash: '***',
+        responseType: 'json',
+        apiVersion: 'v2'
+      })
+    )
   )
 
   bigcommerceCategoryRepository.getRootCategories().then((categories) => {

@@ -1,6 +1,10 @@
+/**
+ * @property {string} id
+ * @property {string} name
+ */
 class ShopgateParentCategoryInformation {
   /**
-   * @param {number} id
+   * @param {string} id
    * @param {string} name
    */
   constructor (id, name) {

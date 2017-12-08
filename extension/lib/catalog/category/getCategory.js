@@ -13,7 +13,8 @@ const bigcommerceCategory = new BigcommerceCategory(
       responseType: 'json',
       apiVersion: 'v3'
     })
-  )
+  ),
+  null
 )
 
 /**

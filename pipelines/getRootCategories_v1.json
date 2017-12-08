@@ -9,7 +9,7 @@
       {
         "type": "extension",
         "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/categories/getRootCategories.js",
+        "path": "@shopgate/bigcommerce-products/lib/catalog/category/getRootCategories.js",
         "input": [],
         "output": [{"key": "categories", "id": "100"}]
       }, {

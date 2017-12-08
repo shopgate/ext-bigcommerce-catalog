@@ -21,7 +21,7 @@
       {
         "type": "extension",
         "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/categories/getCategory.js",
+        "path": "@shopgate/bigcommerce-products/lib/catalog/category/getCategory.js",
         "input": [{"key": "categoryId", "id": "1"}],
         "output": [
           {"key": "id", "id": "1000"},
