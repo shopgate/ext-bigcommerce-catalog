@@ -1,4 +1,5 @@
 const ShopgateProduct = require('./entity/ShopgateProduct.js')
+const ShopgateAvailibility = require('./ShopgateAvailability.js')
 const BigCommerceProduct = require('./readmodel/BigCommerceProduct.js')
 const ShopgateProductType = require('./ShopgateType.js')
 
@@ -63,7 +64,7 @@ class ShopgateBuilder {
   _getAvailablity () {
     return {
       text: this.bigCommerceVariant.purchasing_disabled ? this.bigCommerceVariant.purchasing_disabled_message : this.bigCommerceProduct.availability_description,
-      state: (this.bigCommerceProduct.availability === BigCommerceProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceProduct.Availability.PREORDER ? 'ok' : 'alert')
+      state: (this.bigCommerceProduct.availability === BigCommerceProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceProduct.Availability.PREORDER ? ShopgateAvailibility.OK : ShopgateAvailibility.ALERT)
     }
   }
 
