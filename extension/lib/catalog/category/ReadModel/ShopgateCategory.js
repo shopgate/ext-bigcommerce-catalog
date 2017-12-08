@@ -4,6 +4,6 @@
  * @property {string} name
  * @property {number} productCount
  * @property {string} imageUrl
- * @property {ShopgateParentCategory} parent
+ * @property {ShopgateParentCategoryInformation} parent
  * @property {ShopgateCategoryChild[]} children
  */

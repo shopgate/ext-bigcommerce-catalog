@@ -1,3 +1,4 @@
+const IntegrationCredentials = require('../../../../../../../.integration-credentials')
 const BigCommerce = require('node-bigcommerce')
 const BigcommerceCategory = require('../../../../../../../extension/lib/catalog/category/Repository/BigcommerceCategory.js')
 const GetAllVisibleCategoriesByParentId = require('../../../../../../../extension/lib/catalog/category/Repository/Command/GetAllVisibleCategoriesByParentId.js')
@@ -16,18 +17,18 @@ chai
 describe('BigcommerceCategoryTest', function () {
   const bigCommerceApiVersion3 = new BigCommerce({
     logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
+    clientId: IntegrationCredentials.clientId,
+    accessToken: IntegrationCredentials.accessToken,
+    storeHash: IntegrationCredentials.storeHash,
     responseType: 'json',
     apiVersion: 'v3'
   })
 
   const bigCommerceApiVersion2 = new BigCommerce({
     logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
+    clientId: IntegrationCredentials.clientId,
+    accessToken: IntegrationCredentials.accessToken,
+    storeHash: IntegrationCredentials.storeHash,
     responseType: 'json',
     apiVersion: 'v2'
   })

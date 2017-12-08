@@ -1,21 +1,6 @@
-const BigCommerce = require('node-bigcommerce')
-const BigcommerceCategory = require('./Repository/BigcommerceCategory.js')
-const GetCategoryById = require('./Repository/Command/GetCategoryById')
-
-const bigcommerceCategory = new BigcommerceCategory(
-  null,
-  new GetCategoryById(
-    new BigCommerce({
-      logLevel: 'info',
-      clientId: '***',
-      accessToken: '***',
-      storeHash: '***',
-      responseType: 'json',
-      apiVersion: 'v3'
-    })
-  ),
-  null
-)
+const BigcommerceCategory = require('../catalog/category/Repository/BigcommerceCategory.js')
+const GetCategoryById = require('../catalog/category/Repository/Command/GetCategoryById')
+const BigCommerceFactory = require('./BigCommerceFactory.js')
 
 /**
  * @param {object} context
@@ -24,7 +9,21 @@ const bigcommerceCategory = new BigcommerceCategory(
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  bigcommerceCategory.getCategory(parseInt(input.categoryId)).then((category) => {
+  const bigCommerceFactory = new BigCommerceFactory()
+
+  const bigcommerceCategoryRepository = new BigcommerceCategory(
+    null,
+    new GetCategoryById(
+      bigCommerceFactory.createV3(
+        context.config.clientId,
+        context.config.accessToken,
+        context.config.storeHash
+      )
+    ),
+    null
+  )
+
+  bigcommerceCategoryRepository.getCategory(parseInt(input.categoryId)).then((category) => {
     context.log.info('Successfully executed @shopgate/bigcommerce-products/getCategory_v1')
     context.log.info('Requested category ID: ' + input.categoryId)
     context.log.info('Result:')

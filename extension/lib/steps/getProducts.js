@@ -1,6 +1,6 @@
 const ProductListRepository = require('../../lib/catalog/ShopgateProductListRepository.js')
 const ShopgateGetProducts = require('../catalog/product/ShopgateGetProducts.js')
-const BigComerceFactory = require('./BigCommerceFactory.js')
+const BigCommerceFactory = require('./BigCommerceFactory.js')
 
 /**
  * @param {Object} context
@@ -19,8 +19,8 @@ module.exports = function (context, input, cb) {
     return
   }
 
-  const bigComerceFactory = new BigComerceFactory()
-  const productListRepository = new ProductListRepository(bigComerceFactory.createV3(
+  const bigCommerceFactory = new BigCommerceFactory()
+  const productListRepository = new ProductListRepository(bigCommerceFactory.createV3(
     context.config.clientId,
     context.config.accessToken,
     context.config.storeHash
