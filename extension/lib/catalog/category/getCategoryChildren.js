@@ -35,6 +35,11 @@ module.exports = function (context, input, cb) {
   )
 
   bigcommerceCategory.getCategoryChildren(parseInt(input.categoryId)).then((categories) => {
+    context.log.info('Successfully executed @shopgate/bigcommerce-products/getCategoryChildren_v1')
+    context.log.info('Requested category ID: ' + input.categoryId)
+    context.log.info('Result:')
+    context.log.info(categories)
+
     cb(null, {children: categories})
   }).catch(function (e) {
     console.log('---------------------------')

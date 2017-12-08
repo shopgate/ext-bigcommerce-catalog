@@ -25,7 +25,12 @@ const bigcommerceCategory = new BigcommerceCategory(
  */
 module.exports = function (context, input, cb) {
   bigcommerceCategory.getCategory(parseInt(input.categoryId)).then((category) => {
-    cb(null, category)
+    context.log.info('Successfully executed @shopgate/bigcommerce-products/getCategory_v1')
+    context.log.info('Requested category ID: ' + input.categoryId)
+    context.log.info('Result:')
+    context.log.info(category)
+
+    cb(null, {category: category})
   }).catch(function (e) {
     console.log('---------------------------')
     console.log('Error in bigCommerceCategoryApi.getCategory:')
