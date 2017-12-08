@@ -1,6 +1,7 @@
 const BigCommerce = require('node-bigcommerce')
 const BigcommerceCategory = require('../../../../../../../extension/lib/catalog/category/Repository/BigcommerceCategory.js')
 const GetAllVisibleCategoriesByParentId = require('../../../../../../../extension/lib/catalog/category/Repository/Command/GetAllVisibleCategoriesByParentId.js')
+const GetProductCountsByCategoryIds = require('../../../../../../../extension/lib/catalog/category/Repository/Command/GetProductCountsByCategoryIds.js')
 // const assert = require('assert')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
@@ -13,7 +14,7 @@ chai
   .should()
 
 describe('BigcommerceCategoryTest', function () {
-  const bigCommerceApi = new BigCommerce({
+  const bigCommerceApiVersion3 = new BigCommerce({
     logLevel: 'info',
     clientId: '***',
     accessToken: '***',
@@ -21,21 +22,28 @@ describe('BigcommerceCategoryTest', function () {
     responseType: 'json',
     apiVersion: 'v3'
   })
-  const getAllVisibleCategoriesByParentIdCommand = new GetAllVisibleCategoriesByParentId(bigCommerceApi)
+
+  const bigCommerceApiVersion2 = new BigCommerce({
+    logLevel: 'info',
+    clientId: '***',
+    accessToken: '***',
+    storeHash: '***',
+    responseType: 'json',
+    apiVersion: 'v2'
+  })
+  const getAllVisibleCategoriesByParentIdCommand = new GetAllVisibleCategoriesByParentId(bigCommerceApiVersion3)
+  const getProductCountsByCategoryIds = new GetProductCountsByCategoryIds(bigCommerceApiVersion2)
 
   describe('#getRootCategories', function () {
     it('calls GetAllVisibleCategoriesByParentId#execute', function () {
-      let subjectUnderTest = new BigcommerceCategory(getAllVisibleCategoriesByParentIdCommand, null)
+      let subjectUnderTest = new BigcommerceCategory(getAllVisibleCategoriesByParentIdCommand, null, getProductCountsByCategoryIds)
 
       return subjectUnderTest.getRootCategories().should.eventually.containSubset([
         {
           id: 19,
           imageUrl: '',
           name: 'Integration test *Do not touch*',
-          parent: {
-            id: 0,
-            name: ''
-          }
+          productCount: 3
         }
       ])
     })
