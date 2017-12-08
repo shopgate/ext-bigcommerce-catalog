@@ -3,10 +3,8 @@ const BigCommerce = require('node-bigcommerce')
 const BigcommerceCategory = require('../../../../../../../extension/lib/catalog/category/Repository/BigcommerceCategory.js')
 const GetAllVisibleCategoriesByParentId = require('../../../../../../../extension/lib/catalog/category/Repository/Command/GetAllVisibleCategoriesByParentId.js')
 const GetProductCountsByCategoryIds = require('../../../../../../../extension/lib/catalog/category/Repository/Command/GetProductCountsByCategoryIds.js')
-// const assert = require('assert')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
-// const chaiThings = require('chai-things')
 const chaiSubset = require('chai-subset')
 
 chai

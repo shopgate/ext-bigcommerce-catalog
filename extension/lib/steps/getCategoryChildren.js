@@ -10,24 +10,16 @@ const BigCommerceFactory = require('./BigCommerceFactory.js')
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  const bigCommerceFactory = new BigCommerceFactory()
+  const bigCommerceFactory = new BigCommerceFactory(
+    context.config.clientId,
+    context.config.accessToken,
+    context.config.storeHash
+  )
 
   const bigcommerceCategoryRepository = new BigcommerceCategory(
-    new GetAllVisibleCategoriesByParentId(
-      bigCommerceFactory.createV3(
-        context.config.clientId,
-        context.config.accessToken,
-        context.config.storeHash
-      )
-    ),
+    new GetAllVisibleCategoriesByParentId(bigCommerceFactory.createV3()),
     null,
-    new GetProductCountsByCategoryIds(
-      bigCommerceFactory.createV2(
-        context.config.clientId,
-        context.config.accessToken,
-        context.config.storeHash
-      )
-    )
+    new GetProductCountsByCategoryIds(bigCommerceFactory.createV2())
   )
 
   bigcommerceCategoryRepository.getCategoryChildren(parseInt(input.categoryId)).then((categories) => {
