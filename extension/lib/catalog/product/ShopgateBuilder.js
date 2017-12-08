@@ -113,13 +113,6 @@ class ShopgateBuilder {
   }
 
   /**
-   * @returns {string}
-   */
-  getBrandId () {
-    return this.bigCommerceProduct.brand_id
-  }
-
-  /**
    * @returns {ShopgateProductStock}
    */
   _getStock () {

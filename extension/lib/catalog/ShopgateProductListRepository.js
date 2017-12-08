@@ -103,7 +103,7 @@ class ShopgateProductListRepository {
 
         products.push(shopgateProductBuilder.build())
 
-        promisesForBrands.push(this.getBrandAsync(shopgateProductBuilder.getBrandId()))
+        promisesForBrands.push(this.getBrandAsync(bigCommerceProductData.brand_id))
       }
     }
 
