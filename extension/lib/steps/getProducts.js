@@ -1,17 +1,6 @@
-const BigCommerceApi = require('node-bigcommerce')
 const ProductListRepository = require('../../lib/catalog/ShopgateProductListRepository.js')
 const ShopgateGetProducts = require('../catalog/product/ShopgateGetProducts.js')
-
-const productListRepository = new ProductListRepository(
-  new BigCommerceApi({
-    logLevel: 'info',
-    clientId: '***',
-    accessToken: '***',
-    storeHash: '***',
-    responseType: 'json',
-    apiVersion: 'v3'
-  })
-)
+const BigComerceFactory = require('./BigCommerceFactory.js')
 
 /**
  * @param {Object} context
@@ -27,7 +16,15 @@ module.exports = function (context, input, cb) {
       totalProductCount: 0,
       products: []
     })
+    return
   }
+
+  const bigComerceFactory = new BigComerceFactory()
+  const productListRepository = new ProductListRepository(bigComerceFactory.createV3(
+    context.config.clientId,
+    context.config.accessToken,
+    context.config.storeHash
+  ))
 
   if (getByProductIds) {
     productListRepository.getByProductIds(
