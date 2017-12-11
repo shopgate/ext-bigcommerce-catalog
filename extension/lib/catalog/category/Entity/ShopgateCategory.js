@@ -12,7 +12,7 @@ class ShopgateCategory {
    * @param {string} id
    * @param {string} name
    * @param {string} imageUrl
-   * @param {ShopgateParentCategoryInformation} parent
+   * @param {ShopgateParentCategoryInformation|null} parent
    * @param {number} productCount
    */
   constructor (id, name, imageUrl, parent = null, productCount = 1) {
