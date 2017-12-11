@@ -15,9 +15,10 @@ fs.writeFile(integrationTestCredentialFile, 'module.exports = {\n' +
   '  accessToken: \'***\',\n' +
   '  storeHash: \'***\'\n' +
   '}', {flag: 'wx'}, function (err) {
-  if (err) {
-    return true
+    if (err) {
+      return true
+    }
   }
-})
+)
 
 Module._initPaths()
