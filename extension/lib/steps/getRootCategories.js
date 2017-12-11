@@ -7,7 +7,7 @@ const BigcommerceRepositoryCommand = require('../catalog/category/Factory/Bigcom
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {Function} cb
  */
-module.exports = function (context, input, cb) {
+module.exports = async function (context, input, cb) {
   const bigcommerceCategoryRepository = new BigcommerceCategory(
     new BigcommerceRepositoryCommand(
       new BigCommerceFactory(
@@ -18,13 +18,15 @@ module.exports = function (context, input, cb) {
     )
   )
 
-  bigcommerceCategoryRepository.getRootCategories().then((categories) => {
+  const categories = await bigcommerceCategoryRepository.getRootCategories()
+
+  try {
     context.log.info('Successfully executed @shopgate/bigcommerce-products/getRootCategories_v1.')
     context.log.info('Result: ' + JSON.stringify(categories))
 
     cb(null, {categories: categories})
-  }).catch(function (e) {
+  } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-products/getRootCategories_v1.')
-    cb(e)
-  })
+    cb(error)
+  }
 }
