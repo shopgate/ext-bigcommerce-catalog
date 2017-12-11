@@ -6,13 +6,19 @@
     "test": "./node_modules/.bin/_mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
     "testIntegration": "./node_modules/.bin/_mocha --require ../test/setupBackend.js --recursive ../test/integration",
     "cover": "./node_modules/.bin/istanbul cover --dir ./coverage _mocha -- --require ../test/setupBackend.js --recursive ../test/unit",
-    "standard": "./node_modules/.bin/standard"
+    "standard": "./node_modules/.bin/standard",
+    "dependency": "./node_modules/.bin/nsp check"
   },
   "repository": {
     "type": "git",
     "url": "ssh://git@stash.localdev.cc:7999/sgx/bigcommerce-products.git"
   },
-  "license": "UNLICENSED",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "https://opensource.org/licenses/apache2.0.php"
+    }
+  ],
   "dependencies": {
     "node-bigcommerce": "^3.0.0",
     "stable": "^0.1.6"
@@ -25,6 +31,7 @@
     "mocha": "^3.2.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "nock": "^9.0.13",
+    "nsp": "^3.1.0",
     "request": "^2.83.0",
     "sinon": "^4.1.2",
     "standard": "^10.0.3"

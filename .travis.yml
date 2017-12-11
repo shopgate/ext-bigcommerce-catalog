@@ -11,6 +11,7 @@ script:
 - npm run test
 - npm run testIntegration
 - npm run standard
+- npm run dependency
 
 notifications:
   slack:
