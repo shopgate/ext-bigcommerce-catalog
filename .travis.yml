@@ -7,9 +7,10 @@ install:
 - cd extension; npm install; cd ..
 
 script:
-- cd extension; npm run test; cd ..
-- cd extension; npm run testIntegration; cd ..
-- cd extension; npm run standard; cd ..
+- cd extension;
+- npm run test
+- npm run testIntegration
+- npm run standard
 
 notifications:
   slack:
