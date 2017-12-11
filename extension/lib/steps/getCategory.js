@@ -1,6 +1,6 @@
 const BigcommerceCategory = require('../catalog/category/Repository/BigcommerceCategory.js')
-const GetCategoryById = require('../catalog/category/Repository/Command/GetCategoryById')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
+const BigcommerceRepositoryCommand = require('../catalog/category/Factory/BigcommerceRepositoryCommand')
 
 /**
  * @param {object} context
@@ -9,32 +9,23 @@ const BigCommerceFactory = require('./BigCommerceFactory.js')
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
-  const bigCommerceFactory = new BigCommerceFactory()
-
   const bigcommerceCategoryRepository = new BigcommerceCategory(
-    null,
-    new GetCategoryById(
-      bigCommerceFactory.createV3(
+    new BigcommerceRepositoryCommand(
+      new BigCommerceFactory(
         context.config.clientId,
         context.config.accessToken,
         context.config.storeHash
       )
-    ),
-    null
+    )
   )
 
   bigcommerceCategoryRepository.getCategory(parseInt(input.categoryId)).then((category) => {
-    context.log.info('Successfully executed @shopgate/bigcommerce-products/getCategory_v1')
-    context.log.info('Requested category ID: ' + input.categoryId)
-    context.log.info('Result:')
-    context.log.info(category)
+    context.log.debug('Successfully executed @shopgate/bigcommerce-products/getCategory_v1 with categoryId: ' + input.categoryId)
+    context.log.debug('Result: ' + JSON.stringify(category))
 
-    cb(null, {category: category})
+    cb(null, category)
   }).catch(function (e) {
-    console.log('---------------------------')
-    console.log('Error in bigCommerceCategoryApi.getCategory:')
-    console.log(e)
-    console.log('---------------------------')
-    cb(null, {})
+    context.log.error('Failed executing @shopgate/bigcommerce-products/getCategory_v1 with categoryId: ' + input.categoryId)
+    cb(e)
   })
 }

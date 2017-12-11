@@ -19,12 +19,12 @@ module.exports = function (context, input, cb) {
     return
   }
 
-  const bigCommerceFactory = new BigCommerceFactory()
-  const productListRepository = new ProductListRepository(bigCommerceFactory.createV3(
+  const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
     context.config.storeHash
-  ))
+  )
+  const productListRepository = new ProductListRepository(bigCommerceFactory.createV3())
 
   if (getByProductIds) {
     productListRepository.getByProductIds(

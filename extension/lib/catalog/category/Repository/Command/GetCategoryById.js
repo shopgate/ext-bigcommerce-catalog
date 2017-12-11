@@ -1,17 +1,15 @@
+/**
+ * @property {BigCommerce} _apiVersion3Client
+ * @property {number} _categoryId
+ */
 class GetCategoryById {
   /**
    * @param {BigCommerce} apiVersion3Client
+   * @param {number} categoryId
    */
-  constructor (apiVersion3Client) {
+  constructor (apiVersion3Client, categoryId) {
     this._apiVersion3Client = apiVersion3Client
-    this._categoryId = null
-  }
-
-  /**
-   * @param {number} value
-   */
-  set categoryId (value) {
-    this._categoryId = value
+    this._categoryId = categoryId
   }
 
   /**

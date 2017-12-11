@@ -32,7 +32,7 @@ class ShopgateCategory {
   static fromBigcommerceCategory (bigcommerceCategory, productCount = 1) {
     let parentCategory
     if (bigcommerceCategory.hasOwnProperty('parent_id')) {
-      parentCategory = new ShopgateParentCategoryInformation(bigcommerceCategory.parent_id, '')
+      parentCategory = new ShopgateParentCategoryInformation(bigcommerceCategory.parent_id.toString(), '')
     }
 
     return new this(

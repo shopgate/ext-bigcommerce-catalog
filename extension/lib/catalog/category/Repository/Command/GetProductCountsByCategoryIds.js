@@ -1,21 +1,15 @@
 /**
  * @property {BigCommerce} _apiVersion2Client
- * @proptery {string[]} _categoryIds
+ * @proptery {number[]} _categoryIds
  */
 class GetProductCountsByCategoryIds {
   /**
    * @param {BigCommerce} apiVersion2Client
+   * @param {number[]} categoryIds
    */
-  constructor (apiVersion2Client) {
+  constructor (apiVersion2Client, categoryIds) {
     this._apiVersion2Client = apiVersion2Client
-    this._categoryIds = []
-  }
-
-  /**
-   * @param {string[]} value
-   */
-  set categoryIds (value) {
-    this._categoryIds = value
+    this._categoryIds = categoryIds
   }
 
   /**
