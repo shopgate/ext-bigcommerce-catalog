@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+- 8
+
+before_script:
+- npm install
+
+script:
+- cd extension; npm test; cd ..
+- cd extension; npm testIntegration; cd ..
+- cd extension; npm standard; cd ..
+
+notifications:
+  slack:
+    on_success: change
+    on_failure: always
+    secure: ZmHtaI/Z2M6Z2+lgn9z7ZaTtvcd9RWEjZ30/nLiUiSOiXfIEbnps0XspYvt9IxA42yRNBj/HDVvNdz+ZC2QH2heSH8HT0OD97qLA3NC6xFwO42IHwKiwieCF/3QvO6OmsLXawk9Erk6O4apttLr7X4dkptXXucpBMDp3ZzffsOJpaxw6QIS9XZxK3a1lDor2uU/spKemshpGvKDtmNj6chmH7+DQsO2L9ytOroNZBbYFClW/GhGuNwHRcZSr/slawx6x+j6VylPVT2xv285VLan3lEWRzt06gGsuFBubPO531b/5ln9VeOWTVlmjXgx+1/HPH5rLb32irRkjitQFtP35xuZafB7oJrSm4gaZrQ3wONQTfYBFRmcsCnOSX9xBubhBRggfS1yu2xhQDVbzOBfO88ygB6W8sUd+hxwyKD8bc+935VGloasdk6O6oPCCjC79Kb6nfrPCaLvZFwC7O0Fn82nNzX1AG95czN9DE/VifoGaph/YFIEZP4ORGK3gjFIhuC0oim3AVNf4ZxKkB2Tcay+kIVEOHEtMGmpuzQViUYBDg1L6qzDv9VPDODq89KAtYff4TutbdoFLa0y7Hu6kQhIFprpr0BXC800M8lJTBzMe1zRtbDfP3x3tpkj2pGklJca+5KX/rmoZsoLOjThMaKaA3fLk63SfcCnDvUY=
