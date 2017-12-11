@@ -60,9 +60,37 @@ class BigcommerceCategory {
    * @return {Promise<ShopgateCategory>}
    */
   async getCategory (categoryId) {
+    const promiseResults = await Promise.all([
+      this._commandFactory.buildGetCategoryById(categoryId).execute(),
+      this._commandFactory.buildGetProductCountsByCategoryIds([categoryId]).execute(),
+      this._commandFactory.buildGetChildCategoryCountByCategoryId(categoryId).execute()
+    ])
+
     return ShopgateCategory.fromBigcommerceCategory(
-      await this._commandFactory.buildGetCategoryById(categoryId).execute()
-    )
+      promiseResults[0], // the category data itself
+      promiseResults[1][0], // product count
+      promiseResults[2] // child category count
+    ).toShopgateCategory()
+  }
+
+  /**
+   * @param {number} categoryId
+   *
+   * @return {Promise<ShopgateCategory>}
+   */
+  async getCategoryWithChildren (categoryId) {
+    const promiseResults = await Promise.all([
+      this._commandFactory.buildGetCategoryById(categoryId).execute(),
+      this._commandFactory.buildGetProductCountsByCategoryIds([categoryId]).execute(),
+      this._commandFactory.buildGetAllVisibleCategoriesByParentId(categoryId).execute()
+    ])
+
+    return ShopgateCategory.fromBigcommerceCategory(
+      promiseResults[0], // the category data itself
+      promiseResults[1][0], // product count
+      promiseResults[2].length, // child category count
+      this._buildShopgateCategories(promiseResults[2]) // child categories
+    ).toShopgateCategory()
   }
 
   /**
@@ -90,8 +118,29 @@ class BigcommerceCategory {
    * @private
    */
   _buildShopgateChildCategories (bigcommerceCategories) {
-    // these happen to be the same as ShopgateRootCategory as of 2017-12-07:
-    return this._buildShopgateRootCategories(bigcommerceCategories)
+    let resultCategories = []
+
+    for (let bigcommerceCategory of bigcommerceCategories) {
+      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateChildCategory())
+    }
+    return resultCategories
+  }
+
+  /**
+   *
+   * @param bigcommerceCategories
+   *
+   * @return {ShopgateCategory[]}
+   *
+   * @private
+   */
+  _buildShopgateCategories (bigcommerceCategories) {
+    let resultCategories = []
+
+    for (let bigcommerceCategory of bigcommerceCategories) {
+      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateCategory())
+    }
+    return resultCategories
   }
 }
 
