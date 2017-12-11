@@ -6,9 +6,11 @@ const BigcommerceRepositoryCommand = require('../catalog/category/Factory/Bigcom
  * @param {object} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {string} input.categoryId
+ * @param {boolean} input.includeChildren
+ * @param {string} input.childrenSort
  * @param {Function} cb
  */
-module.exports = function (context, input, cb) {
+module.exports = async function (context, input, cb) {
   const bigcommerceCategoryRepository = new BigcommerceCategory(
     new BigcommerceRepositoryCommand(
       new BigCommerceFactory(
@@ -19,13 +21,21 @@ module.exports = function (context, input, cb) {
     )
   )
 
-  bigcommerceCategoryRepository.getCategory(parseInt(input.categoryId)).then((category) => {
+  const categoryId = parseInt(input.categoryId)
+
+  try {
+    const category = await (
+      input.includeChildren
+        ? bigcommerceCategoryRepository.getCategoryWithChildren(categoryId)
+        : bigcommerceCategoryRepository.getCategory(categoryId)
+    )
+
     context.log.debug('Successfully executed @shopgate/bigcommerce-products/getCategory_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(category))
 
     cb(null, category)
-  }).catch(function (e) {
+  } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-products/getCategory_v1 with categoryId: ' + input.categoryId)
-    cb(e)
-  })
+    cb(error)
+  }
 }
