@@ -4,7 +4,7 @@ node_js:
 - 8
 
 install:
-- npm install
+- cd extension; npm install; cd ..
 
 script:
 - cd extension; npm run test; cd ..
