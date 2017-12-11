@@ -44,7 +44,7 @@ class BigcommerceRepositoryCommand {
    * @return {GetProductCountsByCategoryIds}
    */
   buildGetProductCountsByCategoryIds (categoryIds) {
-    return new GetProductCountsByCategoryIds(this._bigCommerceFactory.createV2(), categoryIds)
+    return new GetProductCountsByCategoryIds(this._bigCommerceFactory.createV3(), categoryIds)
   }
 }
 

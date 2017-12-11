@@ -24,7 +24,7 @@ class BigcommerceCategory {
     ).execute()
 
     for (let i = 0; i < shopgateCategories.length; i++) {
-      shopgateCategories[i].productCount = bigcommerceProductCounts[i].count
+      shopgateCategories[i].productCount = bigcommerceProductCounts[i]
     }
 
     return shopgateCategories
@@ -48,7 +48,7 @@ class BigcommerceCategory {
     ).execute()
 
     for (let i = 0; i < shopgateCategories.length; i++) {
-      shopgateCategories[i].productCount = bigcommerceProductCounts[i].count
+      shopgateCategories[i].productCount = bigcommerceProductCounts[i]
     }
 
     return shopgateCategories

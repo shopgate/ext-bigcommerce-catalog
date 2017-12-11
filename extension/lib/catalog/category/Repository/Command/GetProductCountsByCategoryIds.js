@@ -1,28 +1,36 @@
 /**
- * @property {BigCommerce} _apiVersion2Client
+ * @property {BigCommerce} _apiVersion3Client
  * @proptery {number[]} _categoryIds
  */
 class GetProductCountsByCategoryIds {
   /**
-   * @param {BigCommerce} apiVersion2Client
+   * @param {BigCommerce} apiVersion3Client
    * @param {number[]} categoryIds
    */
-  constructor (apiVersion2Client, categoryIds) {
-    this._apiVersion2Client = apiVersion2Client
+  constructor (apiVersion3Client, categoryIds) {
+    this._apiVersion3Client = apiVersion3Client
     this._categoryIds = categoryIds
   }
 
   /**
-   * @return {BigcommerceProductCount[]}
+   * @return {int[]}
    */
   async execute () {
-    let productCountPromises = []
+    let productsPromises = []
 
     for (let categoryId of this._categoryIds) {
-      productCountPromises.push(this._apiVersion2Client.get('/products/count/?category=' + categoryId))
+      productsPromises.push(
+        this._apiVersion3Client.get('/catalog/products/?categories:in=' + categoryId + '&include_fields=id&limit=1')
+      )
     }
 
-    return Promise.all(productCountPromises)
+    const products = await Promise.all(productsPromises)
+    let productCounts = []
+    for (let product of products) {
+      productCounts.push(product.meta.pagination.total)
+    }
+
+    return productCounts
   }
 }
 
