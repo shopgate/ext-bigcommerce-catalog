@@ -3,13 +3,13 @@ language: node_js
 node_js:
 - 8
 
-before_script:
+install:
 - npm install
 
 script:
-- cd extension; npm test; cd ..
-- cd extension; npm testIntegration; cd ..
-- cd extension; npm standard; cd ..
+- cd extension; npm run test; cd ..
+- cd extension; npm run testIntegration; cd ..
+- cd extension; npm run standard; cd ..
 
 notifications:
   slack:
