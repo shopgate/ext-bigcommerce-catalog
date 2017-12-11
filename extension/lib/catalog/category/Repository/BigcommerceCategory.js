@@ -33,7 +33,7 @@ class BigcommerceCategory {
   /**
    * @param {number} categoryId
    *
-   * @return ShopgateCategory[]
+   * @return {Promise<ShopgateCategoryChild[]>}
    */
   async getCategoryChildren (categoryId) {
     let shopgateCategories = this._buildShopgateChildCategories(
@@ -57,7 +57,7 @@ class BigcommerceCategory {
   /**
    * @param {number} categoryId
    *
-   * @return ShopgateCategory
+   * @return {Promise<ShopgateCategory>}
    */
   async getCategory (categoryId) {
     return ShopgateCategory.fromBigcommerceCategory(

@@ -19,7 +19,7 @@ class GetAllVisibleCategoriesByParentId {
   }
 
   /**
-   * @return {BigcommerceCategory[]}
+   * @return {Promise<BigcommerceCategory[]>}
    */
   async execute () {
     const firstPage = await this._getFirstPage()

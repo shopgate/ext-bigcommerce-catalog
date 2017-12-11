@@ -13,7 +13,7 @@ class GetProductCountsByCategoryIds {
   }
 
   /**
-   * @return {int[]}
+   * @return {Promise<number[]>}
    */
   async execute () {
     let productsPromises = []
