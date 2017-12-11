@@ -30,9 +30,6 @@
     "standard": "^10.0.3"
   },
   "standard": {
-    "ignore": [
-      "/products/sortCharacteristics.js"
-    ],
     "env": {
       "mocha": true,
       "chai": true,
