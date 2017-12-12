@@ -58,7 +58,7 @@ class GetAllVisibleCategoriesByParentId {
   async _getSubsequentPages (totalPages) {
     const pagePromises = []
 
-    for (let pageCounter = 2; pageCounter < totalPages; pageCounter++) {
+    for (let pageCounter = 2; pageCounter <= totalPages; pageCounter++) {
       pagePromises.push(
         this._apiVersion3Client.get(
           '/catalog/categories?parent_id=' + this._parentId +
