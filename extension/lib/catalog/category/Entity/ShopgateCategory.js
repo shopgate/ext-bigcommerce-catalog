@@ -14,10 +14,10 @@ class ShopgateCategory {
    * @param {string} id
    * @param {string} name
    * @param {string} imageUrl
-   * @param {ShopgateParentCategoryInformation|null} parent
-   * @param {number} productCount
-   * @param {number} childrenCount
-   * @param {ShopgateCategory[]} children
+   * @param {ShopgateParentCategoryInformation|null} [parent]
+   * @param {number} [productCount]
+   * @param {number} [childrenCount]
+   * @param {ShopgateCategory[]} [children]
    */
   constructor (id, name, imageUrl, parent = null, productCount = 1, childrenCount = 0, children = []) {
     this._id = id
