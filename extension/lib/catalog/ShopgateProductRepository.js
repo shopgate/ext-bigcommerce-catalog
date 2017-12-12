@@ -2,12 +2,12 @@ const ShopgateProductBuilder = require('./product/ShopgateBuilder')
 
 class ShopgateProductRepository {
   /**
-   * @param {BigCommerce} client
+   * @param {BigCommerce} apiVersion3Client
    * @param {BigCommerceConfigurationRepository} bigCommerceConfigRepository
    */
-  constructor (client, bigCommerceConfigRepository) {
-    this.client = client
-    this.bigCommerceConfigRepository = bigCommerceConfigRepository
+  constructor (apiVersion3Client, bigCommerceConfigRepository) {
+    this._client = apiVersion3Client
+    this._bigCommerceConfigRepository = bigCommerceConfigRepository
   }
 
   /**
@@ -15,8 +15,8 @@ class ShopgateProductRepository {
    * @returns {Promise<ShopgateProduct>}
    */
   async get (id) {
-    const response = await this.client.get('/catalog/products/' + id + '?include=variants')
-    const shopgateProductBuilder = new ShopgateProductBuilder(response.data, await this.bigCommerceConfigRepository.getCurrency())
+    const response = await this._client.get('/catalog/products/' + id + '?include=variants')
+    const shopgateProductBuilder = new ShopgateProductBuilder(response.data, await this._bigCommerceConfigRepository.getCurrency())
 
     return shopgateProductBuilder.build()
   }
