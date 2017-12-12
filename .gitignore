@@ -1,5 +1,6 @@
 .DS_Store
 build
+coverage
 extension/coverage
 extension/node_modules
 .idea/

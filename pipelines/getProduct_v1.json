@@ -1,0 +1,58 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getProduct_v1",
+    "public": true,
+    "input": [
+      {"key": "productId", "id": "1"}
+    ],
+    "output": [
+      {"key": "id", "id": "100"},
+      {"key": "name", "id": "101"},
+      {"key": "manufacturer", "id": "104"},
+      {"key": "identifiers", "id": "105"},
+      {"key": "ageRating", "id": "106"},
+      {"key": "stock", "id": "107"},
+      {"key": "rating", "id": "108"},
+      {"key": "flags", "id": "109"},
+      {"key": "parent", "id": "301"},
+      {"key": "featuredImageUrl", "id": "200"},
+      {"key": "price", "id": "300"},
+      {"key": "liveshoppings", "id": "310"},
+      {"key": "highlight", "id": "320"},
+      {"key": "availability", "id": "330"},
+      {"key": "active", "id": "340"},
+      {"key": "characteristics", "id": "350"},
+      {"key": "type", "id": "360"},
+      {"key": "tags", "id": "370"}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-products",
+        "path": "@shopgate/bigcommerce-products/lib/steps/getProduct.js",
+        "input": [ {"key": "productId", "id": "1"} ],
+        "output": [
+          {"key": "id", "id": "100"},
+          {"key": "name", "id": "101"},
+          {"key": "manufacturer", "id": "104"},
+          {"key": "identifiers", "id": "105"},
+          {"key": "ageRating", "id": "106"},
+          {"key": "stock", "id": "107"},
+          {"key": "rating", "id": "108"},
+          {"key": "flags", "id": "109"},
+          {"key": "parent", "id": "301"},
+          {"key": "featuredImageUrl", "id": "200"},
+          {"key": "price", "id": "300"},
+          {"key": "liveshoppings", "id": "310"},
+          {"key": "highlight", "id": "320"},
+          {"key": "availability", "id": "330"},
+          {"key": "active", "id": "340"},
+          {"key": "characteristics", "id": "350"},
+          {"key": "type", "id": "360"},
+          {"key": "tags", "id": "370"}
+        ]
+      }
+    ]
+  }
+}

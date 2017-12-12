@@ -6,10 +6,12 @@ const ShopgateProductType = require('./ShopgateType.js')
 class ShopgateBuilder {
   /**
    * @param {BigCommerceProduct} bigCommereProduct
+   * @param {string} bigCommerceStoreCurrency
    */
-  constructor (bigCommereProduct) {
+  constructor (bigCommereProduct, bigCommerceStoreCurrency) {
     this.bigCommerceProduct = bigCommereProduct
     this.bigCommerceVariant = bigCommereProduct.variants[0]
+    this.bigCommerceStoreCurrency = bigCommerceStoreCurrency
   }
 
   /**
@@ -24,6 +26,8 @@ class ShopgateBuilder {
       name: this._getName(),
       stock: this._getStock(),
       rating: this._getRating(),
+      manufacturer: '',
+      ageRating: 0,
       featuredImageUrl: this._getFeaturedImageUrl(),
       price: this._getPrice(),
       flags: this._getFlags(),
@@ -200,7 +204,7 @@ class ShopgateBuilder {
       unitPriceWithTax: this.bigCommerceProduct.calculated_price,
       taxAmount: 0.00,
       taxPercent: 19.00,
-      currency: 'USD'
+      currency: this.bigCommerceStoreCurrency
     }
 
     if (
