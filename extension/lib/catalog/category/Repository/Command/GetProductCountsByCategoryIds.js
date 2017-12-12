@@ -1,6 +1,6 @@
 /**
  * @property {BigCommerce} _apiVersion3Client
- * @proptery {number[]} _categoryIds
+ * @property {number[]} _categoryIds
  */
 class GetProductCountsByCategoryIds {
   /**
