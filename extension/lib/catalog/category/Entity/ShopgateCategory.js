@@ -29,39 +29,60 @@ class ShopgateCategory {
     this._children = children
   }
 
+  /**
+   * @returns {string}
+   */
   get id () {
     return this._id
   }
 
+  /**
+   * @returns {string}
+   */
   get name () {
     return this._name
   }
 
+  /**
+   * @returns {string}
+   */
   get imageUrl () {
     return this._imageUrl
   }
 
+  /**
+   * @returns {ShopgateParentCategoryInformation}
+   */
   get parent () {
     return this._parent
   }
 
+  /**
+   * @returns {number}
+   */
   get productCount () {
     return this._productCount
   }
 
+  /**
+   * @returns {number}
+   */
   get childrenCount () {
     return this._childrenCount
   }
 
+  /**
+   * @returns {ShopgateCategory[]}
+   */
   get children () {
     return this._children
   }
 
   /**
    * @param {BigCommerceCategory} bigCommerceCategory
-   * @param {number} productCount
-   * @param {number} childrenCount
-   * @param {ShopgateCategory[]} children
+   * @param {number} [productCount]
+   * @param {number} [childrenCount]
+   * @param {ShopgateCategory[]} [children]
    *
    * @return {ShopgateCategory}
    */
