@@ -13,7 +13,7 @@ describe('Product properties by product id', () => {
     const expectedProperties = [
       {
         label: 'Weight',
-        value: 230
+        value: '230'
       },
       {
         label: 'Weight unit',

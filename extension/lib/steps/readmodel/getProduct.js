@@ -1,10 +1,10 @@
 /**
- * @typedef GetProductCallback
+ * @callback GetProductCallback
  * @property {Error} [error]
  * @property {ShopgateProduct} [product]
  */
 
 /**
- * @typedef GetProductInput
+ * @typedef {Object} GetProductInput
  * @property {number} productId
  */

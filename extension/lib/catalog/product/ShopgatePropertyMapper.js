@@ -1,4 +1,5 @@
 const ShopgateProperty = require('./ShopgateProperty')
+
 class ShopgatePropertyMapper {
   /**
    * @param {ShopgateWeight} weight
@@ -8,7 +9,7 @@ class ShopgatePropertyMapper {
     return [
       new ShopgateProperty(
         'Weight',
-        weight.amount
+        String(weight.amount)
       ),
       new ShopgateProperty('Weight unit', weight.unit)
     ]

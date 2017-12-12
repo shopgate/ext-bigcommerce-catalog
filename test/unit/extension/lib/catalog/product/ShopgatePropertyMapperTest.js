@@ -6,9 +6,13 @@ const ShopgateProductProperty = require('../../../../../../extension/lib/catalog
 const assert = require('assert')
 
 describe('ShopgatePropertyMapper', () => {
-  it('maps shopgate product weight to the shopgate property', function () {
-    ShopgateProductPropertyMapper.mapWeight(new ShopgateProductWeight(10, 'kg')).forEach(entry => {
-      assert.ok(entry instanceof ShopgateProductProperty)
-    })
+  it('maps shopgate product weight to shopgate properties', function () {
+    const expectedShopgateProperties = [
+      new ShopgateProductProperty('Weight', '10'),
+      new ShopgateProductProperty('Weight unit', 'kg')
+    ]
+    const actualShopgateProperties = ShopgateProductPropertyMapper.mapWeight(new ShopgateProductWeight(10, 'kg'))
+
+    assert.deepEqual(actualShopgateProperties, expectedShopgateProperties)
   })
 })

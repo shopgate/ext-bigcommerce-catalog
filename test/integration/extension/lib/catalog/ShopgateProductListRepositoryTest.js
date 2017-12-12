@@ -4,11 +4,6 @@ const ShopgateProductListRepository = require('../../../../../extension/lib/cata
 const ShopgateSort = require('../../../../../extension/lib/catalog/product/ShopgateSort.js')
 const BigCommerceConfigRepository = require('../../../../../extension/lib/store/configuration/BigCommerceRepository.js')
 
-const chai = require('chai')
-
-chai.use(require('chai-subset'))
-chai.use(require('chai-as-promised')).should()
-
 describe('ShopgateProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({
     logLevel: 'info',

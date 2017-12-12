@@ -1,16 +1,16 @@
 /**
- * @typedef GetProductPropertiesInput
+ * @typedef {Object} GetProductPropertiesInput
  * @property {number} productId
  */
 
 /**
- * @typedef ShopgateProductProperty
+ * @typedef {Object} ShopgateProductProperty
  * @property {string} label
  * @property {*} value
  */
 
  /**
- * @typedef GetProductPropertiesCallback
+ * @callback GetProductPropertiesCallback
  * @property {Error} [error]
  * @property {ShopgateProductProperty[]} [properties]
  */
