@@ -26,8 +26,8 @@ class GetAllVisibleCategoriesByParentId {
     const subsequentPages = await this._getSubsequentPages(firstPage.meta.pagination.total_pages)
     const allPages = [firstPage].concat(subsequentPages)
 
-    let resultCategories = []
-    for (let page of allPages) {
+    const resultCategories = []
+    for (const page of allPages) {
       Array.prototype.push.apply(resultCategories, page.data)
     }
 
@@ -56,7 +56,7 @@ class GetAllVisibleCategoriesByParentId {
    * @private
    */
   async _getSubsequentPages (totalPages) {
-    let pagePromises = []
+    const pagePromises = []
 
     for (let pageCounter = 2; pageCounter < totalPages; pageCounter++) {
       pagePromises.push(

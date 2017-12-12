@@ -22,7 +22,7 @@ describe('BigcommerceCategoryTest', function () {
 
   describe('#getRootCategories', function () {
     it('calls GetAllVisibleCategoriesByParentId#execute', function () {
-      let subjectUnderTest = new BigcommerceCategory(bigcommerceCategoryRepositoryCommandFactory)
+      const subjectUnderTest = new BigcommerceCategory(bigcommerceCategoryRepositoryCommandFactory)
 
       return subjectUnderTest.getRootCategories().should.eventually.containSubset([
         {

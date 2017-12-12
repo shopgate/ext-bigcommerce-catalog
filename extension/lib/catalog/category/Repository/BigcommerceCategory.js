@@ -12,14 +12,14 @@ class BigcommerceCategory {
    * @return Promise<ShopgateRootCategory[]>
    */
   async getRootCategories () {
-    let shopgateCategories = this._buildShopgateRootCategories(
+    const shopgateCategories = this._buildShopgateRootCategories(
       await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
         0,
         ['id', 'name', 'image_url']
       ).execute()
     )
 
-    let bigcommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
+    const bigcommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
       shopgateCategories.map(category => Number.parseInt(category.id))
     ).execute()
 
@@ -36,14 +36,14 @@ class BigcommerceCategory {
    * @return {Promise<ShopgateCategoryChild[]>}
    */
   async getCategoryChildren (categoryId) {
-    let shopgateCategories = this._buildShopgateChildCategories(
+    const shopgateCategories = this._buildShopgateChildCategories(
       await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
         categoryId,
         ['id', 'parent_id', 'name', 'image_url']
       ).execute()
     )
 
-    let bigcommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
+    const bigcommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
       shopgateCategories.map(category => Number.parseInt(category.id))
     ).execute()
 
@@ -101,9 +101,9 @@ class BigcommerceCategory {
    * @private
    */
   _buildShopgateRootCategories (bigcommerceCategories) {
-    let resultCategories = []
+    const resultCategories = []
 
-    for (let bigcommerceCategory of bigcommerceCategories) {
+    for (const bigcommerceCategory of bigcommerceCategories) {
       resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateRootCategory())
     }
 
@@ -118,16 +118,15 @@ class BigcommerceCategory {
    * @private
    */
   _buildShopgateChildCategories (bigcommerceCategories) {
-    let resultCategories = []
+    const resultCategories = []
 
-    for (let bigcommerceCategory of bigcommerceCategories) {
+    for (const bigcommerceCategory of bigcommerceCategories) {
       resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateChildCategory())
     }
     return resultCategories
   }
 
   /**
-   *
    * @param bigcommerceCategories
    *
    * @return {ShopgateCategory[]}
@@ -135,9 +134,9 @@ class BigcommerceCategory {
    * @private
    */
   _buildShopgateCategories (bigcommerceCategories) {
-    let resultCategories = []
+    const resultCategories = []
 
-    for (let bigcommerceCategory of bigcommerceCategories) {
+    for (const bigcommerceCategory of bigcommerceCategories) {
       resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateCategory())
     }
     return resultCategories
