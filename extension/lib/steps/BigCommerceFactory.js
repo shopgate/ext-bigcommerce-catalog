@@ -1,25 +1,28 @@
 const BigCommerce = require('node-bigcommerce')
 
+/**
+ * @property {string} _clientId
+ * @property {string} _accessToken
+ * @property {string} _storeHash
+ */
 class BigCommerceFactory {
   /**
    * @param {string} clientId
    * @param {string} accessToken
    * @param {string} storeHash
-   * @param {string} logLevel
    */
-  constructor (clientId, accessToken, storeHash, logLevel = 'info') {
+  constructor (clientId, accessToken, storeHash) {
     this._clientId = clientId
-    this._storeHash = storeHash
     this._accessToken = accessToken
-    this._logLevel = logLevel
+    this._storeHash = storeHash
   }
 
   /**
-   * @returns {BigCommerce}
+   * @param {string} logLevel
    */
-  createV3 () {
+  createV3 (logLevel = 'info') {
     return new BigCommerce({
-      logLevel: this._logLevel,
+      logLevel: logLevel,
       clientId: this._clientId,
       accessToken: this._accessToken,
       storeHash: this._storeHash,
@@ -29,11 +32,11 @@ class BigCommerceFactory {
   }
 
   /**
-   * @returns {BigCommerce}
+   * @param {string} logLevel
    */
-  createV2 () {
+  createV2 (logLevel = 'info') {
     return new BigCommerce({
-      logLevel: this._logLevel,
+      logLevel: logLevel,
       clientId: this._clientId,
       accessToken: this._accessToken,
       storeHash: this._storeHash,
