@@ -1,4 +1,4 @@
 /**
- * @typedef {Object} BigcommercePagination
+ * @typedef {Object} BigCommercePagination
  * @property {number} total_pages
  */

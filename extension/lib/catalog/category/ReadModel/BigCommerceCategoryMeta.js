@@ -1,4 +1,4 @@
 /**
- * @typedef {Object} BigcommerceCategoryMeta
- * @property {BigcommercePagination} pagination
+ * @typedef {Object} BigCommerceCategoryMeta
+ * @property {BigCommercePagination} pagination
  */

@@ -1,11 +1,11 @@
 const ShopgateCategory = require('../Entity/ShopgateCategory')
 
-class BigcommerceCategory {
+class BigCommerceCategory {
   /**
-   * @param {BigcommerceRepositoryCommand} bigcommerceRepositoryCommandFactory
+   * @param {BigCommerceRepositoryCommand} bigCommerceRepositoryCommandFactory
    */
-  constructor (bigcommerceRepositoryCommandFactory) {
-    this._commandFactory = bigcommerceRepositoryCommandFactory
+  constructor (bigCommerceRepositoryCommandFactory) {
+    this._commandFactory = bigCommerceRepositoryCommandFactory
   }
 
   /**
@@ -19,12 +19,12 @@ class BigcommerceCategory {
       ).execute()
     )
 
-    const bigcommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
+    const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
       shopgateCategories.map(category => Number.parseInt(category.id))
     ).execute()
 
     for (let i = 0; i < shopgateCategories.length; i++) {
-      shopgateCategories[i].productCount = bigcommerceProductCounts[i]
+      shopgateCategories[i].productCount = bigCommerceProductCounts[i]
     }
 
     return shopgateCategories
@@ -43,12 +43,12 @@ class BigcommerceCategory {
       ).execute()
     )
 
-    const bigcommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
+    const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
       shopgateCategories.map(category => Number.parseInt(category.id))
     ).execute()
 
     for (let i = 0; i < shopgateCategories.length; i++) {
-      shopgateCategories[i].productCount = bigcommerceProductCounts[i]
+      shopgateCategories[i].productCount = bigCommerceProductCounts[i]
     }
 
     return shopgateCategories
@@ -94,53 +94,53 @@ class BigcommerceCategory {
   }
 
   /**
-   * @param {BigcommerceCategory[]} bigcommerceCategories
+   * @param {BigCommerceCategory[]} bigCommerceCategories
    *
    * @return {ShopgateRootCategory[]}
    *
    * @private
    */
-  _buildShopgateRootCategories (bigcommerceCategories) {
+  _buildShopgateRootCategories (bigCommerceCategories) {
     const resultCategories = []
 
-    for (const bigcommerceCategory of bigcommerceCategories) {
-      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateRootCategory())
+    for (const bigCommerceCategory of bigCommerceCategories) {
+      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigCommerceCategory).toShopgateRootCategory())
     }
 
     return resultCategories
   }
 
   /**
-   * @param {BigcommerceCategory[]} bigcommerceCategories
+   * @param {BigCommerceCategory[]} bigCommerceCategories
    *
    * @return {ShopgateCategoryChild[]}
    *
    * @private
    */
-  _buildShopgateChildCategories (bigcommerceCategories) {
+  _buildShopgateChildCategories (bigCommerceCategories) {
     const resultCategories = []
 
-    for (const bigcommerceCategory of bigcommerceCategories) {
-      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateChildCategory())
+    for (const bigCommerceCategory of bigCommerceCategories) {
+      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigCommerceCategory).toShopgateChildCategory())
     }
     return resultCategories
   }
 
   /**
-   * @param bigcommerceCategories
+   * @param bigCommerceCategories
    *
    * @return {ShopgateCategory[]}
    *
    * @private
    */
-  _buildShopgateCategories (bigcommerceCategories) {
+  _buildShopgateCategories (bigCommerceCategories) {
     const resultCategories = []
 
-    for (const bigcommerceCategory of bigcommerceCategories) {
-      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigcommerceCategory).toShopgateCategory())
+    for (const bigCommerceCategory of bigCommerceCategories) {
+      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigCommerceCategory).toShopgateCategory())
     }
     return resultCategories
   }
 }
 
-module.exports = BigcommerceCategory
+module.exports = BigCommerceCategory

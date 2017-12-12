@@ -6,7 +6,7 @@ const GetChildCategoryCountCategoryIds = require('../Repository/Command/GetChild
 /**
  * @property {BigCommerceFactory} _bigCommerceFactory
  */
-class BigcommerceRepositoryCommand {
+class BigCommerceRepositoryCommand {
   /**
    * @param {BigCommerceFactory} bigCommerceFactory
    */
@@ -58,4 +58,4 @@ class BigcommerceRepositoryCommand {
   }
 }
 
-module.exports = BigcommerceRepositoryCommand
+module.exports = BigCommerceRepositoryCommand

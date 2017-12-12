@@ -10,7 +10,7 @@ const BigcommerceRepositoryCommand = require('../catalog/category/Factory/BigCom
  * @param {Function} cb
  */
 module.exports = async function (context, input, cb) {
-  const bigcommerceCategoryRepository = new BigcommerceCategory(
+  const bigCommerceCategoryRepository = new BigcommerceCategory(
     new BigcommerceRepositoryCommand(
       new BigCommerceFactory(
         context.config.clientId,
@@ -21,7 +21,7 @@ module.exports = async function (context, input, cb) {
   )
 
   try {
-    const categories = await bigcommerceCategoryRepository.getCategoryChildren(parseInt(input.categoryId))
+    const categories = await bigCommerceCategoryRepository.getCategoryChildren(parseInt(input.categoryId))
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-products/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(categories))

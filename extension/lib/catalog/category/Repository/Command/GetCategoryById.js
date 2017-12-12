@@ -13,7 +13,7 @@ class GetCategoryById {
   }
 
   /**
-   * @return {Promise<BigcommerceCategory>}
+   * @return {Promise<BigCommerceCategory>}
    */
   async execute () {
     return (await this._apiVersion3Client.get('/catalog/categories/' + this._categoryId)).data

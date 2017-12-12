@@ -58,23 +58,23 @@ class ShopgateCategory {
   }
 
   /**
-   * @param {BigcommerceCategory} bigcommerceCategory
+   * @param {BigCommerceCategory} bigCommerceCategory
    * @param {number} productCount
    * @param {number} childrenCount
    * @param {ShopgateCategory[]} children
    *
    * @return {ShopgateCategory}
    */
-  static fromBigcommerceCategory (bigcommerceCategory, productCount = 1, childrenCount = 0, children = []) {
+  static fromBigcommerceCategory (bigCommerceCategory, productCount = 1, childrenCount = 0, children = []) {
     let parentCategory
-    if (bigcommerceCategory.hasOwnProperty('parent_id')) {
-      parentCategory = new ShopgateParentCategoryInformation(bigcommerceCategory.parent_id.toString(), '')
+    if (bigCommerceCategory.hasOwnProperty('parent_id')) {
+      parentCategory = new ShopgateParentCategoryInformation(bigCommerceCategory.parent_id.toString(), '')
     }
 
     return new this(
-      bigcommerceCategory.id,
-      bigcommerceCategory.name,
-      bigcommerceCategory.image_url,
+      bigCommerceCategory.id,
+      bigCommerceCategory.name,
+      bigCommerceCategory.image_url,
       parentCategory,
       productCount,
       childrenCount,

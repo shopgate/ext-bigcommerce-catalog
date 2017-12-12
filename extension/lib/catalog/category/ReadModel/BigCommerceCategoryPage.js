@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} BigcommerceCategoryPage
- * @property {BigcommerceCategory[]} data
- * @property {BigcommerceCategoryMeta} meta
+ * @typedef {Object} BigCommerceCategoryPage
+ * @property {BigCommerceCategory[]} data
+ * @property {BigCommerceCategoryMeta} meta
  */

@@ -19,7 +19,7 @@ class GetAllVisibleCategoriesByParentId {
   }
 
   /**
-   * @return {Promise<BigcommerceCategory[]>}
+   * @return {Promise<BigCommerceCategory[]>}
    */
   async execute () {
     const firstPage = await this._getFirstPage()
@@ -51,7 +51,7 @@ class GetAllVisibleCategoriesByParentId {
   /**
    * @param {number} totalPages
    *
-   * @return Promise<BigcommerceCategoryPage>[]
+   * @return Promise<BigCommerceCategoryPage>[]
    *
    * @private
    */
