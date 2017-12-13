@@ -21,3 +21,8 @@ fs.writeFile(integrationTestCredentialFile, 'module.exports = {\n' +
 })
 
 Module._initPaths()
+
+const chai = require('chai')
+
+chai.use(require('chai-subset'))
+chai.use(require('chai-as-promised')).should()
