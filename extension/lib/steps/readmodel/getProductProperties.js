@@ -9,7 +9,7 @@
  * @property {string} value
  */
 
- /**
+/**
  * @callback GetProductPropertiesCallback
  * @property {Error} [error]
  * @property {ShopgateProductProperty[]} [properties]
