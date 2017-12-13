@@ -4,9 +4,11 @@ const Sort = require('./product/ShopgateSort.js')
 class ShopgateProductListRepository {
   /**
    * @param {BigCommerce} apiVersion3Client
+   * @param {BigCommerceRepository} bigCommerceStoreConfigurationRepository
    */
-  constructor (apiVersion3Client) {
+  constructor (apiVersion3Client, bigCommerceStoreConfigurationRepository) {
     this.apiVersion3Client = apiVersion3Client
+    this.bigCommerceStoreConfigurationRepository = bigCommerceStoreConfigurationRepository
   }
 
   /**
@@ -101,11 +103,12 @@ class ShopgateProductListRepository {
     const products = []
 
     const bigCommerceProductReponses = await Promise.all(pagePromises)
+    const bigCommerceStoreCurrency = await this.bigCommerceStoreConfigurationRepository.getCurrency()
 
     let promisesForBrands = []
     for (const bigCommerceProductRequest of bigCommerceProductReponses) {
       for (const bigCommerceProductData of bigCommerceProductRequest.data) {
-        const shopgateProductBuilder = new ShopgateProductBuilder(bigCommerceProductData)
+        const shopgateProductBuilder = new ShopgateProductBuilder(bigCommerceProductData, bigCommerceStoreCurrency)
 
         products.push(shopgateProductBuilder.build())
 

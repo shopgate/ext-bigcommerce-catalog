@@ -1,13 +1,14 @@
 const ProductListRepository = require('../../lib/catalog/ShopgateProductListRepository.js')
 const ShopgateGetProducts = require('../catalog/product/ShopgateGetProducts.js')
-const BigCommerceFactory = require('./BigCommerceFactory.js')
+const BigComerceFactory = require('./BigCommerceFactory.js')
+const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
 
 /**
  * @param {Object} context
  * @param {GetProductsInput} input - Properties depend on the pipeline this is used for
  * @param {GetProductsPipelineCallback} cb
  */
-module.exports = function (context, input, cb) {
+module.exports = async (context, input, cb) => {
   const getByCategoryId = input.hasOwnProperty('categoryId') && input.categoryId
   const getByProductIds = input.hasOwnProperty('productIds') && input.productIds
 
@@ -19,40 +20,48 @@ module.exports = function (context, input, cb) {
     return
   }
 
-  const bigCommerceFactory = new BigCommerceFactory(
+  const bigCommerceFactory = new BigComerceFactory(
     context.config.clientId,
     context.config.accessToken,
     context.config.storeHash
   )
-  const productListRepository = new ProductListRepository(bigCommerceFactory.createV3())
+
+  const productListRepository = new ProductListRepository(
+    bigCommerceFactory.createV3(),
+    new BigCommerceConfigurationRepository(
+      bigCommerceFactory.createV2()
+    )
+  )
 
   if (getByProductIds) {
-    productListRepository.getByProductIds(
-      input.productIds,
-      input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
-      input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_OFFSET,
-      input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
-      input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
-    ).then(productResult => {
+    try {
+      const productResult = await productListRepository.getByProductIds(
+        input.productIds,
+        input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
+        input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_OFFSET,
+        input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
+        input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
+      )
       cb(null, productResult)
-    }).catch(error => {
+    } catch (error) {
       context.log.error('Unable to get products for productIds: ' + input.productIds, error)
       cb(error)
-    })
+    }
   }
 
   if (getByCategoryId) {
-    productListRepository.getByCategoryId(
-      input.categoryId,
-      input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
-      input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_LIMIT,
-      input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
-      input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
-    ).then(productResult => {
+    try {
+      const productResult = await productListRepository.getByCategoryId(
+        input.categoryId,
+        input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
+        input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_LIMIT,
+        input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
+        input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
+      )
       cb(null, productResult)
-    }).catch(error => {
+    } catch (error) {
       context.log.error('Unable to get products for categoryId: ' + input.categoryId, error)
       cb(error)
-    })
+    }
   }
 }
