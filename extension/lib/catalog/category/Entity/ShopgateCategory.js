@@ -124,7 +124,7 @@ class ShopgateCategory {
       name: this.name,
       imageUrl: this.imageUrl,
       productCount: this.productCount,
-      parent: this.parent
+      parent: this.parent.toShopgateParentCategory()
     }
   }
 
@@ -136,7 +136,7 @@ class ShopgateCategory {
       id: this.id,
       name: this.name,
       imageUrl: this.imageUrl,
-      parent: this.parent,
+      parent: this.parent.toShopgateParentCategory(),
       productCount: this.productCount,
       childrenCount: this.childrenCount,
       children: this.children

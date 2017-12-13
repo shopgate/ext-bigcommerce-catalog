@@ -1,5 +1,3 @@
-'use strict'
-
 const Credentials = require('../../../../../../.integration-credentials')
 const BigCommerceFactory = require('../../../../../../extension/lib/steps/BigCommerceFactory')
 const ShopgatePropertiesRepository = require('../../../../../../extension/lib/catalog/product/ShopgatePropertiesRepository')

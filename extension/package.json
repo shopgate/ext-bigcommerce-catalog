@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "prototype",
   "scripts": {
-    "test": "mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
-    "testIntegration": "mocha --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
+    "test": "mocha --use_strict --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
+    "testIntegration": "mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
     "cover": "istanbul cover --dir ../coverage _mocha -- --require ../test/setupBackend.js --recursive ../test/unit"
   },
   "repository": {

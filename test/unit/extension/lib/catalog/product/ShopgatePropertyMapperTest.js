@@ -1,5 +1,3 @@
-'use strict'
-
 const ShopgateProductWeight = require('../../../../../../extension/lib/catalog/product/property/ShopgateWeight')
 const ShopgateProductPropertyMapper = require('../../../../../../extension/lib/catalog/product/ShopgatePropertyMapper')
 const ShopgateProductProperty = require('../../../../../../extension/lib/catalog/product/ShopgateProperty')

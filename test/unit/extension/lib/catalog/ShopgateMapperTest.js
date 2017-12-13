@@ -1,5 +1,3 @@
-'use strict'
-
 const ShopgateProductBuilder = require('../../../../../extension/lib/catalog/product/ShopgateBuilder')
 const ShopgateProduct = require('../../../../../extension/lib/catalog/product/entity/ShopgateProduct')
 const assert = require('assert')

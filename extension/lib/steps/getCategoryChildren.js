@@ -1,17 +1,17 @@
-const BigcommerceCategory = require('../catalog/category/Repository/BigCommerceCategory.js')
+const BigCommerceCategory = require('../catalog/category/Repository/BigCommerceCategory.js')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
-const BigcommerceRepositoryCommand = require('../catalog/category/Factory/BigCommerceRepositoryCommand')
+const BigCommerceRepositoryCommand = require('../catalog/category/Factory/BigCommerceRepositoryCommand')
 
 /**
  * @param {object} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {string} input.categoryId
  * @param {string} input.sort
- * @param {Function} cb
+ * @param {GetCategoryChildrenCallback} cb
  */
-module.exports = async function (context, input, cb) {
-  const bigCommerceCategoryRepository = new BigcommerceCategory(
-    new BigcommerceRepositoryCommand(
+module.exports = async (context, input, cb) => {
+  const bigCommerceCategoryRepository = new BigCommerceCategory(
+    new BigCommerceRepositoryCommand(
       new BigCommerceFactory(
         context.config.clientId,
         context.config.accessToken,

@@ -1,14 +1,14 @@
-const BigcommerceCategory = require('../catalog/category/Repository/BigCommerceCategory.js')
+const BigCommerceCategory = require('../catalog/category/Repository/BigCommerceCategory.js')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigcommerceRepositoryCommand = require('../catalog/category/Factory/BigCommerceRepositoryCommand')
 
 /**
  * @param {object} context
  * @param {object} input - Properties depend on the pipeline this is used for
- * @param {Function} cb
+ * @param {GetRootCategoriesCallback} cb
  */
-module.exports = async function (context, input, cb) {
-  const bigCommerceCategoryRepository = new BigcommerceCategory(
+module.exports = async (context, input, cb) => {
+  const bigCommerceCategoryRepository = new BigCommerceCategory(
     new BigcommerceRepositoryCommand(
       new BigCommerceFactory(
         context.config.clientId,
@@ -18,9 +18,9 @@ module.exports = async function (context, input, cb) {
     )
   )
 
-  const categories = await bigCommerceCategoryRepository.getRootCategories()
-
   try {
+    const categories = await bigCommerceCategoryRepository.getRootCategories()
+
     context.log.info('Successfully executed @shopgate/bigcommerce-products/getRootCategories_v1.')
     context.log.info('Result: ' + JSON.stringify(categories))
 

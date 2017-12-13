@@ -1,5 +1,3 @@
-'use strict'
-
 const Credentials = require('../../../../../../.integration-credentials')
 const Factory = require('../../../../../../extension/lib/steps/BigCommerceFactory')
 const BigCommerceConfigRepository = require('../../../../../../extension/lib/store/configuration/BigCommerceRepository')
