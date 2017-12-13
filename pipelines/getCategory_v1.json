@@ -1,0 +1,56 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getCategory_v1",
+    "public": true,
+    "input": [
+      {"key": "categoryId", "id": "1"},
+      {"key": "includeChildren", "id": "2", "optional": true},
+      {"key": "childrenSort", "id": "3", "optional": true}
+    ],
+    "output": [
+      {"key": "id", "id": "1000"},
+      {"key": "name", "id": "1001"},
+      {"key": "productCount", "id": "1002"},
+      {"key": "imageUrl", "id": "1003"},
+      {"key": "parent", "id": "1004"},
+      {"key": "children", "id": "1005", "optional": true},
+      {"key": "childrenCount", "id": "1006"}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-products",
+        "path": "@shopgate/bigcommerce-products/lib/steps/getCategory.js",
+        "input": [{"key": "categoryId", "id": "1"}],
+        "output": [
+          {"key": "id", "id": "1000"},
+          {"key": "name", "id": "1001"},
+          {"key": "productCount", "id": "1002"},
+          {"key": "imageUrl", "id": "1003"},
+          {"key": "parent", "id": "1004"},
+          {"key": "childrenCount", "id": "1006"}
+        ]
+      }, {
+        "type": "conditional",
+        "input": [{"key": "includeChildren", "id": "2", "optional": true}],
+        "expression": {"ok": [{"type": "input", "name": "includeChildren"}]},
+        "then": {
+          "type": "pipeline",
+          "id": "getCategoryChildren_v1",
+          "input": [
+            {"key": "categoryId", "id": "1"},
+            {"key": "sort", "id": "3", "optional": true}
+          ],
+          "output": [{"key": "categories", "id": "1005"}]
+        },
+        "else": {
+          "type": "staticValue",
+          "input": [],
+          "values": [{"key": "categories", "value": []}],
+          "output": [{"key": "categories", "id": "1005"}]
+        }
+      }
+    ]
+  }
+}
