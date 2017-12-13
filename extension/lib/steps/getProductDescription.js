@@ -1,4 +1,4 @@
-const ProductDescriptionRepository = require('../catalog/ShopgateProductDescriptionRepository.js')
+const ProductDescriptionRepository = require('../catalog/product/ShopgateDescriptionRepository.js')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 
 module.exports = function (context, input, cb) {
@@ -6,21 +6,15 @@ module.exports = function (context, input, cb) {
     cb(null, {description: ''})
     return
   }
-  const bigComerceFactory = new BigComerceFactory()
-  const productDescriptionRepository = new ProductDescriptionRepository(bigComerceFactory.createV3(
-    context.config.clientId,
-    context.config.accessToken,
-    context.config.storeHash))
+  const bigCommerceFactory = new BigComerceFactory(context.config.clientId, context.config.accessToken, context.config.storeHash)
+  const productDescriptionRepository = new ProductDescriptionRepository(bigCommerceFactory.createV3())
 
-  productDescriptionRepository.getProductDescriptionById(
+  productDescriptionRepository.get(
     input.productId
   ).then(descriptionResult => {
-    cb(null, descriptionResult
-  )
-    }).
-      catch(error => {
-        context.log.error('Unable to get description for productIds: ' + input.productId, error)
-        cb(error)
-    })
+    cb(null, {description: descriptionResult})
+  }).catch(error => {
+    context.log.error('Unable to get description for productIds: ' + input.productId, error)
+    cb(error)
+  })
 }
-
