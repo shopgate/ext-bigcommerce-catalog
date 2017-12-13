@@ -14,7 +14,7 @@ module.exports = function (context, input, cb) {
   ).then(descriptionResult => {
     cb(null, {description: descriptionResult})
   }).catch(error => {
-    context.log.error('Unable to get description for productIds: ' + input.productId, error)
+    context.log.error('Unable to get description for productId: ' + input.productId, error)
     cb(error)
   })
 }
