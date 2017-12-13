@@ -6,7 +6,7 @@
 /**
  * @typedef {Object} ShopgateProductProperty
  * @property {string} label
- * @property {*} value
+ * @property {string} value
  */
 
  /**
