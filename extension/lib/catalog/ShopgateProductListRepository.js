@@ -36,6 +36,8 @@ class ShopgateProductListRepository {
    * @param {number} offset
    * @param {number} limit
    * @returns {number}
+   *
+   * @private
    */
   _calculateCurrentBigCommercePage (offset, limit) {
     return Math.floor(offset / limit) + 1
@@ -47,6 +49,8 @@ class ShopgateProductListRepository {
    * @param {string} sort
    * @param {boolean} showInactive
    * @returns {string[]}
+   *
+   * @private
    */
   _prepareParametersForGetProducts (offset, limit, sort, showInactive) {
     const parameters = []
@@ -89,6 +93,8 @@ class ShopgateProductListRepository {
    * @param {Promise[]} pagePromises
    * @param {number} totalProductsCount
    * @returns {Promise<ShopgateProductsResponse>}
+   *
+   * @private
    */
   async _getProducts (pagePromises, totalProductsCount) {
     /**
@@ -125,6 +131,8 @@ class ShopgateProductListRepository {
    * @param {ShopgateProduct[]} products
    *
    * @post products have the manufacturer property set if a name exists
+   *
+   * @private
    */
   _updateProductManufacturer (brands, products) {
     for (let i = 0; i < brands.length; ++i) {
@@ -139,6 +147,8 @@ class ShopgateProductListRepository {
   /**
    * @param {string} sort
    * @returns {string[]}
+   *
+   * @private
    */
   _getSortingParameters (sort) {
     const sortingParameters = []
@@ -166,6 +176,8 @@ class ShopgateProductListRepository {
 
   /**
    * @returns {Promise<string>}
+   *
+   * @private
    */
   async _getBrandAsync (brandId) {
     if (!brandId) {

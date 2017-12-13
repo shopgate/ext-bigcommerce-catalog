@@ -23,7 +23,8 @@ module.exports = async (context, input, cb) => {
   const bigCommerceFactory = new BigComerceFactory(
     context.config.clientId,
     context.config.accessToken,
-    context.config.storeHash)
+    context.config.storeHash
+  )
 
   const productListRepository = new ProductListRepository(
     bigCommerceFactory.createV3(),

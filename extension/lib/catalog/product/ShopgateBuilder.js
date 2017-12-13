@@ -42,6 +42,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {boolean}
+   *
+   * @private
    */
   _isActive () {
     // TODO: global setting don't show "When a product is out of stock"
@@ -51,6 +53,8 @@ class ShopgateBuilder {
   /**
    * @param {BigCommerceProductVariant[]} variants
    * @returns {boolean}
+   *
+   * @private
    */
   _isAtLeatOneVariantPurchasable (variants) {
     for (let i = 0; i < variants.length; ++i) {
@@ -64,6 +68,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductAvailability}
+   *
+   * @private
    */
   _getAvailablity () {
     return {
@@ -74,6 +80,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {number}
+   *
+   * @private
    */
   _getId () {
     return this.bigCommerceProduct.id
@@ -81,6 +89,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductIdentifiers}
+   *
+   * @private
    */
   _getIdentifiers () {
     const identifiers = {}
@@ -98,6 +108,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {string}
+   *
+   * @private
    */
   _getType () {
     return ShopgateProductType.SIMPLE
@@ -105,6 +117,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductCharacteristics[]}
+   *
+   * @private
    */
   _getCharacteristics () {
     return []
@@ -112,6 +126,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductLiveShoppings|null}
+   *
+   * @private
    */
   _getLiveShoppings () {
     return null
@@ -119,6 +135,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductStock}
+   *
+   * @private
    */
   _getStock () {
     return {
@@ -131,6 +149,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {number}
+   *
+   * @private
    */
   _getStockQuantity () {
     return this._getMaximumStockQuantityForVariants(this.bigCommerceProduct.variants)
@@ -140,6 +160,8 @@ class ShopgateBuilder {
    * @param {BigCommerceProductVariant[]} variants
    *
    * @returns {number}
+   *
+   * @private
    */
   _getMaximumStockQuantityForVariants (variants) {
     let maximumVariantStockQuantity = 0
@@ -161,6 +183,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductRating}
+   *
+   * @private
    */
   _getRating () {
     const rating = {
@@ -177,6 +201,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {string}
+   *
+   * @private
    */
   _getFeaturedImageUrl () {
     let bigCommerceProductImage = this.bigCommerceVariant.image_url
@@ -192,6 +218,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductPrice}
+   *
+   * @private
    * */
   _getPrice () {
     const prices = {
@@ -223,6 +251,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductFlags}
+   *
+   * @private
    */
   _getFlags () {
     return {
@@ -234,6 +264,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {boolean}
+   *
+   * @private
    */
   _getHighlight () {
     return this.bigCommerceProduct.is_featured
@@ -241,6 +273,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {ShopgateProductDefinition}
+   *
+   * @private
    */
   _getParent () {
     return {}
@@ -248,6 +282,8 @@ class ShopgateBuilder {
 
   /**
    * @returns {string}
+   *
+   * @private
    */
   _getTags () {
     return this.bigCommerceProduct.search_keywords
@@ -255,6 +291,8 @@ class ShopgateBuilder {
 
   /**
    * @return {string}
+   *
+   * @private
    */
   _getName () {
     return this.bigCommerceProduct.name
