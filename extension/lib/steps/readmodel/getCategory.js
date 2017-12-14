@@ -1,5 +1,5 @@
 /**
  * @callback GetCategoryCallback
- * @property {Error} [error]
- * @property {ShopgateCategory} [categoryResponse]
+ * @param {Error} [error]
+ * @param {ShopgateCategory} [categoryResponse]
  */
