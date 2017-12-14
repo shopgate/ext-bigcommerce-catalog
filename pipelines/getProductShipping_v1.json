@@ -1,0 +1,24 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getProductShipping_v1",
+    "public": true,
+    "input": [
+      {"key": "productId", "id": "1"}
+    ],
+    "output": [{"key": "shipping", "id": "301"}],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-products",
+        "path": "@shopgate/bigcommerce-products/lib/steps/getProductShipping.js",
+        "input": [
+          {"key": "productId", "id": "1"}
+        ],
+        "output": [
+          {"key": "shipping", "id": "301"}
+        ]
+      }
+    ]
+  }
+}

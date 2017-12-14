@@ -33,7 +33,8 @@
     "mocha-jenkins-reporter": "^0.3.7",
     "nock": "^9.0.13",
     "request": "^2.83.0",
-    "sinon": "^4.1.2"
+    "sinon": "^4.1.2",
+    "standard": "^10.0.3"
   },
   "standard": {
     "ignore": [
