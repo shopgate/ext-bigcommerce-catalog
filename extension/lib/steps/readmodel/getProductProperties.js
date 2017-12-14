@@ -11,6 +11,6 @@
 
 /**
  * @callback GetProductPropertiesCallback
- * @property {Error} [error]
- * @property {ShopgateProductProperty[]} [properties]
+ * @param {Error} [error]
+ * @param {ShopgateProductProperty[]} [properties]
  */

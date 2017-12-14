@@ -1,7 +1,7 @@
 /**
  * @callback GetCategoryChildrenCallback
- * @property {Error} [error]
- * @property {GetCategoryChildrenResponse} [categoryChildrenResponse]
+ * @param {Error} [error]
+ * @param {GetCategoryChildrenResponse} [categoryChildrenResponse]
  */
 
 /**
