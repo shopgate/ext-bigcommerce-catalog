@@ -1,17 +1,13 @@
 {
   "name": "@shopgate/bigcommerce-catalog",
   "version": "1.0.0",
-  "description": "prototype",
+  "description": "Shopgate Cloud BigCommerce Catalog",
   "scripts": {
     "test": "./node_modules/.bin/_mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
-    "testIntegration": "./node_modules/.bin/_mocha --require ../test/setupBackend.js --recursive ../test/integration",
+    "testIntegration": "./node_modules/.bin/_mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
     "cover": "./node_modules/.bin/istanbul cover --dir ./coverage _mocha -- --require ../test/setupBackend.js --recursive ../test/unit",
     "standard": "./node_modules/.bin/standard",
     "dependency": "./node_modules/.bin/nsp check"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@stash.localdev.cc:7999/sgx/bigcommerce-products.git"
   },
   "licenses": [
     {
@@ -27,6 +23,14 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
+    "eslint": "^4.12.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-chai": "0.0.1",
+    "eslint-plugin-chai-expect": "^1.1.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mocha-jenkins-reporter": "^0.3.7",

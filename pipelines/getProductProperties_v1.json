@@ -1,0 +1,20 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getProductProperties_v1",
+    "public": true,
+    "input": [{"key": "productId", "id": "1"}],
+    "output": [{"key": "properties", "id": "105"}],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getProductProperties.js",
+        "input": [{"key": "productId", "id": "1"}],
+        "output": [
+          {"key": "properties", "id": "105"}
+        ]
+      }
+    ]
+  }
+}

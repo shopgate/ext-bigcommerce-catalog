@@ -1,0 +1,27 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getRootCategories_v1",
+    "public": true,
+    "input": [{"key": "sort", "id": "1", "optional": true}],
+    "output": [{"key": "categories", "id": "1000"}],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getRootCategories.js",
+        "input": [],
+        "output": [{"key": "categories", "id": "100"}]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/products",
+        "path": "@shopgate/products/categories/sortCategories.js",
+        "input": [
+          {"key": "categories", "id": "100"},
+          {"key": "sort", "id": "1", "optional": true}
+        ],
+        "output": [{"key": "categories", "id": "1000"}]
+      }
+    ]
+  }
+}
