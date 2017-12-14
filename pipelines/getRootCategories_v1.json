@@ -8,8 +8,8 @@
     "steps": [
       {
         "type": "extension",
-        "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/lib/steps/getRootCategories.js",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getRootCategories.js",
         "input": [],
         "output": [{"key": "categories", "id": "100"}]
       }, {
