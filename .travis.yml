@@ -5,7 +5,6 @@ node_js:
 
 install:
 - cd extension; npm install; cd ..
-- npm install nsp -g
 
 script:
 - cd extension;
