@@ -1,7 +1,7 @@
 /**
  * @callback GetProductCallback
- * @property {Error} [error]
- * @property {ShopgateProduct} [product]
+ * @param {Error} [error]
+ * @param {ShopgateProduct} [product]
  */
 
 /**

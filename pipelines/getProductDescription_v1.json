@@ -1,0 +1,18 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getProductDescription_v1",
+    "public": true,
+    "input": [{"key": "productId", "id": "1"}],
+    "output": [{"key": "description", "id": "1000"}],
+    "steps": [
+       {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-products",
+         "path": "@shopgate/bigcommerce-products/lib/steps/getProductDescription.js",
+         "input": [{"key": "productId", "id": "1"}],
+        "output": [{"key": "description", "id": "1000"}]
+       }
+    ]
+  }
+}
