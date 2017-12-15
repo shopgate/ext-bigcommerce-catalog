@@ -1,16 +1,30 @@
 language: node_js
 
-node_js:
-- 8
-
 install:
 - cd extension; npm install; cd ..
 
-script:
-- cd extension;
-- npm run test
-- npm run standard
-- npm run dependency
+env: # important! Without the top-level env, no job will be allowed to fail.
+  - JOB_DEFAULT=test
+
+matrix:
+  fast_finish: true
+  include:
+    - node_js: 8
+      env: TYPE=UNIT_CODESTYLE_DEPENDENCY
+      script:
+      - cd extension
+      - npm run test
+      - npm run standard
+      - npm run dependency
+    - node_js: 8
+      env: TYPE=INTEGRATION
+      script:
+      - if [[ "$INTEGRATION_CREDENTIALS" ]]; then echo "${INTEGRATION_CREDENTIALS}" > .integration-credentials.js; fi
+      - cd extension
+      - if [[ "$INTEGRATION_CREDENTIALS" ]]; then npm run testIntegration; fi
+  allow_failures:
+    - node_js: 8
+      env: TYPE=INTEGRATION
 
 notifications:
   slack:
