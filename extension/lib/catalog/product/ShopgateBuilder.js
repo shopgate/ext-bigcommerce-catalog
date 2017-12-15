@@ -7,11 +7,13 @@ class ShopgateBuilder {
   /**
    * @param {BigCommerceProduct} bigCommereProduct
    * @param {string} bigCommerceStoreCurrency
+   * @param {string} brand
    */
-  constructor (bigCommereProduct, bigCommerceStoreCurrency) {
+  constructor (bigCommereProduct, bigCommerceStoreCurrency, brand) {
     this.bigCommerceProduct = bigCommereProduct
     this.bigCommerceVariant = bigCommereProduct.variants[0]
     this.bigCommerceStoreCurrency = bigCommerceStoreCurrency
+    this.manufacturer = brand
   }
 
   /**
@@ -26,7 +28,7 @@ class ShopgateBuilder {
       name: this._getName(),
       stock: this._getStock(),
       rating: this._getRating(),
-      manufacturer: '',
+      manufacturer: this._getManufacturer(),
       ageRating: 0,
       featuredImageUrl: this._getFeaturedImageUrl(),
       price: this._getPrice(),
@@ -101,6 +103,14 @@ class ShopgateBuilder {
 
     if (this.bigCommerceProduct.upc) {
       identifiers.upc = this.bigCommerceProduct.upc
+    }
+
+    if (this.bigCommerceProduct.gtin) {
+      identifiers.gtin = this.bigCommerceProduct.gtin
+    }
+
+    if (this.bigCommerceProduct.mpn) {
+      identifiers.mpn = this.bigCommerceProduct.mpn
     }
 
     return identifiers
@@ -296,6 +306,15 @@ class ShopgateBuilder {
    */
   _getName () {
     return this.bigCommerceProduct.name
+  }
+
+  /**
+   * @return {string}
+   *
+   * @private
+   */
+  _getManufacturer () {
+    return this.manufacturer
   }
 }
 

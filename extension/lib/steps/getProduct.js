@@ -1,6 +1,7 @@
 const ProductRepository = require('../catalog/ShopgateProductRepository')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
+const ShopgateBrandRepository = require('../catalog/brand/ShopgateBrandRepository.js')
 
 /**
  * @param {Object} context
@@ -24,7 +25,8 @@ module.exports = async (context, input, cb) => {
     bigCommerceFactory.createV3(),
     new BigCommerceConfigurationRepository(
       bigCommerceFactory.createV2()
-    )
+    ),
+    new ShopgateBrandRepository(bigCommerceFactory.createV3())
   )
 
   try {
