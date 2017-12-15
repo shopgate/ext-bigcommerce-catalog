@@ -1,5 +1,6 @@
 const ProductPropertiesRepository = require('../catalog/product/ShopgatePropertiesRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
+const ShopgateBrandRepository = require('../catalog/brand/ShopgateBrandRepository')
 
 /**
  * @param {Object} context
@@ -19,9 +20,12 @@ module.exports = async (context, input, cb) => {
     context.config.accessToken,
     context.config.storeHash)
 
-  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
+  const shopgateBrandRepository = new ShopgateBrandRepository(bigCommerceFactory.createV3())
+  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3(), shopgateBrandRepository)
+
   try {
-    const productProperties = await productPropertiesRepository.get(input.productId)
+    const productProperties = await productPropertiesRepository.get(
+      input.productId)
     cb(null, {properties: productProperties})
   } catch (error) {
     context.log.error('Unable to get product properties for ' + input.productId, error)
