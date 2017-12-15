@@ -1,4 +1,8 @@
+
+
 # Shopgate Cloud - Extension BigCommerce Catalog
+[![GitHub license](http://dmlc.github.io/img/apache2.svg)](LICENSE.md)
+[![Build Status](https://travis-ci.org/menes1337/cloud-extension-bigcommerce-catalog.svg?branch=master)](https://travis-ci.org/menes1337/cloud-extension-bigcommerce-catalog)
 
 This BigCommerce extension will request categories and products directly via BigCommerce Api.
 
