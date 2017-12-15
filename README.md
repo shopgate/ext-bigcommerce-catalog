@@ -6,6 +6,14 @@
 
 This BigCommerce extension will request categories and products directly via BigCommerce Api.
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) file for more information.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.
+
 ## About Shopgate
 
 Shopgate is the leading mobile commerce platform.
