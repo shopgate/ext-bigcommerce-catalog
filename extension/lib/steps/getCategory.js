@@ -30,12 +30,12 @@ module.exports = async (context, input, cb) => {
         : bigCommerceCategoryRepository.getCategory(categoryId)
     )
 
-    context.log.debug('Successfully executed @shopgate/bigcommerce-products/getCategory_v1 with categoryId: ' + input.categoryId)
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getCategory_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(category))
 
     cb(null, category)
   } catch (error) {
-    context.log.error('Failed executing @shopgate/bigcommerce-products/getCategory_v1 with categoryId: ' + input.categoryId)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getCategory_v1 with categoryId: ' + input.categoryId)
     cb(error)
   }
 }
