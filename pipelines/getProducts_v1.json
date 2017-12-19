@@ -24,8 +24,8 @@
     "steps": [
       {
         "type": "extension",
-        "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/lib/steps/getProducts.js",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getProducts.js",
         "input": [
           {"key": "categoryId", "id": "1", "optional": true},
           {"key": "searchPhrase", "id": "2", "optional": true},

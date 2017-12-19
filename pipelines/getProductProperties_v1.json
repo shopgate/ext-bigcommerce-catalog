@@ -5,11 +5,11 @@
     "public": true,
     "input": [{"key": "productId", "id": "1"}],
     "output": [{"key": "properties", "id": "105"}],
-    "steps": [      
+    "steps": [
       {
         "type": "extension",
-        "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/lib/steps/getProductProperties.js",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getProductProperties.js",
         "input": [{"key": "productId", "id": "1"}],
         "output": [
           {"key": "properties", "id": "105"}

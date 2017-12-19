@@ -20,8 +20,8 @@
     "steps": [
       {
         "type": "extension",
-        "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/lib/steps/getCategory.js",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getCategory.js",
         "input": [{"key": "categoryId", "id": "1"}],
         "output": [
           {"key": "id", "id": "1000"},

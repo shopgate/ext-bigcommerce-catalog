@@ -1,26 +1,29 @@
 {
-  "name": "@shopgate/bigcommerce-products",
+  "name": "@shopgate/bigcommerce-catalog",
   "version": "1.0.0",
-  "description": "prototype",
+  "description": "Shopgate Cloud BigCommerce Catalog",
   "scripts": {
-    "test": "mocha --use_strict --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
-    "testIntegration": "mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
-    "cover": "istanbul cover --dir ../coverage _mocha -- --require ../test/setupBackend.js --recursive ../test/unit"
+    "test": "_mocha --use_strict --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
+    "testIntegration": "_mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
+    "standard": "standard",
+    "dependency": "nsp check",
+    "cover": "nyc _mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
+    "coverIntegration": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration -R mocha-jenkins-reporter",
+    "coverAll": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration --recursive ../test/unit -R mocha-jenkins-reporter"
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@stash.localdev.cc:7999/sgx/bigcommerce-products.git"
+    "url": "https://github.com/shopgate/cloud-ext-bigcommerce-catalog.git"
   },
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
-    "node-bigcommerce": "^3.0.0",
-    "stable": "^0.1.6"
+    "node-bigcommerce": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
-    "eslint": "^4.12.1",
+    "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-chai": "0.0.1",
     "eslint-plugin-chai-expect": "^1.1.1",
@@ -28,17 +31,16 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "nock": "^9.0.13",
+    "nsp": "^3.1.0",
+    "nyc": "^11.3.0",
     "request": "^2.83.0",
-    "sinon": "^4.1.2"
+    "sinon": "^4.1.2",
+    "standard": "^10.0.3"
   },
   "standard": {
-    "ignore": [
-      "/products/sortCharacteristics.js"
-    ],
     "env": {
       "mocha": true,
       "chai": true,
