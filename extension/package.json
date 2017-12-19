@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "Shopgate Cloud BigCommerce Catalog",
   "scripts": {
-    "test": "_mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
+    "test": "_mocha --use_strict --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
     "testIntegration": "_mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
     "standard": "standard",
-    "dependency": "nsp check"
+    "dependency": "nsp check",
+    "cover": "nyc _mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
+    "coverIntegration": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration -R mocha-jenkins-reporter",
+    "coverAll": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration --recursive ../test/unit -R mocha-jenkins-reporter"
   },
   "repository": {
     "type": "git",
@@ -32,6 +35,7 @@
     "mocha-jenkins-reporter": "^0.3.7",
     "nock": "^9.0.13",
     "nsp": "^3.1.0",
+    "nyc": "^11.3.0",
     "request": "^2.83.0",
     "sinon": "^4.1.2",
     "standard": "^10.0.3"
