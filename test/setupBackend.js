@@ -10,15 +10,17 @@ process.env['NODE_PATH'] = extensionModulesPath
 process.env['JUNIT_REPORT_PATH'] = '../build/mocha.xml'
 process.env['JUNIT_REPORT_STACK'] = 1
 
+const errorCallback = function (err) {
+  if (err) {
+    return true
+  }
+}
+
 fs.writeFile(integrationTestCredentialFile, 'module.exports = {\n' +
   '  clientId: \'***\',\n' +
   '  accessToken: \'***\',\n' +
   '  storeHash: \'***\'\n' +
-  '}', {flag: 'wx'}, function (err) {
-  if (err) {
-    return true
-  }
-})
+  '}', {flag: 'wx'}, errorCallback)
 
 Module._initPaths()
 
