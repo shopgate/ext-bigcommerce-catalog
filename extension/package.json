@@ -8,12 +8,11 @@
     "standard": "standard",
     "dependency": "nsp check"
   },
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "https://opensource.org/licenses/apache2.0.php"
-    }
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shopgate/cloud-extension-bigcommerce-catalog.git"
+  },
+  "license" : "Apache-2.0",
   "dependencies": {
     "node-bigcommerce": "^3.0.0"
   },
