@@ -1,11 +1,11 @@
 /**
  * @callback GetProductShippingCallback
  * @param {Error} [error]
- * @param {ShopgateProductShipping} [productShipping]
+ * @param {ShopgateProductShippingResponse} [productShipping]
  */
 
 /**
- * @typedef {Object} ShopgateProductShipping
+ * @typedef {Object} ShopgateProductShippingResponse
  * @property {ShopgateProductShipping} shipping
  */
 

@@ -9,7 +9,7 @@ const BigCommerceProductEntityFactory = require('../catalog/product/BigCommerceE
  * @param {GetProductShippingCallback} cb
  */
 module.exports = async (context, input, cb) => {
-  if (!input.hasOwnProperty('productId') || !parseInt(input.productId)) {
+  if (!input.hasOwnProperty('productId') || input.productId) {
     context.log.error('Get product shipping called with invalid arguments')
     cb(new Error('Invalid get product shipping call'))
 
