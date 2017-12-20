@@ -1,5 +1,8 @@
 const ProductShippingRepository = require('../catalog/product/ShopgateShippingRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
+const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
+const BigCommerceProductEntityFactory = require('../catalog/product/BigCommerceEntityFactory')
+
 /**
  * @param {Object} context
  * @param {GetProductShippingInput} input
@@ -18,7 +21,12 @@ module.exports = async (context, input, cb) => {
     context.config.accessToken,
     context.config.storeHash)
 
-  const productShippingRepository = new ProductShippingRepository(bigCommerceFactory.createV3())
+  const bigCommerceStoreConfigurationRepository = new BigCommerceConfigurationRepository(
+    bigCommerceFactory.createV2()
+  )
+  const bigCommerceProductEntityFactory = new BigCommerceProductEntityFactory(bigCommerceStoreConfigurationRepository)
+
+  const productShippingRepository = new ProductShippingRepository(bigCommerceFactory.createV3(), bigCommerceProductEntityFactory)
 
   try {
     cb(null, { shipping: await productShippingRepository.get(input.productId) })

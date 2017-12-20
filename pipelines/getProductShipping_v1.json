@@ -10,8 +10,8 @@
     "steps": [
       {
         "type": "extension",
-        "id": "@shopgate/bigcommerce-products",
-        "path": "@shopgate/bigcommerce-products/lib/steps/getProductShipping.js",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getProductShipping.js",
         "input": [
           {"key": "productId", "id": "1"}
         ],
