@@ -8,6 +8,9 @@ class BigCommerceProductEntity {
     this._bigCommerceStoreConfigurationRepository = bigCommerceStoreConfigurationRepository
   }
 
+  /**
+   * @returns {number}
+   */
   getShippingCost () {
     const fixedShippingCostPerUnit = this._bigCommerceProduct.fixed_cost_shipping_price || 0
 

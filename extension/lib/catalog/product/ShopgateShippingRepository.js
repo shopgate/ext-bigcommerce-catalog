@@ -11,7 +11,7 @@ class ShopgateShippingRepository {
   }
 
   /**
-   * @1param {number} productId
+   * @param {number} productId
    * @returns {Promise<ShopgateProductShipping>}
    */
   async get (productId) {
