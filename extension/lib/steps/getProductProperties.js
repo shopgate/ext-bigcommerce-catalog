@@ -20,10 +20,8 @@ module.exports = async (context, input, cb) => {
     context.config.storeHash)
 
   const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
-
   try {
-    const productProperties = await productPropertiesRepository.get(
-      input.productId)
+    const productProperties = await productPropertiesRepository.get(input.productId)
     cb(null, {properties: productProperties})
   } catch (error) {
     context.log.error('Unable to get product properties for ' + input.productId, error)

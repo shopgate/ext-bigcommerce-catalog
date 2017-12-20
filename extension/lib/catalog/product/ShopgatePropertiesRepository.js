@@ -13,7 +13,7 @@ class ShopgatePropertiesRepository {
    * @param {number} id
    * @returns {Promise<ShopgateProperty[]>}
    */
-  async get (id) {gi
+  async get (id) {
     const response = await this._client.get('/catalog/products/' + id + '?include_fields=weight')
     const shopgateProperties = []
     Array.prototype.push.apply(
