@@ -21,12 +21,12 @@ module.exports = async (context, input, cb) => {
   try {
     const categories = await bigCommerceCategoryRepository.getRootCategories()
 
-    context.log.info('Successfully executed @shopgate/bigcommerce-products/getRootCategories_v1.')
+    context.log.info('Successfully executed @shopgate/bigcommerce-catalog/getRootCategories_v1.')
     context.log.info('Result: ' + JSON.stringify(categories))
 
     cb(null, {categories: categories})
   } catch (error) {
-    context.log.error('Failed executing @shopgate/bigcommerce-products/getRootCategories_v1.')
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getRootCategories_v1.')
     cb(error)
   }
 }

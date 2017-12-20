@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "id": "@shopgate/bigcommerce-products",
+  "id": "@shopgate/bigcommerce-catalog",
   "directories": {
     "steps": "./extension/",
     "pipelines": "./pipelines/"

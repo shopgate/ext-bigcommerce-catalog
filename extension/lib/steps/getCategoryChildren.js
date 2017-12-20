@@ -23,12 +23,12 @@ module.exports = async (context, input, cb) => {
   try {
     const categories = await bigCommerceCategoryRepository.getCategoryChildren(parseInt(input.categoryId))
 
-    context.log.debug('Successfully executed @shopgate/bigcommerce-products/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(categories))
 
     cb(null, {children: categories})
   } catch (error) {
-    context.log.error('Failed executing @shopgate/bigcommerce-products/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
     cb(error)
   }
 }
