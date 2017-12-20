@@ -1,6 +1,5 @@
 const ProductPropertiesRepository = require('../catalog/product/ShopgatePropertiesRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
-const ShopgateBrandRepository = require('../catalog/brand/ShopgateBrandRepository')
 
 /**
  * @param {Object} context
@@ -20,8 +19,7 @@ module.exports = async (context, input, cb) => {
     context.config.accessToken,
     context.config.storeHash)
 
-  const shopgateBrandRepository = new ShopgateBrandRepository(bigCommerceFactory.createV3())
-  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3(), shopgateBrandRepository)
+  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
 
   try {
     const productProperties = await productPropertiesRepository.get(
