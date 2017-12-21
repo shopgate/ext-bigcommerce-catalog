@@ -1,6 +1,6 @@
 const Credentials = require('../../../../../../.integration-credentials')
 const BigCommerceFactory = require('../../../../../../extension/lib/steps/BigCommerceFactory')
-const ShopgateProductShippingRepository = require('./../../../../../../extension/lib/catalog/product/ShopgateShippingRepository')
+const ShopgateProductShippingRepository = require('../../../../../../extension/lib/catalog/product/repository/ShopgateShippingRepository')
 const ShopgateProductShipping = require('./../../../../../../extension/lib/catalog/product/ShopgateShipping')
 const BigCommerceProductEntityFactory = require('./../../../../../../extension/lib/catalog/product/BigCommerceEntityFactory')
 const BigCommerceConfigRepository = require('../../../../../../extension/lib/store/configuration/BigCommerceRepository')

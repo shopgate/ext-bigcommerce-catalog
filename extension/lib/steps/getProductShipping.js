@@ -1,4 +1,4 @@
-const ProductShippingRepository = require('../catalog/product/ShopgateShippingRepository')
+const ProductShippingRepository = require('../catalog/product/repository/ShopgateShippingRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
 const BigCommerceProductEntityFactory = require('../catalog/product/BigCommerceEntityFactory')

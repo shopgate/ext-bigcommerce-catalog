@@ -1,4 +1,4 @@
-const ShopgateProductShippingRepository = require('../../../../../../extension/lib/catalog/product/ShopgateShippingRepository')
+const ShopgateProductShippingRepository = require('../../../../../../extension/lib/catalog/product/repository/ShopgateShippingRepository')
 const sinon = require('sinon')
 const BigCommerceClient = require('node-bigcommerce')
 const BigCommerceProductEntityFactory = require('../../../../../../extension/lib/catalog/product/BigCommerceEntityFactory')
