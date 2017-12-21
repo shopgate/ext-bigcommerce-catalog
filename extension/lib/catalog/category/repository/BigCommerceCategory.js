@@ -1,4 +1,4 @@
-const ShopgateCategory = require('../Entity/ShopgateCategory')
+const ShopgateCategory = require('../entity/ShopgateCategory')
 
 class BigCommerceCategory {
   /**

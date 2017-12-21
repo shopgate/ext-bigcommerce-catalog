@@ -1,5 +1,5 @@
-const ShopgateCategory = require('../../../../../../../extension/lib/catalog/category/Entity/ShopgateCategory')
-const ShopgateParentCategoryInformation = require('../../../../../../../extension/lib/catalog/category/Entity/ShopgateParentCategoryInformation')
+const ShopgateCategory = require('../../../../../../../extension/lib/catalog/category/entity/ShopgateCategory')
+const ShopgateParentCategoryInformation = require('../../../../../../../extension/lib/catalog/category/entity/ShopgateParentCategoryInformation')
 const assert = require('assert')
 
 describe('ShopgateCategory', () => {

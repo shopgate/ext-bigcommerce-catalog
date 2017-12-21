@@ -1,6 +1,6 @@
-const BigCommerceCategory = require('../catalog/category/Repository/BigCommerceCategory.js')
+const BigCommerceCategory = require('../catalog/category/repository/BigCommerceCategory.js')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
-const BigCommerceRepositoryCommand = require('../catalog/category/Factory/BigCommerceRepositoryCommand')
+const BigCommerceRepositoryCommand = require('../catalog/category/factory/BigCommerceRepositoryCommand')
 
 /**
  * @param {object} context

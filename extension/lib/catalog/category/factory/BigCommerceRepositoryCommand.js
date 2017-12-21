@@ -1,7 +1,7 @@
-const GetAllVisibleCategoriesByParentId = require('../Repository/Command/GetAllVisibleCategoriesByParentId')
-const GetProductCountsByCategoryIds = require('../Repository/Command/GetProductCountsByCategoryIds')
-const GetCategoryById = require('../Repository/Command/GetCategoryById')
-const GetChildCategoryCountCategoryIds = require('../Repository/Command/GetChildCategoryCountByCategoryId')
+const GetAllVisibleCategoriesByParentId = require('../repository/command/GetAllVisibleCategoriesByParentId')
+const GetProductCountsByCategoryIds = require('../repository/command/GetProductCountsByCategoryIds')
+const GetCategoryById = require('../repository/command/GetCategoryById')
+const GetChildCategoryCountCategoryIds = require('../repository/command/GetChildCategoryCountByCategoryId')
 
 /**
  * @property {BigCommerceFactory} _bigCommerceFactory
