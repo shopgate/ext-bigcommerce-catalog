@@ -7,17 +7,11 @@ const BigCommerceFactory = require('./BigCommerceFactory')
  * @param {GetProductPropertiesCallback} cb
  */
 module.exports = async (context, input, cb) => {
-  if (!input.productId) {
-    context.log.error('Get product details called with invalid arguments')
-    cb(new Error('Invalid get product properties call'))
-
-    return
-  }
-
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
-    context.config.storeHash)
+    context.config.storeHash
+  )
 
   const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
   try {

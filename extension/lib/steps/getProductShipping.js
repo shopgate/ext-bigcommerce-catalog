@@ -9,17 +9,11 @@ const BigCommerceProductEntityFactory = require('../catalog/product/BigCommerceE
  * @param {GetProductShippingCallback} cb
  */
 module.exports = async (context, input, cb) => {
-  if (!input.hasOwnProperty('productId') || input.productId) {
-    context.log.error('Get product shipping called with invalid arguments')
-    cb(new Error('Invalid get product shipping call'))
-
-    return
-  }
-
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
-    context.config.storeHash)
+    context.config.storeHash
+  )
 
   const bigCommerceStoreConfigurationRepository = new BigCommerceConfigurationRepository(
     bigCommerceFactory.createV2()
@@ -29,7 +23,7 @@ module.exports = async (context, input, cb) => {
   const productShippingRepository = new ProductShippingRepository(bigCommerceFactory.createV3(), bigCommerceProductEntityFactory)
 
   try {
-    cb(null, { shipping: await productShippingRepository.get(input.productId) })
+    cb(null, {shipping: await productShippingRepository.get(input.productId)})
   } catch (error) {
     context.log.error('Unable to get product shipping for ' + input.productId, error)
     cb(error)
