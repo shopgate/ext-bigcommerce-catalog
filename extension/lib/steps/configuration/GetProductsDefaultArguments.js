@@ -4,5 +4,5 @@ module.exports = {
   DEFAULT_LIMIT: 20,
   DEFAULT_OFFSET: 0,
   DEFAULT_SHOW_INACTIVE: false,
-  DEFAULT_SORT: ShopgateSort.RANDOM // TODO remove reference into forein context
+  DEFAULT_SORT: ShopgateSort.RANDOM
 }
