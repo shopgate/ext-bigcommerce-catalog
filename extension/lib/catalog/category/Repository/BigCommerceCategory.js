@@ -82,7 +82,10 @@ class BigCommerceCategory {
     const promiseResults = await Promise.all([
       this._commandFactory.buildGetCategoryById(categoryId).execute(),
       this._commandFactory.buildGetProductCountsByCategoryIds([categoryId]).execute(),
-      this._commandFactory.buildGetAllVisibleCategoriesByParentId(categoryId).execute()
+      this._commandFactory.buildGetAllVisibleCategoriesByParentId(
+        categoryId,
+        ['id', 'parent_id', 'name', 'image_url']
+      ).execute()
     ])
 
     return ShopgateCategory.fromBigcommerceCategory(
