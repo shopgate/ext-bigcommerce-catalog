@@ -1,5 +1,5 @@
-const ProductWeight = require('./property/ShopgateWeight')
-const PropertyMapper = require('./ShopgatePropertyMapper')
+const ProductWeight = require('../property/ShopgateWeight')
+const PropertyMapper = require('../ShopgatePropertyMapper')
 
 class ShopgatePropertiesRepository {
   /**
