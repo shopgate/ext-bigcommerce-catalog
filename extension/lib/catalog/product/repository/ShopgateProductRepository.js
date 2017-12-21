@@ -1,4 +1,4 @@
-const ShopgateProductBuilder = require('./product/ShopgateBuilder')
+const ShopgateProductBuilder = require('../ShopgateBuilder')
 
 class ShopgateProductRepository {
   /**
