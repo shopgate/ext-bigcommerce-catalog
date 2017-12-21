@@ -1,4 +1,4 @@
-const ProductListRepository = require('../../lib/catalog/ShopgateProductListRepository.js')
+const ProductListRepository = require('../catalog/product/repository/ShopgateProductListRepository.js')
 const ShopgateGetProducts = require('../catalog/product/ShopgateGetProducts.js')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')

@@ -1,5 +1,5 @@
 const BigCommerce = require('node-bigcommerce')
-const ShopgateProductListRepository = require('../../../../../extension/lib/catalog/ShopgateProductListRepository.js')
+const ShopgateProductListRepository = require('../../../../../extension/lib/catalog/product/repository/ShopgateProductListRepository.js')
 const ShopgateProduct = require('../../../../../extension/lib/catalog/product/entity/ShopgateProduct.js')
 const assert = require('assert')
 
