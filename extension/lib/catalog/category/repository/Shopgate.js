@@ -1,6 +1,6 @@
 const ShopgateCategory = require('../entity/ShopgateCategory')
 
-class BigCommerceCategory {
+class Shopgate {
   /**
    * @param {BigCommerceRepositoryCommand} bigCommerceRepositoryCommandFactory
    */
@@ -146,4 +146,4 @@ class BigCommerceCategory {
   }
 }
 
-module.exports = BigCommerceCategory
+module.exports = Shopgate

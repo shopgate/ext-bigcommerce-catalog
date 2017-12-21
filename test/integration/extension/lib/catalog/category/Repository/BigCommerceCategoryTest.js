@@ -1,5 +1,5 @@
 const IntegrationCredentials = require('../../../../../../../.integration-credentials')
-const BigCommerceCategory = require('../../../../../../../extension/lib/catalog/category/repository/BigCommerceCategory.js')
+const ShopgateCategoryRepository = require('../../../../../../../extension/lib/catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('../../../../../../../extension/lib/steps/BigCommerceFactory.js')
 const BigCommerceRepositoryCommand = require('../../../../../../../extension/lib/catalog/category/factory/BigCommerceRepositoryCommand')
 const chai = require('chai')
@@ -22,7 +22,7 @@ describe('BigcommerceCategoryTest', function () {
 
   describe('#getRootCategories', function () {
     it('calls GetAllVisibleCategoriesByParentId#execute', function () {
-      const subjectUnderTest = new BigCommerceCategory(bigCommerceCategoryRepositoryCommandFactory)
+      const subjectUnderTest = new ShopgateCategoryRepository(bigCommerceCategoryRepositoryCommandFactory)
 
       return subjectUnderTest.getRootCategories().should.eventually.containSubset([
         {
