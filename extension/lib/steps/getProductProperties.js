@@ -16,9 +16,13 @@ module.exports = async (context, input, cb) => {
   const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
   try {
     const productProperties = await productPropertiesRepository.get(input.productId)
+
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductProperties_v1.')
+    context.log.debug('Result: ' + JSON.stringify(productProperties))
+
     cb(null, {properties: productProperties})
   } catch (error) {
-    context.log.error('Unable to get product properties for ' + input.productId, error)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductProperties_v1 with productId: ' + input.productId, error)
     cb(error)
   }
 }

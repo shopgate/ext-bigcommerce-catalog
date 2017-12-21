@@ -23,9 +23,14 @@ module.exports = async (context, input, cb) => {
   const productShippingRepository = new ProductShippingRepository(bigCommerceFactory.createV3(), bigCommerceProductEntityFactory)
 
   try {
-    cb(null, {shipping: await productShippingRepository.get(input.productId)})
+    const productShipping = await productShippingRepository.get(input.productId)
+
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductShipping_v1.')
+    context.log.debug('Result: ' + JSON.stringify(productShipping))
+
+    cb(null, {shipping: productShipping})
   } catch (error) {
-    context.log.error('Unable to get product shipping for ' + input.productId, error)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductShipping_v1 with productId: ' + input.productId, error)
     cb(error)
   }
 }

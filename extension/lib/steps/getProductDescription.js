@@ -15,11 +15,15 @@ module.exports = async (context, input, cb) => {
 
   const productDescriptionRepository = new ProductDescriptionRepository(bigCommerceFactory.createV3())
   try {
-    const descriptionResult = await productDescriptionRepository.get(input.productId)
-    cb(null, {description: descriptionResult})
+    const productDescription = await productDescriptionRepository.get(input.productId)
+
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductDescription_v1.')
+    context.log.debug('Result: ' + JSON.stringify(productDescription))
+
+    cb(null, {description: productDescription})
   } catch (error) {
-    context.log.error(
-      'Unable to get description for productId: ' + input.productId, error)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductDescription_v1 with productId: ' + input.productId, error)
+
     cb(error)
   }
 }

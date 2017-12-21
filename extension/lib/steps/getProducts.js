@@ -27,30 +27,38 @@ module.exports = async (context, input, cb) => {
 
   if (getByProductIds) {
     try {
-      const productResult = await productListRepository.getByProductIds(
+      const products = await productListRepository.getByProductIds(
         input.productIds,
         input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
         input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_OFFSET,
         input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
         input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
       )
-      cb(null, productResult)
+
+      context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
+      context.log.debug('Result: ' + JSON.stringify(products))
+
+      cb(null, products)
     } catch (error) {
-      context.log.error('Unable to get products for productIds: ' + input.productIds, error)
+      context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProducts_v1 with parameters: ' + JSON.stringify(input), error)
       cb(error)
     }
   }
 
   if (getByCategoryId) {
     try {
-      const productResult = await productListRepository.getByCategoryId(
+      const products = await productListRepository.getByCategoryId(
         input.categoryId,
         input.hasOwnProperty('offset') ? input.offset : ShopgateGetProducts.DEFAULT_OFFSET,
         input.hasOwnProperty('limit') ? input.limit : ShopgateGetProducts.DEFAULT_LIMIT,
         input.hasOwnProperty('sort') ? input.sort : ShopgateGetProducts.DEFAULT_SORT,
         input.hasOwnProperty('showInactive') ? input.showInactive : ShopgateGetProducts.DEFAULT_SHOW_INACTIVE
       )
-      cb(null, productResult)
+
+      context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
+      context.log.debug('Result: ' + JSON.stringify(products))
+
+      cb(null, products)
     } catch (error) {
       context.log.error('Unable to get products for categoryId: ' + input.categoryId, error)
       cb(error)

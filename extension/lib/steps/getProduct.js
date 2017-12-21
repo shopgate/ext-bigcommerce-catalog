@@ -22,9 +22,14 @@ module.exports = async (context, input, cb) => {
   )
 
   try {
-    cb(null, await productRepository.get(input.productId))
+    const product = await productRepository.get(input.productId)
+
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProduct_v1.')
+    context.log.debug('Result: ' + JSON.stringify(product))
+
+    cb(null, product)
   } catch (error) {
-    context.log.error('Unable to get product details for ' + input.productId, error)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProduct_v1 with productId: ' + input.productId, error)
     cb(error)
   }
 }
