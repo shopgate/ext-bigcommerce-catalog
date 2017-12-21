@@ -12,6 +12,14 @@ module.exports = async (context, input, cb) => {
   const getByCategoryId = input.hasOwnProperty('categoryId') && input.categoryId
   const getByProductIds = input.hasOwnProperty('productIds') && input.productIds
 
+  if (!getByCategoryId && !getByProductIds) {
+    cb(null, {
+      totalProductCount: 0,
+      products: []
+    })
+    return
+  }
+
   const bigCommerceFactory = new BigComerceFactory(
     context.config.clientId,
     context.config.accessToken,
