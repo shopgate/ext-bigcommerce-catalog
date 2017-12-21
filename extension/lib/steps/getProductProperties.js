@@ -15,7 +15,7 @@ module.exports = async (context, input, cb) => {
 
   const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
   try {
-    const productProperties = await productPropertiesRepository.get(input.productId)
+    const productProperties = await productPropertiesRepository.get(Number.parseInt(input.productId))
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductProperties_v1.')
     context.log.debug('Result: ' + JSON.stringify(productProperties))

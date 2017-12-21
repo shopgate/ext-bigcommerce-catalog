@@ -22,7 +22,7 @@ module.exports = async (context, input, cb) => {
   )
 
   try {
-    const product = await productRepository.get(input.productId)
+    const product = await productRepository.get(Number.parseInt(input.productId))
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProduct_v1.')
     context.log.debug('Result: ' + JSON.stringify(product))

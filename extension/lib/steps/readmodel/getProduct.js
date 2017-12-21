@@ -6,5 +6,5 @@
 
 /**
  * @typedef {Object} GetProductInput
- * @property {number} productId
+ * @property {string} productId
  */

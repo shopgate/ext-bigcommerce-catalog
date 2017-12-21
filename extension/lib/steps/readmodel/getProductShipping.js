@@ -11,5 +11,5 @@
 
 /**
  * @typedef {Object} GetProductShippingInput
- * @property {number} productId
+ * @property {string} productId
  */

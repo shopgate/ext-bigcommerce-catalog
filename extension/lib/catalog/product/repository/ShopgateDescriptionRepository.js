@@ -6,10 +6,14 @@ class ShopgateProductDescriptionRepository {
     this._apiVersion3Client = apiVersion3Client
   }
 
+  /**
+   * @param {number} productId
+   * @return {string}
+   */
   async get (productId) {
-    const bigCommerceProductResponse = await this._apiVersion3Client.get(
-      '/catalog/products/' + productId + '?include_fields=description')
-    return bigCommerceProductResponse.data.description
+    return (await this._apiVersion3Client.get(
+      '/catalog/products/' + productId + '?include_fields=description'
+    )).data.description
   }
 }
 

@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} GetProductDescriptionInput
- * @property {number} productId
+ * @property {string} productId
  */
 
 /**
