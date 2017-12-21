@@ -1,4 +1,4 @@
-const ProductDescriptionRepository = require('../catalog/product/ShopgateDescriptionRepository.js')
+const ProductDescriptionRepository = require('../catalog/product/repository/ShopgateDescriptionRepository.js')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 
 /**
