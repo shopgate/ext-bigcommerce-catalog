@@ -1,4 +1,4 @@
-const ShopgateProperty = require('./ShopgateProperty')
+const ShopgateProperty = require('../entity/ShopgateProperty')
 
 class ShopgatePropertyMapper {
   /**

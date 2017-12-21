@@ -1,4 +1,4 @@
-const ShopgateProductShipping = require('../ShopgateShipping')
+const ShopgateProductShipping = require('../entity/ShopgateShipping')
 
 class ShopgateShippingRepository {
   /**

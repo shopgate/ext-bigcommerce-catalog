@@ -1,6 +1,6 @@
-const ShopgateProductWeight = require('../../../../../../extension/lib/catalog/product/property/ShopgateWeight')
-const ShopgateProductPropertyMapper = require('../../../../../../extension/lib/catalog/product/ShopgatePropertyMapper')
-const ShopgateProductProperty = require('../../../../../../extension/lib/catalog/product/ShopgateProperty')
+const ShopgateProductWeight = require('../../../../../../../extension/lib/catalog/product/value_objects/ShopgateWeight')
+const ShopgateProductPropertyMapper = require('../../../../../../../extension/lib/catalog/product/service/ShopgatePropertyMapper')
+const ShopgateProductProperty = require('../../../../../../../extension/lib/catalog/product/entity/ShopgateProperty')
 const assert = require('assert')
 
 describe('ShopgatePropertyMapper', () => {

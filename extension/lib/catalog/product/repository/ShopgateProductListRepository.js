@@ -1,5 +1,5 @@
-const ShopgateProductBuilder = require('../ShopgateBuilder')
-const Sort = require('../ShopgateSort.js')
+const ShopgateProductBuilder = require('../service/ShopgateProductBuilder')
+const Sort = require('../value_objects/ShopgateSort.js')
 
 class ShopgateProductListRepository {
   /**

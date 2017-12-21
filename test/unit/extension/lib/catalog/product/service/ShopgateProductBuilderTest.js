@@ -1,5 +1,5 @@
-const ShopgateProductBuilder = require('../../../../../extension/lib/catalog/product/ShopgateBuilder')
-const ShopgateProduct = require('../../../../../extension/lib/catalog/product/entity/ShopgateProduct')
+const ShopgateProductBuilder = require('../../../../../../../extension/lib/catalog/product/service/ShopgateProductBuilder')
+const ShopgateProduct = require('../../../../../../../extension/lib/catalog/product/entity/ShopgateProduct')
 const assert = require('assert')
 
 describe('Shopgate product builder ', () => {

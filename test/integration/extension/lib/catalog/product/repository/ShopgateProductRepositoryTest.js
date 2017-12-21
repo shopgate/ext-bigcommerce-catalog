@@ -1,8 +1,8 @@
-const Credentials = require('../../../../../.integration-credentials.js')
-const ShopgateProductRepository = require('../../../../../extension/lib/catalog/product/repository/ShopgateProductRepository')
-const ShopgateProduct = require('../../../../../extension/lib/catalog/product/entity/ShopgateProduct')
-const BigCommerceConfigRepository = require('../../../../../extension/lib/store/configuration/BigCommerceRepository')
-const BigCommerceFactory = require('../../../../../extension/lib/steps/BigCommerceFactory')
+const Credentials = require('../../../../../../../.integration-credentials.js')
+const ShopgateProductRepository = require('../../../../../../../extension/lib/catalog/product/repository/ShopgateProductRepository')
+const ShopgateProduct = require('../../../../../../../extension/lib/catalog/product/entity/ShopgateProduct')
+const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository')
+const BigCommerceFactory = require('../../../../../../../extension/lib/steps/BigCommerceFactory')
 
 describe('Product get by id', () => {
   it('will return a Product object with name, price and currency', () => {

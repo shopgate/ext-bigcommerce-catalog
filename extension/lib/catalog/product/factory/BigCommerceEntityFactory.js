@@ -1,4 +1,4 @@
-const BigCommerceProductEntity = require('./entity/BigCommerceProduct')
+const BigCommerceProductEntity = require('../entity/BigCommerceProduct')
 
 class BigCommerceProductEntityFactory {
   /**

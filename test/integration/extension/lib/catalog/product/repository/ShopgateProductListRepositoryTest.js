@@ -1,8 +1,8 @@
-const IntegrationCredentials = require('../../../../../.integration-credentials')
+const IntegrationCredentials = require('../../../../../../../.integration-credentials')
 const BigCommerce = require('node-bigcommerce')
-const ShopgateProductListRepository = require('../../../../../extension/lib/catalog/product/repository/ShopgateProductListRepository.js')
-const ShopgateSort = require('../../../../../extension/lib/catalog/product/ShopgateSort.js')
-const BigCommerceConfigRepository = require('../../../../../extension/lib/store/configuration/BigCommerceRepository.js')
+const ShopgateProductListRepository = require('../../../../../../../extension/lib/catalog/product/repository/ShopgateProductListRepository.js')
+const ShopgateSort = require('../../../../../../../extension/lib/catalog/product/value_objects/ShopgateSort.js')
+const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository.js')
 
 describe('ShopgateProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({

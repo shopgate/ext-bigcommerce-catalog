@@ -1,9 +1,9 @@
-const ShopgateProduct = require('./entity/ShopgateProduct.js')
-const ShopgateAvailibility = require('./ShopgateAvailability.js')
-const BigCommerceProduct = require('./readmodel/BigCommerceProduct.js')
-const ShopgateProductType = require('./ShopgateType.js')
+const ShopgateProduct = require('../entity/ShopgateProduct.js')
+const ShopgateAvailibility = require('../value_objects/ShopgateAvailability.js')
+const BigCommerceProduct = require('../read_model/BigCommerceProduct.js')
+const ShopgateProductType = require('../value_objects/ShopgateType.js')
 
-class ShopgateBuilder {
+class ShopgateProductBuilder {
   /**
    * @param {BigCommerceProduct} bigCommereProduct
    * @param {string} bigCommerceStoreCurrency
@@ -307,4 +307,4 @@ class ShopgateBuilder {
   }
 }
 
-module.exports = ShopgateBuilder
+module.exports = ShopgateProductBuilder

@@ -1,7 +1,7 @@
 const ProductShippingRepository = require('../catalog/product/repository/ShopgateShippingRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
-const BigCommerceProductEntityFactory = require('../catalog/product/BigCommerceEntityFactory')
+const BigCommerceProductEntityFactory = require('../catalog/product/factory/BigCommerceEntityFactory')
 
 /**
  * @param {Object} context
