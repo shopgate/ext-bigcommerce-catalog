@@ -1,7 +1,3 @@
-/**
- * @property {BigCommerce} _apiVersion3Client
- * @property {number} categoryId
- */
 class GetChildCategoryCountByCategoryId {
   /**
    * @param {BigCommerce} apiVersion3Client

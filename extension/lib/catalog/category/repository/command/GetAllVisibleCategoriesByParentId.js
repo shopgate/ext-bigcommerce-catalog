@@ -1,9 +1,3 @@
-/**
- * @property {BigCommerce} _apiVersion3Client
- * @property {number} _parentId
- * @property {string[]} _includeFields
- * @property {number} _pageSize
- */
 class GetAllVisibleCategoriesByParentId {
   /**
    * @param {BigCommerce} apiVersion3Client

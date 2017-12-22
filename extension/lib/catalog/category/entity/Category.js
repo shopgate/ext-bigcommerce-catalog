@@ -1,20 +1,11 @@
-const ShopgateParentCategoryInformation = require('./ShopgateParentCategoryInformation')
+const ParentCategoryInformation = require('./ParentCategoryInformation')
 
-/**
- * @property {string} _id
- * @property {string} _name
- * @property {string} _imageUrl
- * @property {ShopgateParentCategoryInformation} _parent
- * @property {number} _productCount
- * @property {number} _childrenCount
- * @property {ShopgateCategory[]} children
- */
-class ShopgateCategory {
+class Category {
   /**
    * @param {string} id
    * @param {string} name
    * @param {string} imageUrl
-   * @param {ShopgateParentCategoryInformation|null} [parent]
+   * @param {ParentCategoryInformation|null} [parent]
    * @param {number} [productCount]
    * @param {number} [childrenCount]
    * @param {ShopgateCategory[]} [children]
@@ -51,7 +42,7 @@ class ShopgateCategory {
   }
 
   /**
-   * @returns {ShopgateParentCategoryInformation}
+   * @returns {ParentCategoryInformation}
    */
   get parent () {
     return this._parent
@@ -72,7 +63,7 @@ class ShopgateCategory {
   }
 
   /**
-   * @returns {ShopgateCategory[]}
+   * @returns {Category[]}
    */
   get children () {
     return this._children
@@ -82,14 +73,14 @@ class ShopgateCategory {
    * @param {BigCommerceCategory} bigCommerceCategory
    * @param {number} [productCount]
    * @param {number} [childrenCount]
-   * @param {ShopgateCategory[]} [children]
+   * @param {Category[]} [children]
    *
-   * @return {ShopgateCategory}
+   * @return {Category}
    */
   static fromBigcommerceCategory (bigCommerceCategory, productCount = 1, childrenCount = 0, children = []) {
     let parentCategory
     if (bigCommerceCategory.hasOwnProperty('parent_id')) {
-      parentCategory = new ShopgateParentCategoryInformation(bigCommerceCategory.parent_id.toString(), '')
+      parentCategory = new ParentCategoryInformation(bigCommerceCategory.parent_id.toString(), '')
     }
 
     return new this(
@@ -123,8 +114,7 @@ class ShopgateCategory {
       id: this.id,
       name: this.name,
       imageUrl: this.imageUrl,
-      productCount: this.productCount,
-      parent: this.parent.toShopgateParentCategory()
+      productCount: this.productCount
     }
   }
 
@@ -139,9 +129,9 @@ class ShopgateCategory {
       parent: this.parent.toShopgateParentCategory(),
       productCount: this.productCount,
       childrenCount: this.childrenCount,
-      children: this.children
+      children: this.children.map(child => child.toShopgateChildCategory())
     }
   }
 }
 
-module.exports = ShopgateCategory
+module.exports = Category

@@ -1,22 +1,22 @@
-const ShopgateCategory = require('../../../../../../../extension/lib/catalog/category/entity/ShopgateCategory')
-const ShopgateParentCategoryInformation = require('../../../../../../../extension/lib/catalog/category/entity/ShopgateParentCategoryInformation')
+const Category = require('../../../../../../../extension/lib/catalog/category/entity/Category')
+const ParentCategoryInformation = require('../../../../../../../extension/lib/catalog/category/entity/ParentCategoryInformation')
 const assert = require('assert')
 
-describe('ShopgateCategory', () => {
+describe('Category', () => {
   let subjectUnderTest
   beforeEach(() => {
-    subjectUnderTest = new ShopgateCategory(
+    subjectUnderTest = new Category(
       '11',
       'Test category',
       'http://www.shopgate.com',
-      new ShopgateParentCategoryInformation('5', 'Parent'),
+      new ParentCategoryInformation('5', 'Parent'),
       10,
       0,
       []
     )
   })
 
-  it('should create ShopgateCategory when toShopgateCategory is invoked', () => {
+  it('should create Category when toShopgateCategory is invoked', () => {
     const expectedShopgateCategoryResponse = {
       children: [],
       childrenCount: 0,
@@ -40,10 +40,6 @@ describe('ShopgateCategory', () => {
       id: '11',
       imageUrl: 'http://www.shopgate.com',
       name: 'Test category',
-      parent: {
-        id: '5',
-        name: 'Parent'
-      },
       productCount: 10
     }
 

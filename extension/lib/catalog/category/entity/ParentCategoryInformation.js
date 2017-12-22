@@ -1,8 +1,4 @@
-/**
- * @property {string} _id
- * @property {string} _name
- */
-class ShopgateParentCategoryInformation {
+class ParentCategoryInformation {
   /**
    * @param {string} id
    * @param {string} name
@@ -27,7 +23,7 @@ class ShopgateParentCategoryInformation {
   }
 
   /**
-   * @returns {ShopgateParentCategoryInformation}
+   * @return {ShopgateParentCategoryInformation}
    */
   toShopgateParentCategory () {
     return {
@@ -37,4 +33,4 @@ class ShopgateParentCategoryInformation {
   }
 }
 
-module.exports = ShopgateParentCategoryInformation
+module.exports = ParentCategoryInformation

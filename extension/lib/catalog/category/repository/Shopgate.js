@@ -1,84 +1,76 @@
-const ShopgateCategory = require('../entity/ShopgateCategory')
+const Category = require('../entity/Category')
 
 class Shopgate {
   /**
-   * @param {BigCommerceRepositoryCommand} bigCommerceRepositoryCommandFactory
+   * @param {RepositoryCommand} bigCommerceRepositoryCommandFactory
    */
   constructor (bigCommerceRepositoryCommandFactory) {
     this._commandFactory = bigCommerceRepositoryCommandFactory
   }
 
   /**
-   * @return Promise<ShopgateRootCategory[]>
+   * @return Promise<Category[]>
    */
-  async getRootCategories () {
-    const shopgateCategories = this._buildShopgateRootCategories(
-      await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
-        0,
-        ['id', 'name', 'image_url']
-      ).execute()
-    )
-
-    const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
-      shopgateCategories.map(category => Number.parseInt(category.id))
+  async getRoot () {
+    const bigcommerceCategories = await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
+      0,
+      ['id', 'name', 'image_url']
     ).execute()
 
-    for (let i = 0; i < shopgateCategories.length; i++) {
-      shopgateCategories[i].productCount = bigCommerceProductCounts[i]
-    }
+    const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
+      bigcommerceCategories.map(category => category.id)
+    ).execute()
 
-    return shopgateCategories
+    return bigcommerceCategories.map((bigcommerceCategory, index) => {
+      return Category.fromBigcommerceCategory(bigcommerceCategory, bigCommerceProductCounts[index])
+    })
   }
 
   /**
    * @param {number} categoryId
    *
-   * @return {Promise<ShopgateCategoryChild[]>}
+   * @return {Promise<Category[]>}
    */
-  async getCategoryChildren (categoryId) {
-    const shopgateCategories = this._buildShopgateChildCategories(
-      await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
-        categoryId,
-        ['id', 'parent_id', 'name', 'image_url']
-      ).execute()
-    )
-
-    const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
-      shopgateCategories.map(category => Number.parseInt(category.id))
+  async getChildrenByParentId (categoryId) {
+    const bigCommerceCategories = await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
+      categoryId,
+      ['id', 'parent_id', 'name', 'image_url']
     ).execute()
 
-    for (let i = 0; i < shopgateCategories.length; i++) {
-      shopgateCategories[i].productCount = bigCommerceProductCounts[i]
-    }
+    const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
+      bigCommerceCategories.map(category => category.id)
+    ).execute()
 
-    return shopgateCategories
+    return bigCommerceCategories.map((bigcommerceCategory, index) => {
+      return Category.fromBigcommerceCategory(bigcommerceCategory, bigCommerceProductCounts[index])
+    })
   }
 
   /**
    * @param {number} categoryId
    *
-   * @return {Promise<ShopgateCategory>}
+   * @return {Promise<Category>}
    */
-  async getCategory (categoryId) {
+  async getById (categoryId) {
     const promiseResults = await Promise.all([
       this._commandFactory.buildGetCategoryById(categoryId).execute(),
       this._commandFactory.buildGetProductCountsByCategoryIds([categoryId]).execute(),
       this._commandFactory.buildGetChildCategoryCountByCategoryId(categoryId).execute()
     ])
 
-    return ShopgateCategory.fromBigcommerceCategory(
+    return Category.fromBigcommerceCategory(
       promiseResults[0], // the category data itself
       promiseResults[1][0], // product count
       promiseResults[2] // child category count
-    ).toShopgateCategory()
+    )
   }
 
   /**
    * @param {number} categoryId
    *
-   * @return {Promise<ShopgateCategory>}
+   * @return {Promise<Category>}
    */
-  async getCategoryWithChildren (categoryId) {
+  async getByIdWithChildren (categoryId) {
     const promiseResults = await Promise.all([
       this._commandFactory.buildGetCategoryById(categoryId).execute(),
       this._commandFactory.buildGetProductCountsByCategoryIds([categoryId]).execute(),
@@ -88,61 +80,12 @@ class Shopgate {
       ).execute()
     ])
 
-    return ShopgateCategory.fromBigcommerceCategory(
+    return Category.fromBigcommerceCategory(
       promiseResults[0], // the category data itself
       promiseResults[1][0], // product count
       promiseResults[2].length, // child category count
-      this._buildShopgateCategories(promiseResults[2]) // child categories
-    ).toShopgateCategory()
-  }
-
-  /**
-   * @param {BigCommerceCategory[]} bigCommerceCategories
-   *
-   * @return {ShopgateRootCategory[]}
-   *
-   * @private
-   */
-  _buildShopgateRootCategories (bigCommerceCategories) {
-    const resultCategories = []
-
-    for (const bigCommerceCategory of bigCommerceCategories) {
-      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigCommerceCategory).toShopgateRootCategory())
-    }
-
-    return resultCategories
-  }
-
-  /**
-   * @param {BigCommerceCategory[]} bigCommerceCategories
-   *
-   * @return {ShopgateCategoryChild[]}
-   *
-   * @private
-   */
-  _buildShopgateChildCategories (bigCommerceCategories) {
-    const resultCategories = []
-
-    for (const bigCommerceCategory of bigCommerceCategories) {
-      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigCommerceCategory).toShopgateChildCategory())
-    }
-    return resultCategories
-  }
-
-  /**
-   * @param bigCommerceCategories
-   *
-   * @return {ShopgateCategory[]}
-   *
-   * @private
-   */
-  _buildShopgateCategories (bigCommerceCategories) {
-    const resultCategories = []
-
-    for (const bigCommerceCategory of bigCommerceCategories) {
-      resultCategories.push(ShopgateCategory.fromBigcommerceCategory(bigCommerceCategory).toShopgateCategory())
-    }
-    return resultCategories
+      promiseResults[2].map(bigCommerceCategory => Category.fromBigcommerceCategory(bigCommerceCategory)) // child categories
+    )
   }
 }
 

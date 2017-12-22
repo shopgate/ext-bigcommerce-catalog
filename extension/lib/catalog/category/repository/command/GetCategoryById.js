@@ -1,7 +1,3 @@
-/**
- * @property {BigCommerce} _apiVersion3Client
- * @property {number} _categoryId
- */
 class GetCategoryById {
   /**
    * @param {BigCommerce} apiVersion3Client

@@ -1,7 +1,7 @@
 /**
  * @callback GetRootCategoriesCallback
  * @property {Error} [error]
- * @property {GetRootCategoriesResponse} [categoriesResponse]
+ * @property {GetRootCategoriesResponse} [categories]
  */
 
 /**

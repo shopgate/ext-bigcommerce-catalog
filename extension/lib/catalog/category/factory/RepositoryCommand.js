@@ -3,10 +3,7 @@ const GetProductCountsByCategoryIds = require('../repository/command/GetProductC
 const GetCategoryById = require('../repository/command/GetCategoryById')
 const GetChildCategoryCountCategoryIds = require('../repository/command/GetChildCategoryCountByCategoryId')
 
-/**
- * @property {BigCommerceFactory} _bigCommerceFactory
- */
-class BigCommerceRepositoryCommand {
+class RepositoryCommand {
   /**
    * @param {BigCommerceFactory} bigCommerceFactory
    */
@@ -58,4 +55,4 @@ class BigCommerceRepositoryCommand {
   }
 }
 
-module.exports = BigCommerceRepositoryCommand
+module.exports = RepositoryCommand
