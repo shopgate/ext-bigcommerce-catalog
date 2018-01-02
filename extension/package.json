@@ -8,7 +8,7 @@
     "testIntegration": "_mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
     "lint": "standard",
     "lint-staged": "lint-staged",
-    "dependency": "nsp check",
+    "check": "nsp check",
     "cover": "nyc _mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
     "coverIntegration": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration -R mocha-jenkins-reporter",
     "coverAll": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration --recursive ../test/unit -R mocha-jenkins-reporter"
