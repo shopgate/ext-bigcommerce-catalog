@@ -1,4 +1,4 @@
-class BigCommerceProductEntity {
+class BigCommerceProduct {
   /**
    * @param {BigCommerceProduct} bigCommerceProduct
    * @param {BigCommerceRepository} bigCommerceStoreConfigurationRepository
@@ -25,4 +25,4 @@ class BigCommerceProductEntity {
   }
 }
 
-module.exports = BigCommerceProductEntity
+module.exports = BigCommerceProduct
