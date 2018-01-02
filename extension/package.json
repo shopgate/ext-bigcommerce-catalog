@@ -5,11 +5,15 @@
   "scripts": {
     "test": "_mocha --use_strict --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
     "testIntegration": "_mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
-    "standard": "standard",
+    "lint": "standard",
+    "lint-staged": "lint-staged",
     "dependency": "nsp check",
     "cover": "nyc _mocha --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
     "coverIntegration": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration -R mocha-jenkins-reporter",
     "coverAll": "nyc _mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration --recursive ../test/unit -R mocha-jenkins-reporter"
+  },
+  "lint-staged": {
+    "*.js": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -31,15 +35,21 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
+    "lint-staged": "^6.0.0",
     "mocha": "^3.2.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "nock": "^9.0.13",
     "nsp": "^3.1.0",
     "nyc": "^11.3.0",
+    "pre-commit": "^1.2.2",
     "request": "^2.83.0",
     "sinon": "^4.1.2",
     "standard": "^10.0.3"
   },
+  "pre-commit": [
+    "lint-staged",
+    "test"
+  ],
   "standard": {
     "env": {
       "mocha": true,

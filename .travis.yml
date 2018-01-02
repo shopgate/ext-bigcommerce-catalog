@@ -14,7 +14,7 @@ matrix:
       script:
       - cd extension
       - npm run test
-      - npm run standard
+      - npm run lint
       - npm run dependency
     - node_js: 8
       env: TYPE=INTEGRATION
