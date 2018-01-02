@@ -11,7 +11,7 @@ class Shopgate {
   /**
    * @return Promise<Category[]>
    */
-  async getRoot () {
+  async getRootCategories () {
     const bigcommerceCategories = await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
       0,
       ['id', 'name', 'image_url']

@@ -19,7 +19,7 @@ module.exports = async (context, input, cb) => {
   )
 
   try {
-    const categories = (await shopgateCategoryRepository.getRoot()).map(category => category.toShopgateRootCategory())
+    const categories = (await shopgateCategoryRepository.getRootCategories()).map(category => category.toShopgateRootCategory())
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getRootCategories_v1.')
     context.log.debug('Result: ' + JSON.stringify(categories))

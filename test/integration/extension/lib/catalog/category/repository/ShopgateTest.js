@@ -20,11 +20,11 @@ describe('BigcommerceCategoryTest', function () {
     )
   )
 
-  describe('#getRoot', function () {
+  describe('#getRootCategories', function () {
     it('calls GetAllVisibleCategoriesByParentId#execute', function () {
       const subjectUnderTest = new ShopgateRepository(repositoryCommandFactory)
 
-      return subjectUnderTest.getRoot().should.eventually.containSubset([
+      return subjectUnderTest.getRootCategories().should.eventually.containSubset([
         {
           id: 19,
           imageUrl: '',
