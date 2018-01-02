@@ -3,6 +3,7 @@ const BigCommerce = require('node-bigcommerce')
 const ShopgateProductListRepository = require('../../../../../../../extension/lib/catalog/product/repository/ShopgateProductListRepository.js')
 const ShopgateSort = require('../../../../../../../extension/lib/catalog/product/value_objects/ShopgateSort.js')
 const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository.js')
+const BigCommerceBrandRepository = require('../../../../../../../extension/lib/catalog/product/repository/BigCommerceBrandRepository.js')
 
 describe('ShopgateProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({
@@ -25,7 +26,7 @@ describe('ShopgateProductListRepository', function () {
 
   let subjectUnderTest
   beforeEach(function () {
-    subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi, new BigCommerceConfigRepository(BigCommerceApiV2))
+    subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi, new BigCommerceConfigRepository(BigCommerceApiV2), new BigCommerceBrandRepository(BigCommerceApi))
   })
 
   describe('getByCategoryId', function () {

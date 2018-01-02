@@ -1,4 +1,5 @@
 const ProductListRepository = require('../catalog/product/repository/ShopgateProductListRepository.js')
+const BigCommerceBrandRepository = require('../catalog/product/repository/BigCommerceBrandRepository')
 const ShopgateGetProducts = require('./configuration/GetProductsDefaultArguments')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
@@ -26,10 +27,14 @@ module.exports = async (context, input, cb) => {
     context.config.storeHash
   )
 
+  const BigCommerceApiVersion3 = bigCommerceFactory.createV3()
   const productListRepository = new ProductListRepository(
-    bigCommerceFactory.createV3(),
+    BigCommerceApiVersion3,
     new BigCommerceConfigurationRepository(
       bigCommerceFactory.createV2()
+    ),
+    new BigCommerceBrandRepository(
+      BigCommerceApiVersion3
     )
   )
 

@@ -1,6 +1,7 @@
 const Credentials = require('../../../../../../../.integration-credentials.js')
 const ShopgateProductRepository = require('../../../../../../../extension/lib/catalog/product/repository/ShopgateProductRepository')
 const ShopgateProduct = require('../../../../../../../extension/lib/catalog/product/entity/ShopgateProduct')
+const BigCommerceBrandRepository = require('../../../../../../../extension/lib/catalog/product/repository/BigCommerceBrandRepository')
 const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository')
 const BigCommerceFactory = require('../../../../../../../extension/lib/steps/BigCommerceFactory')
 
@@ -10,12 +11,16 @@ describe('Product get by id', () => {
     const configRepository = new BigCommerceConfigRepository(factory.createV2())
     const subjectUnderTest = new ShopgateProductRepository(
       factory.createV3(),
-      configRepository
+      configRepository,
+      new BigCommerceBrandRepository(
+        factory.createV3()
+      )
     )
 
     const expectedProduct = {
       id: 114,
       name: 'SG IT Simple product',
+      manufacturer: 'Chanel',
       price: {
         currency: 'USD',
         unitPrice: 69.99

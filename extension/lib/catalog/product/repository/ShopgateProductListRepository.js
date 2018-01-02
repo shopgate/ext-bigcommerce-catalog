@@ -5,10 +5,12 @@ class ShopgateProductListRepository {
   /**
    * @param {BigCommerce} apiVersion3Client
    * @param {BigCommerceRepository} bigCommerceStoreConfigurationRepository
+   * @param {BigCommerceBrandRepository} bigCommerceBrandRepository
    */
-  constructor (apiVersion3Client, bigCommerceStoreConfigurationRepository) {
-    this.apiVersion3Client = apiVersion3Client
-    this.bigCommerceStoreConfigurationRepository = bigCommerceStoreConfigurationRepository
+  constructor (apiVersion3Client, bigCommerceStoreConfigurationRepository, bigCommerceBrandRepository) {
+    this._apiVersion3Client = apiVersion3Client
+    this._bigCommerceStoreConfigurationRepository = bigCommerceStoreConfigurationRepository
+    this._bigCommerceBrandRepository = bigCommerceBrandRepository
   }
 
   /**
@@ -27,7 +29,7 @@ class ShopgateProductListRepository {
     /**
      * @type BigCommercePage
      */
-    const firstPage = await this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
+    const firstPage = await this._apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
 
     return this._getProducts([firstPage], firstPage.meta.pagination.total)
   }
@@ -83,7 +85,7 @@ class ShopgateProductListRepository {
     const bigCommerceGetParameters = this._prepareParametersForGetProducts(offset, limit, sort, showInactive)
 
     for (const productId of productIds) {
-      pagePromises.push(this.apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&') + '&id=' + productId))
+      pagePromises.push(this._apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&') + '&id=' + productId))
     }
 
     return this._getProducts(pagePromises, productIds.length)
@@ -103,7 +105,7 @@ class ShopgateProductListRepository {
     const products = []
 
     const bigCommerceProductReponses = await Promise.all(pagePromises)
-    const bigCommerceStoreCurrency = await this.bigCommerceStoreConfigurationRepository.getCurrency()
+    const bigCommerceStoreCurrency = await this._bigCommerceStoreConfigurationRepository.getCurrency()
 
     let promisesForBrands = []
     for (const bigCommerceProductRequest of bigCommerceProductReponses) {
@@ -112,7 +114,7 @@ class ShopgateProductListRepository {
 
         products.push(shopgateProductBuilder.build())
 
-        promisesForBrands.push(this._getBrandAsync(bigCommerceProductData.brand_id))
+        promisesForBrands.push(this._bigCommerceBrandRepository.get(bigCommerceProductData.brand_id))
       }
     }
 
@@ -172,25 +174,6 @@ class ShopgateProductListRepository {
     }
 
     return sortingParameters
-  }
-
-  /**
-   * @returns {Promise<string>}
-   *
-   * @private
-   */
-  async _getBrandAsync (brandId) {
-    if (!brandId) {
-      return ''
-    }
-
-    const data = await this.apiVersion3Client.get('/catalog/brands/' + brandId)
-
-    if (data.data.hasOwnProperty('name')) {
-      return data.data.name
-    }
-
-    return ''
   }
 }
 
