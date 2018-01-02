@@ -1,4 +1,4 @@
-class ShopgateProductShipping {
+class ShopgateShipping {
   /**
    * @param {number} price
    * @param {string} currency
@@ -9,4 +9,4 @@ class ShopgateProductShipping {
   }
 }
 
-module.exports = ShopgateProductShipping
+module.exports = ShopgateShipping

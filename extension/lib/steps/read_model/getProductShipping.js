@@ -6,7 +6,7 @@
 
 /**
  * @typedef {Object} ShopgateProductShippingResponse
- * @property {ShopgateProductShipping} shipping
+ * @property {ShopgateShipping} shipping
  */
 
 /**
