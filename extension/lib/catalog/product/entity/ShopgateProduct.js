@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} ShopgateProductPrice
- * @property {ShopgateProductPriceTiers} [tiers]
+ * @property {ShopgateProductPriceTier[]} [tiers]
  * @property {string} [info]
  * @property {number} [unitPrice]
  * @property {number} [unitPriceStriked]
@@ -34,7 +34,7 @@
  */
 
 /**
- * @typedef {Object} ShopgateProductPriceTiers
+ * @typedef {Object} ShopgateProductPriceTier
  * @property {number} [from]
  * @property {number} [to]
  * @property {number} [unitPrice]

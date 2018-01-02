@@ -9,3 +9,5 @@ npm-debug.log
 extension/test
 .integration-credentials.js
 extension/config.json
+/extension/.nyc_output
+.nyc_output

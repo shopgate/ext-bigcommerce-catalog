@@ -1,4 +1,4 @@
-const ProductPropertiesRepository = require('../catalog/product/ShopgatePropertiesRepository')
+const ProductPropertiesRepository = require('../catalog/product/repository/ShopgatePropertiesRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
 
 /**
@@ -7,24 +7,22 @@ const BigCommerceFactory = require('./BigCommerceFactory')
  * @param {GetProductPropertiesCallback} cb
  */
 module.exports = async (context, input, cb) => {
-  if (!input.productId) {
-    context.log.error('Get product details called with invalid arguments')
-    cb(new Error('Invalid get product properties call'))
-
-    return
-  }
-
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
-    context.config.storeHash)
+    context.config.storeHash
+  )
 
   const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
   try {
-    const productProperties = await productPropertiesRepository.get(input.productId)
+    const productProperties = await productPropertiesRepository.get(Number.parseInt(input.productId))
+
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductProperties_v1.')
+    context.log.debug('Result: ' + JSON.stringify(productProperties))
+
     cb(null, {properties: productProperties})
   } catch (error) {
-    context.log.error('Unable to get product properties for ' + input.productId, error)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductProperties_v1 with productId: ' + input.productId, error)
     cb(error)
   }
 }

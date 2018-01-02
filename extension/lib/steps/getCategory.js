@@ -1,6 +1,6 @@
-const BigCommerceCategory = require('../catalog/category/Repository/BigCommerceCategory.js')
+const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
-const BigCommerceRepositoryCommand = require('../catalog/category/Factory/BigCommerceRepositoryCommand')
+const BigCommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
 
 /**
  * @param {object} context
@@ -11,7 +11,7 @@ const BigCommerceRepositoryCommand = require('../catalog/category/Factory/BigCom
  * @param {GetCategoryCallback} cb
  */
 module.exports = async (context, input, cb) => {
-  const bigCommerceCategoryRepository = new BigCommerceCategory(
+  const shopgateCategoryRepository = new ShopgateCategoryRepository(
     new BigCommerceRepositoryCommand(
       new BigCommerceFactory(
         context.config.clientId,
@@ -24,11 +24,13 @@ module.exports = async (context, input, cb) => {
   const categoryId = parseInt(input.categoryId)
 
   try {
-    const category = await (
-      input.includeChildren
-        ? bigCommerceCategoryRepository.getCategoryWithChildren(categoryId)
-        : bigCommerceCategoryRepository.getCategory(categoryId)
-    )
+    const category = (
+      await (
+        input.includeChildren
+          ? shopgateCategoryRepository.getByIdWithChildren(categoryId)
+          : shopgateCategoryRepository.getById(categoryId)
+      )
+    ).toShopgateCategory()
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getCategory_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(category))

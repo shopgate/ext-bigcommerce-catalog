@@ -1,6 +1,6 @@
-const BigCommerceCategory = require('../catalog/category/Repository/BigCommerceCategory.js')
+const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
-const BigcommerceRepositoryCommand = require('../catalog/category/Factory/BigCommerceRepositoryCommand')
+const BigcommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
 
 /**
  * @param {object} context
@@ -8,7 +8,7 @@ const BigcommerceRepositoryCommand = require('../catalog/category/Factory/BigCom
  * @param {GetRootCategoriesCallback} cb
  */
 module.exports = async (context, input, cb) => {
-  const bigCommerceCategoryRepository = new BigCommerceCategory(
+  const shopgateCategoryRepository = new ShopgateCategoryRepository(
     new BigcommerceRepositoryCommand(
       new BigCommerceFactory(
         context.config.clientId,
@@ -19,10 +19,10 @@ module.exports = async (context, input, cb) => {
   )
 
   try {
-    const categories = await bigCommerceCategoryRepository.getRootCategories()
+    const categories = (await shopgateCategoryRepository.getRootCategories()).map(category => category.toShopgateRootCategory())
 
-    context.log.info('Successfully executed @shopgate/bigcommerce-catalog/getRootCategories_v1.')
-    context.log.info('Result: ' + JSON.stringify(categories))
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getRootCategories_v1.')
+    context.log.debug('Result: ' + JSON.stringify(categories))
 
     cb(null, {categories: categories})
   } catch (error) {

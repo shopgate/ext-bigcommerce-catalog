@@ -1,7 +1,7 @@
-const ProductShippingRepository = require('../catalog/product/ShopgateShippingRepository')
+const ProductShippingRepository = require('../catalog/product/repository/ShopgateShippingRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
-const BigCommerceProductEntityFactory = require('../catalog/product/BigCommerceEntityFactory')
+const BigCommerceProductEntityFactory = require('../catalog/product/factory/BigCommerceEntityFactory')
 
 /**
  * @param {Object} context
@@ -9,17 +9,11 @@ const BigCommerceProductEntityFactory = require('../catalog/product/BigCommerceE
  * @param {GetProductShippingCallback} cb
  */
 module.exports = async (context, input, cb) => {
-  if (!input.hasOwnProperty('productId') || input.productId) {
-    context.log.error('Get product shipping called with invalid arguments')
-    cb(new Error('Invalid get product shipping call'))
-
-    return
-  }
-
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
-    context.config.storeHash)
+    context.config.storeHash
+  )
 
   const bigCommerceStoreConfigurationRepository = new BigCommerceConfigurationRepository(
     bigCommerceFactory.createV2()
@@ -29,9 +23,14 @@ module.exports = async (context, input, cb) => {
   const productShippingRepository = new ProductShippingRepository(bigCommerceFactory.createV3(), bigCommerceProductEntityFactory)
 
   try {
-    cb(null, { shipping: await productShippingRepository.get(input.productId) })
+    const productShipping = await productShippingRepository.get(Number.parseInt(input.productId))
+
+    context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductShipping_v1.')
+    context.log.debug('Result: ' + JSON.stringify(productShipping))
+
+    cb(null, {shipping: productShipping})
   } catch (error) {
-    context.log.error('Unable to get product shipping for ' + input.productId, error)
+    context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductShipping_v1 with productId: ' + input.productId, error)
     cb(error)
   }
 }
