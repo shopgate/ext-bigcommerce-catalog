@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Shopgate Cloud BigCommerce Catalog",
   "scripts": {
-    "precommit": "npm run test && npm run lint-staged && npm run dependency",
+    "precommit": "npm run test && npm run lint-staged",
     "test": "_mocha --use_strict --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
     "testIntegration": "_mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
     "lint": "standard",
