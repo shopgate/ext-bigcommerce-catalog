@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Shopgate Cloud BigCommerce Catalog",
   "scripts": {
+    "precommit": "lint-staged && test",
     "test": "_mocha --use_strict --require ../test/setupBackend.js --recursive ../test/unit -R mocha-jenkins-reporter",
     "testIntegration": "_mocha --use_strict --timeout 3000 --require ../test/setupBackend.js --recursive ../test/integration",
     "lint": "standard",
@@ -35,21 +36,17 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
     "mocha": "^3.2.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "nock": "^9.0.13",
     "nsp": "^3.1.0",
     "nyc": "^11.3.0",
-    "pre-commit": "^1.2.2",
     "request": "^2.83.0",
     "sinon": "^4.1.2",
     "standard": "^10.0.3"
   },
-  "pre-commit": [
-    "lint-staged",
-    "test"
-  ],
   "standard": {
     "env": {
       "mocha": true,
