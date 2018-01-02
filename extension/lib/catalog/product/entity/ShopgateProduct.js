@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} ShopgateProductPrice
- * @property {ShopgateProductPriceTiers} [tiers]
+ * @property {ShopgateProductPriceTiers[]} [tiers]
  * @property {string} [info]
  * @property {number} [unitPrice]
  * @property {number} [unitPriceStriked]
