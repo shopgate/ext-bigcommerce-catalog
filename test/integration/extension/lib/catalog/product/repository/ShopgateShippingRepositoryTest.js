@@ -4,13 +4,19 @@ const ShopgateProductShippingRepository = require('../../../../../../../extensio
 const ShopgateProductShipping = require('../../../../../../../extension/lib/catalog/product/entity/ShopgateShipping')
 const BigCommerceProductEntityFactory = require('../../../../../../../extension/lib/catalog/product/factory/BigCommerceEntityFactory')
 const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository')
+const StoreLogger = require('../../../../../../../extension/lib/store/logger/StoreLogger')
 
+const context = {
+  log: {
+    info: function (message) {}
+  },
+}
 const factory = new BigCommerceFactory(Credentials.clientId, Credentials.accessToken, Credentials.storeHash)
 const configRepository = new BigCommerceConfigRepository(factory.createV2())
 
 describe('Shopgate shipping repository', function () {
   it('should return valid shipping information when requested', function () {
-    const subjectUnderTest = new ShopgateProductShippingRepository(factory.createV3(), new BigCommerceProductEntityFactory(configRepository))
+    const subjectUnderTest = new ShopgateProductShippingRepository(factory.createV3(), new BigCommerceProductEntityFactory(configRepository), new StoreLogger(context))
     const expectedShipping = new ShopgateProductShipping(5.59, 'USD')
     return subjectUnderTest.get(114).should.eventually.deep.equal(expectedShipping)
   })

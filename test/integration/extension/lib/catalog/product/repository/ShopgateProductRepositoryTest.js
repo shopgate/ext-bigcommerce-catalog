@@ -4,17 +4,24 @@ const ShopgateProduct = require('../../../../../../../extension/lib/catalog/prod
 const BigCommerceBrandRepository = require('../../../../../../../extension/lib/catalog/product/repository/BigCommerceBrandRepository')
 const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository')
 const BigCommerceFactory = require('../../../../../../../extension/lib/steps/BigCommerceFactory')
+const StoreLogger = require('../../../../../../../extension/lib/store/logger/StoreLogger')
 
 describe('Product get by id', () => {
   it('will return a Product object with name, price and currency', () => {
     const factory = new BigCommerceFactory(Credentials.clientId, Credentials.accessToken, Credentials.storeHash)
     const configRepository = new BigCommerceConfigRepository(factory.createV2())
+    const context = {
+      log: {
+        info: function (message) {}
+      },
+    }
     const subjectUnderTest = new ShopgateProductRepository(
       factory.createV3(),
       configRepository,
       new BigCommerceBrandRepository(
         factory.createV3()
-      )
+      ),
+      new StoreLogger(context)
     )
 
     const expectedProduct = {
