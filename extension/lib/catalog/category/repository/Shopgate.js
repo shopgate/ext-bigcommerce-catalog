@@ -3,6 +3,7 @@ const Category = require('../entity/Category')
 class Shopgate {
   /**
    * @param {RepositoryCommand} bigCommerceRepositoryCommandFactory
+   * @param {StoreLogger} storeLogger
    */
   constructor (bigCommerceRepositoryCommandFactory, storeLogger) {
     this._commandFactory = bigCommerceRepositoryCommandFactory
