@@ -1,6 +1,7 @@
 const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
+const StoreLogger = require('../store/logger/StoreLogger')
 
 /**
  * @param {object} context
@@ -18,7 +19,8 @@ module.exports = async (context, input, cb) => {
         context.config.accessToken,
         context.config.storeHash
       )
-    )
+    ),
+    new StoreLogger(context)
   )
 
   const categoryId = parseInt(input.categoryId)
