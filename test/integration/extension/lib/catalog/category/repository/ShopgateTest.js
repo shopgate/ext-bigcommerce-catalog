@@ -15,9 +15,7 @@ chai
 describe('BigcommerceCategoryTest', function () {
   const context = {
     log: {
-      info: function (message) {
-        console.log(message)
-      }
+      info: function (message) {}
     },
   }
   const repositoryCommandFactory = new RepositoryCommand(
