@@ -9,12 +9,6 @@
  */
 
 /**
- * @method LoggerContextLogInfo
- * @param {Object} metaData
- * @param {string} message
- */
-
-/**
  * @typedef {Object} TimeLogMetaData
  * @property {number} duration
  * @property {string} description
