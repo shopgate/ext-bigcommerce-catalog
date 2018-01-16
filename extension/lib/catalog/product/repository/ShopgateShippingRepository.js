@@ -17,7 +17,7 @@ class ShopgateShippingRepository {
    * @returns {Promise<ShopgateProductShipping>}
    */
   async get (productId) {
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const response = await this._client.get('/catalog/products/' + productId + '?include_fields=fixed_cost_shipping_price,is_free_shipping')
     this._storeLogger.logTime('get product shipping information')
     const productEntity = this._productEntityFactory.create(response.data)

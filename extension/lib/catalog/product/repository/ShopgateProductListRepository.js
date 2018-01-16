@@ -31,7 +31,7 @@ class ShopgateProductListRepository {
     /**
      * @type BigCommercePage
      */
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const firstPage = await this._apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
     this._storeLogger.logTime('getByCategoryId /catalog/products?')
     return this._getProducts([firstPage], firstPage.meta.pagination.total)
@@ -106,10 +106,10 @@ class ShopgateProductListRepository {
      * @type {ShopgateProduct[]}
      */
     const products = []
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const bigCommerceProductReponses = await Promise.all(pagePromises)
     this._storeLogger.logTime('_getProducts pagePromises')
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const bigCommerceStoreCurrency = await this._bigCommerceStoreConfigurationRepository.getCurrency()
     this._storeLogger.logTime('_getProducts getCurrency')
 
@@ -123,7 +123,7 @@ class ShopgateProductListRepository {
         promisesForBrands.push(this._bigCommerceBrandRepository.get(bigCommerceProductData.brand_id))
       }
     }
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const brands = await Promise.all(promisesForBrands)
     this._storeLogger.logTime('_getProducts get all brands')
     this._updateProductManufacturer(brands, products)

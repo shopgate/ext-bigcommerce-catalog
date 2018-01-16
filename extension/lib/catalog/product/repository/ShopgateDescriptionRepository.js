@@ -13,7 +13,7 @@ class ShopgateProductDescriptionRepository {
    * @return {string}
    */
   async get (productId) {
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     let dataDescription = (await this._apiVersion3Client.get(
       '/catalog/products/' + productId + '?include_fields=description'
     )).data.description

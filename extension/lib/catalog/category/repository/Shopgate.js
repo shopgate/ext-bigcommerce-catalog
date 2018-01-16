@@ -14,14 +14,14 @@ class Shopgate {
    * @return Promise<Category[]>
    */
   async getRootCategories () {
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const bigcommerceCategories = await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
       0,
       ['id', 'name', 'image_url']
     ).execute()
     this._storeLogger.logTime('get visible categories by parent id for getRootCategories')
 
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
       bigcommerceCategories.map(category => category.id)
     ).execute()
@@ -38,14 +38,14 @@ class Shopgate {
    * @return {Promise<Category[]>}
    */
   async getChildrenByParentId (categoryId) {
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const bigCommerceCategories = await this._commandFactory.buildGetAllVisibleCategoriesByParentId(
       categoryId,
       ['id', 'parent_id', 'name', 'image_url']
     ).execute()
     this._storeLogger.logTime('get all visible categories by parent id for getChildrenByParentId')
 
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const bigCommerceProductCounts = await this._commandFactory.buildGetProductCountsByCategoryIds(
       bigCommerceCategories.map(category => category.id)
     ).execute()
@@ -62,7 +62,7 @@ class Shopgate {
    * @return {Promise<Category>}
    */
   async getById (categoryId) {
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const promiseResults = await Promise.all([
       this._commandFactory.buildGetCategoryById(categoryId).execute(),
       this._commandFactory.buildGetProductCountsByCategoryIds([categoryId]).execute(),
@@ -82,7 +82,7 @@ class Shopgate {
    * @return {Promise<Category>}
    */
   async getByIdWithChildren (categoryId) {
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const promiseResults = await Promise.all([
       this._commandFactory.buildGetCategoryById(categoryId).execute(),
       this._commandFactory.buildGetProductCountsByCategoryIds([categoryId]).execute(),

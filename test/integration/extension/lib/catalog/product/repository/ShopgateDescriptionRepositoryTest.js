@@ -8,9 +8,7 @@ const factory = new BigCommerceFactory(Credentials.clientId, Credentials.accessT
 describe('Product description by product id', () => {
   const context = {
     log: {
-      info: function(message) {
-
-      }
+      info: function(message) {}
     }
   }
   it('will return description', () => {

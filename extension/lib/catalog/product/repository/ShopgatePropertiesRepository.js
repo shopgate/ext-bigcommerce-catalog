@@ -16,7 +16,7 @@ class ShopgatePropertiesRepository {
    * @returns {Promise<ShopgateProperty[]>}
    */
   async get (id) {
-    this._storeLogger.startTimmer()
+    this._storeLogger.startTimer()
     const response = await this._client.get('/catalog/products/' + id + '?include_fields=weight')
     this._storeLogger.logTime('get product properties')
     const shopgateProperties = []
