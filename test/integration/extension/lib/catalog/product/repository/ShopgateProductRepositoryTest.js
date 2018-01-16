@@ -4,7 +4,7 @@ const ShopgateProduct = require('../../../../../../../extension/lib/catalog/prod
 const BigCommerceBrandRepository = require('../../../../../../../extension/lib/catalog/product/repository/BigCommerceBrandRepository')
 const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository')
 const BigCommerceFactory = require('../../../../../../../extension/lib/steps/BigCommerceFactory')
-const StoreLogger = require('../../../../../../../extension/lib/store/logger/StoreLogger')
+const StoreLogger = require('../../../../../../../extension/lib/tools/logger/StoreLogger')
 
 describe('Product get by id', () => {
   it('will return a Product object with name, price and currency', () => {

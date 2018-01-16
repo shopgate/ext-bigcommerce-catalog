@@ -3,7 +3,7 @@ const BigCommerceBrandRepository = require('../catalog/product/repository/BigCom
 const ShopgateGetProducts = require('./configuration/GetProductsDefaultArguments')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
-const StoreLogger = require('../store/logger/StoreLogger')
+const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
  * @param {LoggerContext} context

@@ -5,7 +5,7 @@ const RepositoryCommand = require('../../../../../../../extension/lib/catalog/ca
 const chai = require('chai')
 const chaiSubset = require('chai-subset')
 const chaiAsPromised = require('chai-as-promised')
-const StoreLogger = require('../../../../../../../extension/lib/store/logger/StoreLogger')
+const StoreLogger = require('../../../../../../../extension/lib/tools/logger/StoreLogger')
 
 chai
   .use(chaiSubset)

@@ -5,7 +5,7 @@ const BigCommerceProductEntityFactory = require('../../../../../../extension/lib
 const ShopgateProductShipping = require('../../../../../../extension/lib/catalog/product/entity/ShopgateShipping')
 const BigCommerceProductEntity = require('./../../../../../../extension/lib/catalog/product/entity/BigCommerceProduct')
 const BigCommerceConfiguration = require('./../../../../../../extension/lib/store/configuration/BigCommerceRepository')
-const StoreLogger = require('../../../../../../extension/lib/store/logger/StoreLogger')
+const StoreLogger = require('../../../../../../extension/lib/tools/logger/StoreLogger')
 
 describe('ShopgateProductShippingRepositoryTest', () => {
   let clientStub

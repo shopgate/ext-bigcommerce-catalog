@@ -1,7 +1,7 @@
 const Credentials = require('../../../../../../../.integration-credentials')
 const BigCommerceFactory = require('../../../../../../../extension/lib/steps/BigCommerceFactory')
 const ShopgateDescriptionRepository = require('../../../../../../../extension/lib/catalog/product/repository/ShopgateDescriptionRepository.js')
-const StoreLogger = require('../../../../../../../extension/lib/store/logger/StoreLogger')
+const StoreLogger = require('../../../../../../../extension/lib/tools/logger/StoreLogger')
 
 const factory = new BigCommerceFactory(Credentials.clientId, Credentials.accessToken, Credentials.storeHash)
 

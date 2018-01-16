@@ -4,7 +4,7 @@ const ShopgateProductListRepository = require('../../../../../../../extension/li
 const ShopgateSort = require('../../../../../../../extension/lib/catalog/product/value_objects/ShopgateSort.js')
 const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository.js')
 const BigCommerceBrandRepository = require('../../../../../../../extension/lib/catalog/product/repository/BigCommerceBrandRepository.js')
-const StoreLogger = require('../../../../../../../extension/lib/store/logger/StoreLogger')
+const StoreLogger = require('../../../../../../../extension/lib/tools/logger/StoreLogger')
 
 describe('ShopgateProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({
