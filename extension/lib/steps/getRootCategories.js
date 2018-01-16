@@ -1,9 +1,10 @@
 const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigcommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
+const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
- * @param {object} context
+ * @param {LoggerContext} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {GetRootCategoriesCallback} cb
  */
@@ -15,7 +16,8 @@ module.exports = async (context, input, cb) => {
         context.config.accessToken,
         context.config.storeHash
       )
-    )
+    ),
+    new StoreLogger(context)
   )
 
   try {

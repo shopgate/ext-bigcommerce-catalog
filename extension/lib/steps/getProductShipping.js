@@ -2,9 +2,10 @@ const ProductShippingRepository = require('../catalog/product/repository/Shopgat
 const BigCommerceFactory = require('./BigCommerceFactory')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
 const BigCommerceProductEntityFactory = require('../catalog/product/factory/BigCommerceEntityFactory')
+const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
- * @param {Object} context
+ * @param {LoggerContext} context
  * @param {GetProductShippingInput} input
  * @param {GetProductShippingCallback} cb
  */
@@ -20,7 +21,7 @@ module.exports = async (context, input, cb) => {
   )
   const bigCommerceProductEntityFactory = new BigCommerceProductEntityFactory(bigCommerceStoreConfigurationRepository)
 
-  const productShippingRepository = new ProductShippingRepository(bigCommerceFactory.createV3(), bigCommerceProductEntityFactory)
+  const productShippingRepository = new ProductShippingRepository(bigCommerceFactory.createV3(), bigCommerceProductEntityFactory, new StoreLogger(context))
 
   try {
     const productShipping = await productShippingRepository.get(Number.parseInt(input.productId))

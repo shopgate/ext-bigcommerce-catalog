@@ -1,9 +1,10 @@
 const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
+const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
- * @param {object} context
+ * @param {LoggerContext} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {string} input.categoryId
  * @param {boolean} input.includeChildren
@@ -18,7 +19,8 @@ module.exports = async (context, input, cb) => {
         context.config.accessToken,
         context.config.storeHash
       )
-    )
+    ),
+    new StoreLogger(context)
   )
 
   const categoryId = parseInt(input.categoryId)

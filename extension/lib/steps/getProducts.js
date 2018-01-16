@@ -3,9 +3,10 @@ const BigCommerceBrandRepository = require('../catalog/product/repository/BigCom
 const ShopgateGetProducts = require('./configuration/GetProductsDefaultArguments')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
+const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
- * @param {Object} context
+ * @param {LoggerContext} context
  * @param {GetProductsInput} input - Properties depend on the pipeline this is used for
  * @param {GetProductsPipelineCallback} cb
  */
@@ -35,7 +36,8 @@ module.exports = async (context, input, cb) => {
     ),
     new BigCommerceBrandRepository(
       BigCommerceApiVersion3
-    )
+    ),
+    new StoreLogger(context)
   )
 
   if (getByProductIds) {

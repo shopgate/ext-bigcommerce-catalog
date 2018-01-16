@@ -4,6 +4,7 @@ const ShopgateProductListRepository = require('../../../../../../../extension/li
 const ShopgateSort = require('../../../../../../../extension/lib/catalog/product/value_objects/ShopgateSort.js')
 const BigCommerceConfigRepository = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository.js')
 const BigCommerceBrandRepository = require('../../../../../../../extension/lib/catalog/product/repository/BigCommerceBrandRepository.js')
+const StoreLogger = require('../../../../../../../extension/lib/tools/logger/StoreLogger')
 
 describe('ShopgateProductListRepository', function () {
   const BigCommerceApi = new BigCommerce({
@@ -24,9 +25,18 @@ describe('ShopgateProductListRepository', function () {
     apiVersion: 'v2'
   })
 
+  const context = {
+    log: {
+      info: function (message) {}
+    },
+  }
+
+  const storeLogger = new StoreLogger(context)
+
+
   let subjectUnderTest
   beforeEach(function () {
-    subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi, new BigCommerceConfigRepository(BigCommerceApiV2), new BigCommerceBrandRepository(BigCommerceApi))
+    subjectUnderTest = new ShopgateProductListRepository(BigCommerceApi, new BigCommerceConfigRepository(BigCommerceApiV2), new BigCommerceBrandRepository(BigCommerceApi), storeLogger)
   })
 
   describe('getByCategoryId', function () {

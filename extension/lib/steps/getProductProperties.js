@@ -1,8 +1,9 @@
 const ProductPropertiesRepository = require('../catalog/product/repository/ShopgatePropertiesRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
+const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
- * @param {Object} context
+ * @param {LoggerContext} context
  * @param {GetProductPropertiesInput} input
  * @param {GetProductPropertiesCallback} cb
  */
@@ -13,7 +14,7 @@ module.exports = async (context, input, cb) => {
     context.config.storeHash
   )
 
-  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
+  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3(), new StoreLogger(context))
   try {
     const productProperties = await productPropertiesRepository.get(Number.parseInt(input.productId))
 
