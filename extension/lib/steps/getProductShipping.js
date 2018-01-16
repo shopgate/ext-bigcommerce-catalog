@@ -5,7 +5,7 @@ const BigCommerceProductEntityFactory = require('../catalog/product/factory/BigC
 const StoreLogger = require('../store/logger/StoreLogger')
 
 /**
- * @param {Object} context
+ * @param {LoggerContext} context
  * @param {GetProductShippingInput} input
  * @param {GetProductShippingCallback} cb
  */

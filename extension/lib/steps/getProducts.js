@@ -6,7 +6,7 @@ const BigCommerceConfigurationRepository = require('../store/configuration/BigCo
 const StoreLogger = require('../store/logger/StoreLogger')
 
 /**
- * @param {Object} context
+ * @param {LoggerContext} context
  * @param {GetProductsInput} input - Properties depend on the pipeline this is used for
  * @param {GetProductsPipelineCallback} cb
  */

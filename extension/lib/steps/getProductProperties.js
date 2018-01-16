@@ -3,7 +3,7 @@ const BigCommerceFactory = require('./BigCommerceFactory')
 const StoreLogger = require('../store/logger/StoreLogger')
 
 /**
- * @param {Object} context
+ * @param {LoggerContext} context
  * @param {GetProductPropertiesInput} input
  * @param {GetProductPropertiesCallback} cb
  */

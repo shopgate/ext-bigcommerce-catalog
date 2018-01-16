@@ -4,7 +4,7 @@ const BigCommerceRepositoryCommand = require('../catalog/category/factory/Reposi
 const StoreLogger = require('../store/logger/StoreLogger')
 
 /**
- * @param {object} context
+ * @param {LoggerContext} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {string} input.categoryId
  * @param {boolean} input.includeChildren
