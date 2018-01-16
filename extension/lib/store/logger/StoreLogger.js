@@ -1,6 +1,6 @@
 class StoreLogger {
   /**
-   * @param {LoggerContextLog} context
+   * @param {LoggerContext} context
    */
   constructor (context) {
     this._context = context
