@@ -1,4 +1,4 @@
-const BigCommerceWrapper = require('./tools/BigCommerceWrapper')
+const BigCommerceWrapper = require('../tools/BigCommerceWrapper')
 
 /**
  * @property {string} _clientId

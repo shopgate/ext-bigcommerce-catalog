@@ -1,6 +1,6 @@
 const ProductDescriptionRepository = require('../catalog/product/repository/ShopgateDescriptionRepository.js')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
-const TimeLogger = require('./tools/TimeLogger')
+const TimeLogger = require('../tools/TimeLogger')
 
 /**
  * @param {LoggerContext} context
