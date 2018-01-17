@@ -1,20 +1,23 @@
 const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigcommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
+const TimeLogger = require('../tools/TimeLogger')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {GetRootCategoriesCallback} cb
  */
 module.exports = async (context, input, cb) => {
+  const bigCommerceFactory = new BigCommerceFactory(
+    context.config.clientId,
+    context.config.accessToken,
+    context.config.storeHash
+  )
+  const bigCommerceClientV3 = bigCommerceFactory.createV3()
   const shopgateCategoryRepository = new ShopgateCategoryRepository(
     new BigcommerceRepositoryCommand(
-      new BigCommerceFactory(
-        context.config.clientId,
-        context.config.accessToken,
-        context.config.storeHash
-      )
+      bigCommerceClientV3
     )
   )
 
@@ -23,6 +26,7 @@ module.exports = async (context, input, cb) => {
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getRootCategories_v1.')
     context.log.debug('Result: ' + JSON.stringify(categories))
+    TimeLogger.log(bigCommerceClientV3.timeLogs, context)
 
     cb(null, {categories: categories})
   } catch (error) {

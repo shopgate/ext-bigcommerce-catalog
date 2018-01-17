@@ -1,9 +1,10 @@
 const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
+const TimeLogger = require('../tools/TimeLogger')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {string} input.categoryId
  * @param {boolean} input.includeChildren
@@ -11,13 +12,15 @@ const BigCommerceRepositoryCommand = require('../catalog/category/factory/Reposi
  * @param {GetCategoryCallback} cb
  */
 module.exports = async (context, input, cb) => {
+  const bigCommerceFactory = new BigCommerceFactory(
+    context.config.clientId,
+    context.config.accessToken,
+    context.config.storeHash
+  )
+  const bigCommerceClientV3 = bigCommerceFactory.createV3()
   const shopgateCategoryRepository = new ShopgateCategoryRepository(
     new BigCommerceRepositoryCommand(
-      new BigCommerceFactory(
-        context.config.clientId,
-        context.config.accessToken,
-        context.config.storeHash
-      )
+      bigCommerceClientV3
     )
   )
 
@@ -34,6 +37,7 @@ module.exports = async (context, input, cb) => {
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getCategory_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(category))
+    TimeLogger.log(bigCommerceClientV3.timeLogs, context)
 
     cb(null, category)
   } catch (error) {
