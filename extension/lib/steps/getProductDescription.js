@@ -1,6 +1,5 @@
 const ProductDescriptionRepository = require('../catalog/product/repository/ShopgateDescriptionRepository.js')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
-const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
  * @param {LoggerContext} context
@@ -14,7 +13,7 @@ module.exports = async (context, input, cb) => {
     context.config.storeHash
   )
 
-  const productDescriptionRepository = new ProductDescriptionRepository(bigCommerceFactory.createV3(), new StoreLogger(context))
+  const productDescriptionRepository = new ProductDescriptionRepository(bigCommerceFactory.createV3())
   try {
     const productDescription = await productDescriptionRepository.get(Number.parseInt(input.productId))
 

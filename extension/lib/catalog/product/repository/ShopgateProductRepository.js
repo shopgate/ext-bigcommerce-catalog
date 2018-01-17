@@ -8,13 +8,11 @@ class ShopgateProductRepository {
    * @param {BigCommerce} apiVersion3Client
    * @param {BigCommerceRepository} bigCommerceStoreConfigurationRepository
    * @param {BigCommerceBrandRepository} bigCommerceBrandRepository
-   * @param {StoreLogger} storeLogger
    */
-  constructor (apiVersion3Client, bigCommerceStoreConfigurationRepository, bigCommerceBrandRepository, storeLogger) {
+  constructor (apiVersion3Client, bigCommerceStoreConfigurationRepository, bigCommerceBrandRepository) {
     this._client = apiVersion3Client
     this._bigCommerceStoreConfigurationRepository = bigCommerceStoreConfigurationRepository
     this._bigCommerceBrandRepository = bigCommerceBrandRepository
-    this._storeLogger = storeLogger
   }
 
   /**
@@ -22,17 +20,11 @@ class ShopgateProductRepository {
    * @returns {Promise<ShopgateProduct>}
    */
   async get (id) {
-    this._storeLogger.startTimer()
     const response = await this._client.get('/catalog/products/' + id + '?include=variants')
-    this._storeLogger.logTime('get product')
-    this._storeLogger.startTimer()
     const shopgateProductBuilder = new ShopgateProductBuilder(response.data, await this._bigCommerceStoreConfigurationRepository.getCurrency())
-    this._storeLogger.logTime('build product after getting currency')
 
     const shopgateProduct = shopgateProductBuilder.build()
-    this._storeLogger.startTimer()
     shopgateProduct.manufacturer = await this._bigCommerceBrandRepository.get(response.data.brand_id)
-    this._storeLogger.logTime('set manufacturer after getting brand information')
 
     return shopgateProduct
   }

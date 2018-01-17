@@ -2,7 +2,6 @@ const ProductRepository = require('../catalog/product/repository/ShopgateProduct
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
 const BigCommerceBrandRepository = require('../catalog/product/repository/BigCommerceBrandRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
-const StoreLogger = require('../tools/logger/StoreLogger')
 
 /**
  * @param {LoggerContext} context
@@ -24,8 +23,7 @@ module.exports = async (context, input, cb) => {
     ),
     new BigCommerceBrandRepository(
       bigCommerceApiVersion3
-    ),
-    new StoreLogger(context)
+    )
   )
 
   try {

@@ -6,13 +6,11 @@ class ShopgateProductListRepository {
    * @param {BigCommerce} apiVersion3Client
    * @param {BigCommerceRepository} bigCommerceStoreConfigurationRepository
    * @param {BigCommerceBrandRepository} bigCommerceBrandRepository
-   * @param {StoreLogger} storeLogger
    */
-  constructor (apiVersion3Client, bigCommerceStoreConfigurationRepository, bigCommerceBrandRepository, storeLogger) {
+  constructor (apiVersion3Client, bigCommerceStoreConfigurationRepository, bigCommerceBrandRepository) {
     this._apiVersion3Client = apiVersion3Client
     this._bigCommerceStoreConfigurationRepository = bigCommerceStoreConfigurationRepository
     this._bigCommerceBrandRepository = bigCommerceBrandRepository
-    this._storeLogger = storeLogger
   }
 
   /**
@@ -31,9 +29,7 @@ class ShopgateProductListRepository {
     /**
      * @type BigCommercePage
      */
-    this._storeLogger.startTimer()
     const firstPage = await this._apiVersion3Client.get('/catalog/products?' + bigCommerceGetParameters.join('&'))
-    this._storeLogger.logTime('getByCategoryId /catalog/products?')
     return this._getProducts([firstPage], firstPage.meta.pagination.total)
   }
 
@@ -106,12 +102,8 @@ class ShopgateProductListRepository {
      * @type {ShopgateProduct[]}
      */
     const products = []
-    this._storeLogger.startTimer()
     const bigCommerceProductReponses = await Promise.all(pagePromises)
-    this._storeLogger.logTime('_getProducts pagePromises')
-    this._storeLogger.startTimer()
     const bigCommerceStoreCurrency = await this._bigCommerceStoreConfigurationRepository.getCurrency()
-    this._storeLogger.logTime('_getProducts getCurrency')
 
     let promisesForBrands = []
     for (const bigCommerceProductRequest of bigCommerceProductReponses) {
@@ -123,9 +115,7 @@ class ShopgateProductListRepository {
         promisesForBrands.push(this._bigCommerceBrandRepository.get(bigCommerceProductData.brand_id))
       }
     }
-    this._storeLogger.startTimer()
     const brands = await Promise.all(promisesForBrands)
-    this._storeLogger.logTime('_getProducts get all brands')
     this._updateProductManufacturer(brands, products)
 
     return {
