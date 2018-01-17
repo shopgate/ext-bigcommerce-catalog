@@ -1,4 +1,4 @@
-const BigCommerce = require('node-bigcommerce')
+const BigCommerceWrapper = require('./tools/BigCommerceWrapper')
 
 /**
  * @property {string} _clientId
@@ -21,7 +21,7 @@ class BigCommerceFactory {
    * @param {string} logLevel
    */
   createV3 (logLevel = 'info') {
-    return new BigCommerce({
+    return new BigCommerceWrapper({
       logLevel: logLevel,
       clientId: this._clientId,
       accessToken: this._accessToken,
@@ -35,7 +35,7 @@ class BigCommerceFactory {
    * @param {string} logLevel
    */
   createV2 (logLevel = 'info') {
-    return new BigCommerce({
+    return new BigCommerceWrapper({
       logLevel: logLevel,
       clientId: this._clientId,
       accessToken: this._accessToken,

@@ -1,5 +1,6 @@
 const ProductPropertiesRepository = require('../catalog/product/repository/ShopgatePropertiesRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
+const TimeLogger = require('./tools/TimeLogger')
 
 /**
  * @param {LoggerContext} context
@@ -12,13 +13,14 @@ module.exports = async (context, input, cb) => {
     context.config.accessToken,
     context.config.storeHash
   )
-
-  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3())
+  const bigCommerceClientV3 = bigCommerceFactory.createV3()
+  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceClientV3)
   try {
     const productProperties = await productPropertiesRepository.get(Number.parseInt(input.productId))
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductProperties_v1.')
     context.log.debug('Result: ' + JSON.stringify(productProperties))
+    TimeLogger.log(bigCommerceClientV3.timeLogs, context)
 
     cb(null, {properties: productProperties})
   } catch (error) {

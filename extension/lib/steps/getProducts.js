@@ -3,9 +3,10 @@ const BigCommerceBrandRepository = require('../catalog/product/repository/BigCom
 const ShopgateGetProducts = require('./configuration/GetProductsDefaultArguments')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
+const TimeLogger = require('./tools/TimeLogger')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {GetProductsInput} input - Properties depend on the pipeline this is used for
  * @param {GetProductsPipelineCallback} cb
  */
@@ -27,14 +28,15 @@ module.exports = async (context, input, cb) => {
     context.config.storeHash
   )
 
-  const BigCommerceApiVersion3 = bigCommerceFactory.createV3()
+  const bigCommerceApiVersion3 = bigCommerceFactory.createV3()
+  const bigCommerceApiVersion2 = bigCommerceFactory.createV2()
   const productListRepository = new ProductListRepository(
-    BigCommerceApiVersion3,
+    bigCommerceApiVersion3,
     new BigCommerceConfigurationRepository(
-      bigCommerceFactory.createV2()
+      bigCommerceApiVersion2
     ),
     new BigCommerceBrandRepository(
-      BigCommerceApiVersion3
+      bigCommerceApiVersion3
     )
   )
 
@@ -50,6 +52,8 @@ module.exports = async (context, input, cb) => {
 
       context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
       context.log.debug('Result: ' + JSON.stringify(products))
+      TimeLogger.log(bigCommerceApiVersion3.timeLogs, context)
+      TimeLogger.log(bigCommerceApiVersion2.timeLogs, context)
 
       cb(null, products)
     } catch (error) {
@@ -70,6 +74,8 @@ module.exports = async (context, input, cb) => {
 
       context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
       context.log.debug('Result: ' + JSON.stringify(products))
+      TimeLogger.log(bigCommerceApiVersion3.timeLogs, context)
+      TimeLogger.log(bigCommerceApiVersion2.timeLogs, context)
 
       cb(null, products)
     } catch (error) {

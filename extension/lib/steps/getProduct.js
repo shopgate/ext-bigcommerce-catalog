@@ -2,6 +2,7 @@ const ProductRepository = require('../catalog/product/repository/ShopgateProduct
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
 const BigCommerceBrandRepository = require('../catalog/product/repository/BigCommerceBrandRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
+const TimeLogger = require('./tools/TimeLogger')
 
 /**
  * @param {LoggerContext} context
@@ -16,10 +17,11 @@ module.exports = async (context, input, cb) => {
   )
 
   const bigCommerceApiVersion3 = bigCommerceFactory.createV3()
+  const bigCommerceApiVersion2 = bigCommerceFactory.createV2()
   const productRepository = new ProductRepository(
     bigCommerceApiVersion3,
     new BigCommerceConfigurationRepository(
-      bigCommerceFactory.createV2()
+      bigCommerceApiVersion2
     ),
     new BigCommerceBrandRepository(
       bigCommerceApiVersion3
@@ -31,6 +33,8 @@ module.exports = async (context, input, cb) => {
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProduct_v1.')
     context.log.debug('Result: ' + JSON.stringify(product))
+    TimeLogger.log(bigCommerceApiVersion2.timeLogs, context)
+    TimeLogger.log(bigCommerceApiVersion3.timeLogs, context)
 
     cb(null, product)
   } catch (error) {
