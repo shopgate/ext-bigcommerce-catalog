@@ -3,7 +3,7 @@ const BigCommerceFactory = require('./BigCommerceFactory.js')
 const TimeLogger = require('../tools/TimeLogger')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {GetProductDescriptionInput} input
  * @param {GetProductDescriptionCallback} cb
  */
