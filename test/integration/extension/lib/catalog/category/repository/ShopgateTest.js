@@ -17,7 +17,7 @@ describe('BigcommerceCategoryTest', function () {
       IntegrationCredentials.clientId,
       IntegrationCredentials.accessToken,
       IntegrationCredentials.storeHash
-    )
+    ).createV3()
   )
 
   describe('#getRootCategories', function () {

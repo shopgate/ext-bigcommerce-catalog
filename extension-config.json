@@ -14,7 +14,7 @@
       "params": {
         "method":  "GET",
         "service": "config",
-        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
         "key": "value.backend.storeHash"
       }
     },
@@ -25,7 +25,7 @@
       "params": {
         "method":  "GET",
         "service": "config",
-        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
         "key": "value.backend.accessToken"
       }
     },
@@ -36,7 +36,7 @@
       "params": {
         "method":  "GET",
         "service": "config",
-        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
         "key": "value.backend.clientId"
       }
     },
@@ -47,7 +47,7 @@
       "params": {
         "method":  "GET",
         "service": "config",
-        "path": "/v1/shop/%(shopId)s/cloud_bigcommerce_products?parsed=true",
+        "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
         "key": "value.backend.clientSecret"
       }
     },

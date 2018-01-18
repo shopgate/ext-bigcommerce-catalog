@@ -1,7 +1,7 @@
 const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
-const TimeLogger = require('../tools/TimeLogger')
+const ApiTimings = require('./BigCommerceTimings')
 
 /**
  * @param {Object} context
@@ -23,6 +23,8 @@ module.exports = async (context, input, cb) => {
     )
   )
 
+  const apiTimings = new ApiTimings(context.log, 'getCategoryChildren_v1')
+
   try {
     const categories = (await shopgateCategoryRepository.getChildrenByParentId(parseInt(input.categoryId))).map(
       category => category.toShopgateChildCategory()
@@ -30,11 +32,12 @@ module.exports = async (context, input, cb) => {
 
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(categories))
-    TimeLogger.log(bigCommerceClientV3.timeLogs, context)
 
     cb(null, {children: categories})
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getCategoryChildren_v1 with categoryId: ' + input.categoryId)
     cb(error)
+  } finally {
+    apiTimings.report(bigCommerceClientV3.timings)
   }
 }

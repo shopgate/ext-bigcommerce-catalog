@@ -3,7 +3,7 @@ const BigCommerceBrandRepository = require('../catalog/product/repository/BigCom
 const ShopgateGetProducts = require('./configuration/GetProductsDefaultArguments')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
-const TimeLogger = require('../tools/TimeLogger')
+const ApiTimings = require('./BigCommerceTimings')
 
 /**
  * @param {Object} context
@@ -30,6 +30,9 @@ module.exports = async (context, input, cb) => {
 
   const bigCommerceApiVersion3 = bigCommerceFactory.createV3()
   const bigCommerceApiVersion2 = bigCommerceFactory.createV2()
+
+  const apiTimings = new ApiTimings(context.log, 'getProducts_v1')
+
   const productListRepository = new ProductListRepository(
     bigCommerceApiVersion3,
     new BigCommerceConfigurationRepository(
@@ -52,13 +55,14 @@ module.exports = async (context, input, cb) => {
 
       context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
       context.log.debug('Result: ' + JSON.stringify(products))
-      TimeLogger.log(bigCommerceApiVersion3.timeLogs, context)
-      TimeLogger.log(bigCommerceApiVersion2.timeLogs, context)
 
       cb(null, products)
     } catch (error) {
       context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProducts_v1 with parameters: ' + JSON.stringify(input), error)
       cb(error)
+    } finally {
+      apiTimings.report(bigCommerceApiVersion2.timings)
+      apiTimings.report(bigCommerceApiVersion3.timings)
     }
   }
 
@@ -74,13 +78,14 @@ module.exports = async (context, input, cb) => {
 
       context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
       context.log.debug('Result: ' + JSON.stringify(products))
-      TimeLogger.log(bigCommerceApiVersion3.timeLogs, context)
-      TimeLogger.log(bigCommerceApiVersion2.timeLogs, context)
 
       cb(null, products)
     } catch (error) {
       context.log.error('Unable to get products for categoryId: ' + input.categoryId, error)
       cb(error)
+    } finally {
+      apiTimings.report(bigCommerceApiVersion2.timings)
+      apiTimings.report(bigCommerceApiVersion3.timings)
     }
   }
 }
