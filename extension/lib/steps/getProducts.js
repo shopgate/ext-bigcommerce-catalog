@@ -31,7 +31,7 @@ module.exports = async (context, input, cb) => {
   const bigCommerceApiVersion3 = bigCommerceFactory.createV3()
   const bigCommerceApiVersion2 = bigCommerceFactory.createV2()
 
-  const apiTimings = new ApiTimings(context.log, 'getProducts_v1')
+  const apiTimings = new ApiTimings(context.log)
 
   const productListRepository = new ProductListRepository(
     bigCommerceApiVersion3,

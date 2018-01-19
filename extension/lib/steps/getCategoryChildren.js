@@ -23,7 +23,7 @@ module.exports = async (context, input, cb) => {
     )
   )
 
-  const apiTimings = new ApiTimings(context.log, 'getCategoryChildren_v1')
+  const apiTimings = new ApiTimings(context.log)
 
   try {
     const categories = (await shopgateCategoryRepository.getChildrenByParentId(parseInt(input.categoryId))).map(

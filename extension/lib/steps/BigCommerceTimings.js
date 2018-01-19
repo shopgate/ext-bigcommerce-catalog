@@ -8,7 +8,7 @@ const PATH_PRODUCTS = '^/catalog/products\\?'
 const PATH_STORE = '^/store$'
 
 const ALL_PATHS = [
-  PATH_VISIBLE_CATEGORIES, PATH_VISIBLE_CATEGORIES, PATH_CATEGORY_CHILDREN, PATH_CATEGORY_PRODUCT_COUNT,
+  PATH_VISIBLE_CATEGORIES, PATH_CATEGORY, PATH_CATEGORY_CHILDREN, PATH_CATEGORY_PRODUCT_COUNT,
   PATH_PRODUCT, PATH_PRODUCT_BRAND, PATH_PRODUCTS,
   PATH_STORE
 ]
@@ -27,11 +27,9 @@ const PATH_GROUPS = {
 class BigCommerceTimings {
   /**
    * @param {Object} logger
-   * @param {string} step
    */
-  constructor (logger, step) {
+  constructor (logger) {
     this._logger = logger
-    this._step = step
   }
 
  /**
@@ -42,7 +40,6 @@ class BigCommerceTimings {
       const group = this._resolvePath(timing.path)
 
       const logEntry = {
-        step: this._step,
         group: group,
         path: timing.path,
         started: timing.startedOn,

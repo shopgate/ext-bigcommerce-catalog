@@ -14,7 +14,7 @@ module.exports = async (context, input, cb) => {
     context.config.storeHash
   )
   const bigCommerceClientV3 = bigCommerceFactory.createV3()
-  const apiTimings = new ApiTimings(context.log, 'getProductProperties_v1')
+  const apiTimings = new ApiTimings(context.log)
   const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceClientV3)
   try {
     const productProperties = await productPropertiesRepository.get(Number.parseInt(input.productId))

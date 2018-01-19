@@ -20,7 +20,7 @@ module.exports = async (context, input, cb) => {
       bigCommerceClientV3
     )
   )
-  const apiTimings = new ApiTimings(context.log, 'getCategory_v1')
+  const apiTimings = new ApiTimings(context.log)
 
   try {
     const categories = (await shopgateCategoryRepository.getRootCategories()).map(category => category.toShopgateRootCategory())
