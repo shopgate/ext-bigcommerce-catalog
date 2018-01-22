@@ -11,10 +11,7 @@
       {"key": "limit", "id": "5", "optional": true},
       {"key": "sort", "id": "6", "optional": true},
       {"key": "productIds", "id": "7", "optional": true},
-      {"key": "skipHighlightLoading", "id": "8", "optional": true},
-      {"key": "skipLiveshoppingLoading", "id": "9", "optional": true},
       {"key": "showInactive", "id": "15", "optional": true},
-      {"key": "sgxsMeta", "id": "750"},
       {"key": "characteristics", "id": "751", "optional": true}
     ],
     "output": [
