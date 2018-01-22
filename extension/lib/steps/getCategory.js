@@ -1,10 +1,10 @@
 const ShopgateCategoryRepository = require('../catalog/category/repository/Shopgate')
 const BigCommerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceRepositoryCommand = require('../catalog/category/factory/RepositoryCommand')
-const StoreLogger = require('../tools/logger/StoreLogger')
+const ApiTimings = require('./BigCommerceTimings')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {string} input.categoryId
  * @param {boolean} input.includeChildren
@@ -12,16 +12,18 @@ const StoreLogger = require('../tools/logger/StoreLogger')
  * @param {GetCategoryCallback} cb
  */
 module.exports = async (context, input, cb) => {
+  const bigCommerceFactory = new BigCommerceFactory(
+    context.config.clientId,
+    context.config.accessToken,
+    context.config.storeHash
+  )
+  const bigCommerceClientV3 = bigCommerceFactory.createV3()
   const shopgateCategoryRepository = new ShopgateCategoryRepository(
     new BigCommerceRepositoryCommand(
-      new BigCommerceFactory(
-        context.config.clientId,
-        context.config.accessToken,
-        context.config.storeHash
-      )
-    ),
-    new StoreLogger(context)
+      bigCommerceClientV3
+    )
   )
+  const apiTimings = new ApiTimings(context.log)
 
   const categoryId = parseInt(input.categoryId)
 
@@ -41,5 +43,7 @@ module.exports = async (context, input, cb) => {
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getCategory_v1 with categoryId: ' + input.categoryId)
     cb(error)
+  } finally {
+    apiTimings.report(bigCommerceClientV3.timings)
   }
 }

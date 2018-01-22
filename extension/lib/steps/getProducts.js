@@ -3,10 +3,10 @@ const BigCommerceBrandRepository = require('../catalog/product/repository/BigCom
 const ShopgateGetProducts = require('./configuration/GetProductsDefaultArguments')
 const BigComerceFactory = require('./BigCommerceFactory.js')
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
-const StoreLogger = require('../tools/logger/StoreLogger')
+const ApiTimings = require('./BigCommerceTimings')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {GetProductsInput} input - Properties depend on the pipeline this is used for
  * @param {GetProductsPipelineCallback} cb
  */
@@ -28,16 +28,19 @@ module.exports = async (context, input, cb) => {
     context.config.storeHash
   )
 
-  const BigCommerceApiVersion3 = bigCommerceFactory.createV3()
+  const bigCommerceApiVersion3 = bigCommerceFactory.createV3()
+  const bigCommerceApiVersion2 = bigCommerceFactory.createV2()
+
+  const apiTimings = new ApiTimings(context.log)
+
   const productListRepository = new ProductListRepository(
-    BigCommerceApiVersion3,
+    bigCommerceApiVersion3,
     new BigCommerceConfigurationRepository(
-      bigCommerceFactory.createV2()
+      bigCommerceApiVersion2
     ),
     new BigCommerceBrandRepository(
-      BigCommerceApiVersion3
-    ),
-    new StoreLogger(context)
+      bigCommerceApiVersion3
+    )
   )
 
   if (getByProductIds) {
@@ -57,6 +60,9 @@ module.exports = async (context, input, cb) => {
     } catch (error) {
       context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProducts_v1 with parameters: ' + JSON.stringify(input), error)
       cb(error)
+    } finally {
+      apiTimings.report(bigCommerceApiVersion2.timings)
+      apiTimings.report(bigCommerceApiVersion3.timings)
     }
   }
 
@@ -77,6 +83,9 @@ module.exports = async (context, input, cb) => {
     } catch (error) {
       context.log.error('Unable to get products for categoryId: ' + input.categoryId, error)
       cb(error)
+    } finally {
+      apiTimings.report(bigCommerceApiVersion2.timings)
+      apiTimings.report(bigCommerceApiVersion3.timings)
     }
   }
 }

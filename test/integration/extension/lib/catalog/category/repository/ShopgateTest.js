@@ -5,7 +5,6 @@ const RepositoryCommand = require('../../../../../../../extension/lib/catalog/ca
 const chai = require('chai')
 const chaiSubset = require('chai-subset')
 const chaiAsPromised = require('chai-as-promised')
-const StoreLogger = require('../../../../../../../extension/lib/tools/logger/StoreLogger')
 
 chai
   .use(chaiSubset)
@@ -13,22 +12,17 @@ chai
   .should()
 
 describe('BigcommerceCategoryTest', function () {
-  const context = {
-    log: {
-      info: function (message) {}
-    },
-  }
   const repositoryCommandFactory = new RepositoryCommand(
     new BigCommerceFactory(
       IntegrationCredentials.clientId,
       IntegrationCredentials.accessToken,
       IntegrationCredentials.storeHash
-    )
+    ).createV3()
   )
 
   describe('#getRootCategories', function () {
     it('calls GetAllVisibleCategoriesByParentId#execute', function () {
-      const subjectUnderTest = new ShopgateRepository(repositoryCommandFactory, new StoreLogger(context))
+      const subjectUnderTest = new ShopgateRepository(repositoryCommandFactory)
 
       return subjectUnderTest.getRootCategories().should.eventually.containSubset([
         {

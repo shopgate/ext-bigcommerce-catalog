@@ -1,9 +1,9 @@
 const ProductPropertiesRepository = require('../catalog/product/repository/ShopgatePropertiesRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
-const StoreLogger = require('../tools/logger/StoreLogger')
+const ApiTimings = require('./BigCommerceTimings')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {GetProductPropertiesInput} input
  * @param {GetProductPropertiesCallback} cb
  */
@@ -13,8 +13,9 @@ module.exports = async (context, input, cb) => {
     context.config.accessToken,
     context.config.storeHash
   )
-
-  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceFactory.createV3(), new StoreLogger(context))
+  const bigCommerceClientV3 = bigCommerceFactory.createV3()
+  const apiTimings = new ApiTimings(context.log)
+  const productPropertiesRepository = new ProductPropertiesRepository(bigCommerceClientV3)
   try {
     const productProperties = await productPropertiesRepository.get(Number.parseInt(input.productId))
 
@@ -25,5 +26,7 @@ module.exports = async (context, input, cb) => {
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductProperties_v1 with productId: ' + input.productId, error)
     cb(error)
+  } finally {
+    apiTimings.report(bigCommerceClientV3.timings)
   }
 }

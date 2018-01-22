@@ -2,10 +2,10 @@ const ProductRepository = require('../catalog/product/repository/ShopgateProduct
 const BigCommerceConfigurationRepository = require('../store/configuration/BigCommerceRepository')
 const BigCommerceBrandRepository = require('../catalog/product/repository/BigCommerceBrandRepository')
 const BigCommerceFactory = require('./BigCommerceFactory')
-const StoreLogger = require('../tools/logger/StoreLogger')
+const ApiTimings = require('./BigCommerceTimings')
 
 /**
- * @param {LoggerContext} context
+ * @param {Object} context
  * @param {GetProductInput} input
  * @param {GetProductCallback} cb
  */
@@ -17,15 +17,18 @@ module.exports = async (context, input, cb) => {
   )
 
   const bigCommerceApiVersion3 = bigCommerceFactory.createV3()
+  const bigCommerceApiVersion2 = bigCommerceFactory.createV2()
+
+  const apiTimings = new ApiTimings(context.log)
+
   const productRepository = new ProductRepository(
     bigCommerceApiVersion3,
     new BigCommerceConfigurationRepository(
-      bigCommerceFactory.createV2()
+      bigCommerceApiVersion2
     ),
     new BigCommerceBrandRepository(
       bigCommerceApiVersion3
-    ),
-    new StoreLogger(context)
+    )
   )
 
   try {
@@ -38,5 +41,8 @@ module.exports = async (context, input, cb) => {
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProduct_v1 with productId: ' + input.productId, error)
     cb(error)
+  } finally {
+    apiTimings.report(bigCommerceApiVersion2.timings)
+    apiTimings.report(bigCommerceApiVersion3.timings)
   }
 }

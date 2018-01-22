@@ -5,10 +5,10 @@ const GetChildCategoryCountCategoryIds = require('../repository/command/GetChild
 
 class RepositoryCommand {
   /**
-   * @param {BigCommerceFactory} bigCommerceFactory
+   * @param {BigCommerce} bigCommerceClientV3
    */
-  constructor (bigCommerceFactory) {
-    this._bigCommerceFactory = bigCommerceFactory
+  constructor (bigCommerceClientV3) {
+    this._bigCommerceClientV3 = bigCommerceClientV3
   }
 
   /**
@@ -20,7 +20,7 @@ class RepositoryCommand {
    */
   buildGetAllVisibleCategoriesByParentId (parentId = 0, includeFields = [], pageSize = 250) {
     return new GetAllVisibleCategoriesByParentId(
-      this._bigCommerceFactory.createV3(),
+      this._bigCommerceClientV3,
       parentId,
       includeFields,
       pageSize
@@ -33,7 +33,7 @@ class RepositoryCommand {
    * @return {GetCategoryById}
    */
   buildGetCategoryById (categoryId) {
-    return new GetCategoryById(this._bigCommerceFactory.createV3(), categoryId)
+    return new GetCategoryById(this._bigCommerceClientV3, categoryId)
   }
 
   /**
@@ -42,7 +42,7 @@ class RepositoryCommand {
    * @return {GetProductCountsByCategoryIds}
    */
   buildGetProductCountsByCategoryIds (categoryIds) {
-    return new GetProductCountsByCategoryIds(this._bigCommerceFactory.createV3(), categoryIds)
+    return new GetProductCountsByCategoryIds(this._bigCommerceClientV3, categoryIds)
   }
 
   /**
@@ -51,7 +51,7 @@ class RepositoryCommand {
    * @return {GetChildCategoryCountByCategoryId}
    */
   buildGetChildCategoryCountByCategoryId (categoryId) {
-    return new GetChildCategoryCountCategoryIds(this._bigCommerceFactory.createV3(), categoryId)
+    return new GetChildCategoryCountCategoryIds(this._bigCommerceClientV3, categoryId)
   }
 }
 

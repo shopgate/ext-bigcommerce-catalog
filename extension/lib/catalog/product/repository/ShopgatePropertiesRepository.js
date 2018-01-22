@@ -4,11 +4,9 @@ const PropertyMapper = require('../service/ShopgatePropertyMapper')
 class ShopgatePropertiesRepository {
   /**
    * @param {BigCommerce} apiVersion3Client
-   * @param {StoreLogger} storeLogger
    */
-  constructor (apiVersion3Client, storeLogger) {
+  constructor (apiVersion3Client) {
     this._client = apiVersion3Client
-    this._storeLogger = storeLogger
   }
 
   /**
@@ -16,9 +14,7 @@ class ShopgatePropertiesRepository {
    * @returns {Promise<ShopgateProperty[]>}
    */
   async get (id) {
-    this._storeLogger.startTimer()
     const response = await this._client.get('/catalog/products/' + id + '?include_fields=weight')
-    this._storeLogger.logTime('get product properties')
     const shopgateProperties = []
     Array.prototype.push.apply(
       shopgateProperties,
