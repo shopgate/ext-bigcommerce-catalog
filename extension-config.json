@@ -15,7 +15,7 @@
         "method":  "GET",
         "service": "config",
         "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
-        "key": "value.backend.storeHash"
+        "key": "value.storeHash"
       }
     },
     "accessToken" : {
@@ -26,7 +26,7 @@
         "method":  "GET",
         "service": "config",
         "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
-        "key": "value.backend.accessToken"
+        "key": "value.accessToken"
       }
     },
     "clientId": {
@@ -37,7 +37,7 @@
         "method":  "GET",
         "service": "config",
         "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
-        "key": "value.backend.clientId"
+        "key": "value.clientId"
       }
     },
     "clientSecret": {
@@ -48,7 +48,7 @@
         "method":  "GET",
         "service": "config",
         "path": "/v1/shop/%(shopId)s/bigcommerce_api_credentials?parsed=true",
-        "key": "value.backend.clientSecret"
+        "key": "value.clientSecret"
       }
     },
     "requestTimeout": {
