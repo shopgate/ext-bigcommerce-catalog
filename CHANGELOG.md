@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## Changed
+- extension-config.json expects no longer a "backend" property in the configuration json
 
 ## [0.1.1] -2018-01-22
 ### Added 
