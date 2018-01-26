@@ -6,11 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
-## [0.1.2] -2018-01-26
+## [0.1.2] - 2018-01-26
 ## Changed
 - extension-config.json expects no longer a "backend" property in the configuration json
 
-## [0.1.1] -2018-01-22
+## [0.1.1] - 2018-01-22
 ### Added 
 - bigCommerce node wrapper to measure api call times
 
