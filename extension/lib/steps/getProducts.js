@@ -8,18 +8,17 @@ const ApiTimings = require('./BigCommerceTimings')
 /**
  * @param {Object} context
  * @param {GetProductsInput} input - Properties depend on the pipeline this is used for
- * @param {GetProductsPipelineCallback} cb
+ * @returns {Promise<ShopgateProductsResponse>}
  */
-module.exports = async (context, input, cb) => {
+module.exports = async (context, input) => {
   const getByCategoryId = input.hasOwnProperty('categoryId') && input.categoryId
   const getByProductIds = input.hasOwnProperty('productIds') && input.productIds
 
   if (!getByCategoryId && !getByProductIds) {
-    cb(null, {
+    return {
       totalProductCount: 0,
       products: []
-    })
-    return
+    }
   }
 
   const bigCommerceFactory = new BigComerceFactory(
@@ -56,10 +55,10 @@ module.exports = async (context, input, cb) => {
       context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
       context.log.debug('Result: ' + JSON.stringify(products))
 
-      cb(null, products)
+      return products
     } catch (error) {
       context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProducts_v1 with parameters: ' + JSON.stringify(input), error)
-      cb(error)
+      throw error
     } finally {
       apiTimings.report(bigCommerceApiVersion2.timings)
       apiTimings.report(bigCommerceApiVersion3.timings)
@@ -79,10 +78,10 @@ module.exports = async (context, input, cb) => {
       context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProducts_v1.')
       context.log.debug('Result: ' + JSON.stringify(products))
 
-      cb(null, products)
+      return products
     } catch (error) {
       context.log.error('Unable to get products for categoryId: ' + input.categoryId, error)
-      cb(error)
+      throw error
     } finally {
       apiTimings.report(bigCommerceApiVersion2.timings)
       apiTimings.report(bigCommerceApiVersion3.timings)

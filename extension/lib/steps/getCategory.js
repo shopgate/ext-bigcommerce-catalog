@@ -9,9 +9,9 @@ const ApiTimings = require('./BigCommerceTimings')
  * @param {string} input.categoryId
  * @param {boolean} input.includeChildren
  * @param {string} input.childrenSort
- * @param {GetCategoryCallback} cb
+ * @returns {Promise<ShopgateCategory>}
  */
-module.exports = async (context, input, cb) => {
+module.exports = async (context, input) => {
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
@@ -39,10 +39,10 @@ module.exports = async (context, input, cb) => {
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getCategory_v1 with categoryId: ' + input.categoryId)
     context.log.debug('Result: ' + JSON.stringify(category))
 
-    cb(null, category)
+    return category
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getCategory_v1 with categoryId: ' + input.categoryId)
-    cb(error)
+    throw error
   } finally {
     apiTimings.report(bigCommerceClientV3.timings)
   }

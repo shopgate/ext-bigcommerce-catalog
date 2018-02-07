@@ -6,12 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [0.1.3] - 2018-02-07
+### Added
+- true support for async/await and JS promises in steps
+
 ## [0.1.2] - 2018-01-26
-## Changed
+### Changed
 - extension-config.json expects no longer a "backend" property in the configuration json
 
 ## [0.1.1] - 2018-01-22
-### Added 
+### Added
 - bigCommerce node wrapper to measure api call times
 
 ### Fixed
@@ -22,7 +26,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - querying simple products for product list and product detail page
 - querying categories for start page and category list
 
-[Unreleased]: https://github.com/shopgate/cloud-ext-bigcommerce-catalog/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/shopgate/cloud-ext-bigcommerce-catalog/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/shopgate/cloud-ext-bigcommerce-catalog/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/shopgate/cloud-ext-bigcommerce-catalog/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/shopgate/cloud-ext-bigcommerce-catalog/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/shopgate/cloud-ext-bigcommerce-catalog/tree/v0.1.0

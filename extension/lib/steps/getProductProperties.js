@@ -5,9 +5,9 @@ const ApiTimings = require('./BigCommerceTimings')
 /**
  * @param {Object} context
  * @param {GetProductPropertiesInput} input
- * @param {GetProductPropertiesCallback} cb
+ * @returns {Promise<ShopgateProductProperty>}
  */
-module.exports = async (context, input, cb) => {
+module.exports = async (context, input) => {
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
@@ -22,10 +22,10 @@ module.exports = async (context, input, cb) => {
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductProperties_v1.')
     context.log.debug('Result: ' + JSON.stringify(productProperties))
 
-    cb(null, {properties: productProperties})
+    return {properties: productProperties}
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductProperties_v1 with productId: ' + input.productId, error)
-    cb(error)
+    throw error
   } finally {
     apiTimings.report(bigCommerceClientV3.timings)
   }
