@@ -7,9 +7,3 @@
  * @typedef {Object} ShopgateProductProperty
  * @property {ShopgateProperty[]} properties
  */
-
-/**
- * @callback GetProductPropertiesCallback
- * @param {Error} [error]
- * @param {ShopgateProductProperty} [properties]
- */

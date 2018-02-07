@@ -7,9 +7,9 @@ const ApiTimings = require('./BigCommerceTimings')
 /**
  * @param {Object} context
  * @param {GetProductShippingInput} input
- * @param {GetProductShippingCallback} cb
+ * @returns {Promise<ShopgateProductShippingResponse>}
  */
-module.exports = async (context, input, cb) => {
+module.exports = async (context, input) => {
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
@@ -31,10 +31,10 @@ module.exports = async (context, input, cb) => {
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getProductShipping_v1.')
     context.log.debug('Result: ' + JSON.stringify(productShipping))
 
-    cb(null, {shipping: productShipping})
+    return {shipping: productShipping}
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getProductShipping_v1 with productId: ' + input.productId, error)
-    cb(error)
+    throw error
   } finally {
     apiTimings.report(bigCommerceClientV2.timings)
     apiTimings.report(bigCommerceClientV3.timings)

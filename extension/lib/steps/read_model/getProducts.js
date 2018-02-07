@@ -1,10 +1,4 @@
 /**
- * @callback GetProductsPipelineCallback
- * @param {Error} [error]
- * @param {ShopgateProductsResponse} [productsResponse]
- */
-
-/**
  * @typedef {Object} AdditionalPropFilter
  * @property {number} [minimum]
  * @property {number} [maximum]

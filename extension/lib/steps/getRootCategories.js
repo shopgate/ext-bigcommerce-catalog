@@ -5,10 +5,9 @@ const ApiTimings = require('./BigCommerceTimings')
 
 /**
  * @param {Object} context
- * @param {object} input - Properties depend on the pipeline this is used for
- * @param {GetRootCategoriesCallback} cb
+ * @returns {Promise<GetRootCategoriesResponse>}
  */
-module.exports = async (context, input, cb) => {
+module.exports = async (context) => {
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
@@ -28,10 +27,10 @@ module.exports = async (context, input, cb) => {
     context.log.debug('Successfully executed @shopgate/bigcommerce-catalog/getRootCategories_v1.')
     context.log.debug('Result: ' + JSON.stringify(categories))
 
-    cb(null, {categories: categories})
+    return {categories: categories}
   } catch (error) {
     context.log.error('Failed executing @shopgate/bigcommerce-catalog/getRootCategories_v1.')
-    cb(error)
+    throw error
   } finally {
     apiTimings.report(bigCommerceClientV3.timings)
   }
