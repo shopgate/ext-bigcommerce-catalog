@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "getCategory_v1",
+    "id": "shopgate.catalog.getCategory.v1",
     "public": true,
     "input": [
       {"key": "categoryId", "id": "1"},

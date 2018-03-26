@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "getRootCategories_v1",
+    "id": "shopgate.catalog.getRootCategories.v1",
     "public": true,
     "input": [{"key": "sort", "id": "1", "optional": true}],
     "output": [{"key": "categories", "id": "1000"}],
