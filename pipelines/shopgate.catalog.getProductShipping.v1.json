@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "getProductShipping_v1",
+    "id": "shopgate.catalog.getProductShipping.v1",
     "public": true,
     "input": [
       {"key": "productId", "id": "1"}

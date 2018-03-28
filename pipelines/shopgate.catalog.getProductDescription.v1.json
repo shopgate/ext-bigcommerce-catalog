@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "getProductDescription_v1",
+    "id": "shopgate.catalog.getProductDescription.v1",
     "public": true,
     "input": [{"key": "productId", "id": "1"}],
     "output": [{"key": "description", "id": "1000"}],
