@@ -3,10 +3,10 @@ build
 coverage
 extension/coverage
 extension/node_modules
+extension/package-lock.json
 .idea/
 npm-debug.log
 .vscode
-extension/test
 .integration-credentials.js
 extension/config.json
 /extension/.nyc_output
