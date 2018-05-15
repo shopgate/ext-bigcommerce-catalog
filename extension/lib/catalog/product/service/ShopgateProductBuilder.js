@@ -79,12 +79,12 @@ class ShopgateProductBuilder {
   }
 
   /**
-   * @returns {number}
+   * @returns {string}
    *
    * @private
    */
   _getId () {
-    return this.bigCommerceProduct.id
+    return this.bigCommerceProduct.id + (this.bigCommerceVariant && this.bigCommerceVariant.id ? '-' + this.bigCommerceVariant.id : '')
   }
 
   /**

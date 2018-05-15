@@ -37,7 +37,7 @@
         "expression": {"ok": [{"type": "input", "name": "includeChildren"}]},
         "then": {
           "type": "pipeline",
-          "id": "getCategoryChildren_v1",
+          "id": "shopgate.catalog.getCategoryChildren.v1",
           "input": [
             {"key": "categoryId", "id": "1"},
             {"key": "sort", "id": "3", "optional": true}
