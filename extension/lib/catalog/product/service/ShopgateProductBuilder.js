@@ -84,7 +84,9 @@ class ShopgateProductBuilder {
    * @private
    */
   _getId () {
-    return this.bigCommerceProduct.id + (this.bigCommerceVariant && this.bigCommerceVariant.id ? '-' + this.bigCommerceVariant.id : '')
+    return this.bigCommerceVariant && this.bigCommerceVariant.id
+      ? `${this.bigCommerceProduct.id}-${this.bigCommerceVariant.id}`
+      : this.bigCommerceProduct.id
   }
 
   /**
