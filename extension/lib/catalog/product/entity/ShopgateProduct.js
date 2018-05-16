@@ -83,7 +83,7 @@
 
 /**
  * @typedef {Object} ShopgateProductDefinition
- * @property {number} [id]
+ * @property {string} [id]
  * @property {boolean} [active]
  * @property {ShopgateProductAvailability} [availability]
  * @property {ShopgateProductIdentifiers} [identifiers]
@@ -108,7 +108,7 @@
  */
 class ShopgateProduct {
   /**
-   * @param {number} [id]
+   * @param {string} [id]
    * @param {boolean} [active]
    * @param {ShopgateProductAvailability} [availability]
    * @param {ShopgateProductIdentifiers} [identifiers]
