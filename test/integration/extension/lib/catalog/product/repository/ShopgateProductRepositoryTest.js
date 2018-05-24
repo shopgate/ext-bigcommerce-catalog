@@ -19,7 +19,7 @@ describe('Product get by id', () => {
     )
 
     const expectedProduct = {
-      id: 114,
+      id: "114-3113",
       name: 'SG IT Simple product',
       manufacturer: 'Chanel',
       price: {

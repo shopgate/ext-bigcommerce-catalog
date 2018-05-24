@@ -26,10 +26,13 @@ describe('BigcommerceCategoryTest', function () {
 
       return subjectUnderTest.getRootCategories().should.eventually.containSubset([
         {
-          id: 19,
-          imageUrl: '',
-          name: 'Integration test *Do not touch*',
-          productCount: 3
+          "_id": 19,
+          "_imageUrl": "",
+          "_name": "Integration test *Do not touch*",
+          "_parent": null,
+          "_productCount": 5,
+          "_children": [],
+          "_childrenCount": 0
         }
       ])
     })

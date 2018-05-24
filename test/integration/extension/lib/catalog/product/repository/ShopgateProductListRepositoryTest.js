@@ -30,7 +30,7 @@ describe('ShopgateProductListRepository', function () {
   })
 
   describe('getByCategoryId', function () {
-    it('should responed with two products', function () {
+    it('should respond with two products', function () {
       const response = subjectUnderTest.getByCategoryId('19', 0, 2, ShopgateSort.RANDOM, false)
 
       return Promise.all([
@@ -41,12 +41,12 @@ describe('ShopgateProductListRepository', function () {
   })
 
   describe('getByProductIds', function () {
-    it('should responed with two products', function () {
+    it('should respond with two products', function () {
       const response = subjectUnderTest.getByProductIds(['112', '113'], 0, 10, ShopgateSort.RANDOM, true)
 
       const integrationTestProducts = [
         {
-          'id': 112,
+          'id': "112-3107",
           'active': true,
           'manufacturer': 'Anna',
           'name': '[Integration Test] Nutellabrot *Do not touch* ',
@@ -60,7 +60,7 @@ describe('ShopgateProductListRepository', function () {
           }
         },
         {
-          'id': 113,
+          'id': "113-3109",
           'active': true,
           'manufacturer': 'Collette',
           'name': '[Integration Test][Sample] Collette, alligator clutch *Do not touch*',
