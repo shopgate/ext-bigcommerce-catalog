@@ -11,7 +11,11 @@ module.exports = async (context, input) => {
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
-    context.config.storeHash
+    context.config.storeHash,
+    {
+      cacheLifetime: context.config.lifetime_sec,
+      extensionStorage: context.storage.extension
+    }
   )
   const bigCommerceClientV3 = bigCommerceFactory.createV3()
   const apiTimings = new ApiTimings(context.log)

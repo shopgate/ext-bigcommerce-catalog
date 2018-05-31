@@ -3,11 +3,16 @@ const BigCommerce = require('node-bigcommerce')
 class BigCommerceWrapper extends BigCommerce {
   /**
    * @param {BigCommerceWrapperConfig} config
+   * @param {Object} cacheConfig
    */
-  constructor (config) {
+  constructor (config, cacheConfig) {
     super(config)
     this._timings = []
     this._measureRequestDuration = config.measureRequestDuration || false
+    if (cacheConfig.cacheLifetime !== null && cacheConfig.cacheLifetime !== 0) {
+      this._cacheLifetime = cacheConfig.cacheLifetime
+      this._extensionStorage = cacheConfig.extensionStorage
+    }
   }
 
   /**
