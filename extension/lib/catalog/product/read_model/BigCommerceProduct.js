@@ -67,9 +67,18 @@
  * @property {?number} width
  */
 
+ /**
+  * Takes into account `inventory_tracking` param where
+  * the Qty is tracked based on the configuration set in
+  * the Inventry Tracking section of the product page
+  * - None means no Qty tracking is made at all
+  * - Product means that the parent product has a base qty set
+  * - Variant means the variants have different Qty's assigned
+  */
 module.exports.Inventory = {
   TRACKING_OFF: 'none',
-  TRACKING_SKU: 'sku'
+  TRACKING_PRODUCT: 'product',
+  TRACKING_VARIANT: 'variant'
 }
 
 module.exports.Availability = {

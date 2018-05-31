@@ -14,10 +14,17 @@
  * @property {string} [currency]
  */
 
+ /**
+ * @typedef {Object} ShopgateProductCharacteristicsList
+ * @property {string} id - id of option set
+ * @property {string} label - label of option set, e.g Color
+ * @property {ShopgateProductCharacteristics[]} values
+ */
+
 /**
  * @typedef {Object} ShopgateProductCharacteristics
- * @property {string} label
- * @property {string} value
+ * @property {string} id - id of option
+ * @property {string} label - label of option, e.g. Red
  */
 
 /**

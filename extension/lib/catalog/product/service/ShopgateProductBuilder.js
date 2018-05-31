@@ -15,6 +15,7 @@ class ShopgateProductBuilder {
   }
 
   /**
+   * @see {@link https://developer.shopgate.com/docs/references/shopgate-pipelines/product-pipelines/getproduct-v1}
    * @returns {ShopgateProduct}
    */
   build () {
@@ -126,6 +127,8 @@ class ShopgateProductBuilder {
   }
 
   /**
+   * Characteristics for the time this product is a variant
+   *
    * @returns {ShopgateProductCharacteristics[]}
    *
    * @private
@@ -181,12 +184,6 @@ class ShopgateProductBuilder {
         maximumVariantStockQuantity = variant.inventory_level
       }
     })
-
-    for (let variant in variants) {
-      if (maximumVariantStockQuantity > variant.inventory_level) {
-        maximumVariantStockQuantity = variant.inventory_level
-      }
-    }
 
     return maximumVariantStockQuantity
   }
@@ -267,7 +264,7 @@ class ShopgateProductBuilder {
   _getFlags () {
     return {
       hasChildren: true,
-      hasVariants: false,
+      hasVariants: this._isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
       hasOptions: false
     }
   }
