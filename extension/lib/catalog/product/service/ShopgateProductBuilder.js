@@ -2,7 +2,6 @@ const ShopgateProduct = require('../entity/ShopgateProduct.js')
 const ShopgateAvailibility = require('../value_objects/ShopgateAvailability.js')
 const BigCommerceProduct = require('../read_model/BigCommerceProduct.js')
 const ShopgateProductType = require('../value_objects/ShopgateType.js')
-const CharacteristicsBuilder = require('../service/ShopgateCharacteristicBuilder')
 
 class ShopgateProductBuilder {
   /**
@@ -148,14 +147,6 @@ class ShopgateProductBuilder {
    * @private
    */
   _getCharacteristics () {
-    // let response = {}
-    // if (this._isVariant()) {
-    //   response = new CharacteristicsBuilder([this.variant]).build()
-    //   this.variant.option_values.forEach((option) => {
-    //     response[option.option_id] = option.id
-    //   })
-    // }
-
     return []
   }
 

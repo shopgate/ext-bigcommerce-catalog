@@ -1,6 +1,5 @@
 const ShopgateVariantBuilder = require('../service/ShopgateVariantBuilder')
 const ShopgateCharacteristicBuilder = require('../service/ShopgateCharacteristicBuilder')
-const BigCommerceProduct = require('../read_model/BigCommerceProduct.js')
 
 /**
  * @property {BigCommerceBrandRepository} _bigCommerceBrandRepository
@@ -25,12 +24,14 @@ class ShopgateVariantRepository {
 
     let variants = { products: [], characteristics: [] }
     parentProduct.variants.forEach(variant => {
-      const builder = new ShopgateVariantBuilder(parentProduct, variant)
-      variants.products.push(builder.build())
+      const product = new ShopgateVariantBuilder(parentProduct, variant).build()
+      // gray out variants that cannot be purchased
+      if (product.stock.orderable) {
+        variants.products.push(product)
+      }
     })
 
-    const trackVariantInventory = parentProduct.inventory_tracking === BigCommerceProduct.Inventory.TRACKING_VARIANT
-    variants.characteristics = new ShopgateCharacteristicBuilder(parentProduct.variants, trackVariantInventory).build()
+    variants.characteristics = new ShopgateCharacteristicBuilder(parentProduct.variants).build()
     return variants
   }
 }

@@ -3,9 +3,8 @@ class ShopgateCharacteristicBuilder {
    * @param {BigCommerceProductVariant[]} variants
    * @param {boolean} trackVariantInventory
    */
-  constructor (variants, trackVariantInventory) {
+  constructor (variants) {
     this.variants = variants
-    this.trackQty = trackVariantInventory
   }
 
   /**
@@ -17,20 +16,17 @@ class ShopgateCharacteristicBuilder {
   build () {
     let list = {}
     this.variants.forEach(variant => {
-      if (variant.purchasing_disabled || this._isOutOfStock(variant)) {
-        return // skip disabled variants
-      }
       variant.option_values.forEach(option => {
         if (!(option.option_id in list)) {
           list[option.option_id] = {
-            id: option.option_id,
+            id: option.option_id.toString(),
             label: option.option_display_name,
             values: {}
           }
         }
         if (!(option.id in list[option.option_id].values)) {
           list[option.option_id].values[option.id] = {
-            id: option.id,
+            id: option.id.toString(),
             label: option.label
           }
         }
@@ -43,18 +39,6 @@ class ShopgateCharacteristicBuilder {
       option.values = Object.values(option.values)
       return option
     })
-  }
-
-  /**
-   * Check if the current variant is out of stock
-   *
-   * @param {BigCommerceProductVariant} variant
-   * @returns {boolean}
-   *
-   * @private
-   */
-  _isOutOfStock (variant) {
-    return this.trackQty ? variant.inventory_level <= 0 : false
   }
 }
 

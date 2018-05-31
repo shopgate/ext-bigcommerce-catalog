@@ -12,7 +12,7 @@ class ShopgateVariantBuilder {
   }
 
   /**
-   * @see {@link https://developer.shopgate.com/docs/references/shopgate-pipelines/product-pipelines/getproduct-v1}
+   * @see {@link https://developer.shopgate.com/docs/references/shopgate-pipelines/product-pipelines/product-properties/getproductvariants-v1}
    * @returns {Object}
    */
   build () {
@@ -35,7 +35,6 @@ class ShopgateVariantBuilder {
   }
 
   /**
-   * todo-sg: double check state
    * @returns {ShopgateProductAvailability}
    *
    * @private
@@ -43,7 +42,7 @@ class ShopgateVariantBuilder {
   _getAvailablity () {
     return {
       text: this._isVariantPurchasable() ? this.parent.availability_description : this.variant.purchasing_disabled_message,
-      state: (this.parent.availability === productModel.Availability.AVAILABLE || this.parent.availability === productModel.Availability.PREORDER ? ShopgateAvailibility.OK : ShopgateAvailibility.ALERT)
+      state: this._isVariantPurchasable() ? ShopgateAvailibility.OK : ShopgateAvailibility.ALERT
     }
   }
 
@@ -68,7 +67,7 @@ class ShopgateVariantBuilder {
   _getCharacteristics () {
     let response = {}
     this.variant.option_values.forEach((option) => {
-      response[option.option_id] = option.id
+      response[option.option_id] = option.id.toString()
     })
     return response
   }
@@ -101,6 +100,8 @@ class ShopgateVariantBuilder {
   }
 
   /**
+   * Takes into account parent OR variant quantity
+   *
    * @return {number} - only integers are supported
    *
    * @private
