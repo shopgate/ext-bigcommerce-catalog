@@ -9,8 +9,9 @@ class BigCommerceWrapper extends BigCommerce {
     super(config)
     this._timings = []
     this._measureRequestDuration = config.measureRequestDuration || false
-    if (cacheConfig.cacheLifetime !== null && cacheConfig.cacheLifetime !== 0) {
-      this._cacheLifetime = cacheConfig.cacheLifetime
+    const cacheLifetimeNumeric = parseInt(cacheConfig.cacheLifetime)
+    if (cacheLifetimeNumeric > 0) {
+      this._cacheLifetime = cacheLifetimeNumeric
       this._extensionStorage = cacheConfig.extensionStorage
     }
   }
