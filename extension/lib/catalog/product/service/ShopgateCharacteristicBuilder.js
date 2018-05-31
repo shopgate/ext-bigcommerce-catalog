@@ -1,20 +1,25 @@
 class ShopgateCharacteristicBuilder {
   /**
    * @param {BigCommerceProductVariant[]} variants
+   * @param {boolean} trackVariantInventory
    */
-  constructor (variants) {
+  constructor (variants, trackVariantInventory) {
     this.variants = variants
+    this.trackQty = trackVariantInventory
   }
 
   /**
    * Builds all possible variations / characteristics
    * from the variants passed down
    *
-   * @returns {ShopgateProductCharacteristicList[]}
+   * @returns {Object[]}
    */
   build () {
     let list = {}
     this.variants.forEach(variant => {
+      if (variant.purchasing_disabled || this._isOutOfStock(variant)) {
+        return // skip disabled variants
+      }
       variant.option_values.forEach(option => {
         if (!(option.option_id in list)) {
           list[option.option_id] = {
@@ -38,6 +43,18 @@ class ShopgateCharacteristicBuilder {
       option.values = Object.values(option.values)
       return option
     })
+  }
+
+  /**
+   * Check if the current variant is out of stock
+   *
+   * @param {BigCommerceProductVariant} variant
+   * @returns {boolean}
+   *
+   * @private
+   */
+  _isOutOfStock (variant) {
+    return this.trackQty ? variant.inventory_level <= 0 : false
   }
 }
 

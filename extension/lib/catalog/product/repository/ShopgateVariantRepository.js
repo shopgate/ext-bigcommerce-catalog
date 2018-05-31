@@ -1,5 +1,6 @@
 const ShopgateVariantBuilder = require('../service/ShopgateVariantBuilder')
 const ShopgateCharacteristicBuilder = require('../service/ShopgateCharacteristicBuilder')
+const BigCommerceProduct = require('../read_model/BigCommerceProduct.js')
 
 /**
  * @property {BigCommerceBrandRepository} _bigCommerceBrandRepository
@@ -19,16 +20,17 @@ class ShopgateVariantRepository {
    * @returns {Promise<ShopgateProduct>}
    */
   async get (id) {
-    const response = await this._client.get('/catalog/products/' + id + '?include=variants')
+    const response = await this._client.get('/catalog/products/' + id + '?include=variants,images')
     const parentProduct = response.data
 
     let variants = { products: [], characteristics: [] }
     parentProduct.variants.forEach(variant => {
-      let builder = new ShopgateVariantBuilder(parentProduct, variant)
+      const builder = new ShopgateVariantBuilder(parentProduct, variant)
       variants.products.push(builder.build())
     })
 
-    variants.characteristics = new ShopgateCharacteristicBuilder(parentProduct.variants).build()
+    const trackVariantInventory = parentProduct.inventory_tracking === BigCommerceProduct.Inventory.TRACKING_VARIANT
+    variants.characteristics = new ShopgateCharacteristicBuilder(parentProduct.variants, trackVariantInventory).build()
     return variants
   }
 }
