@@ -12,7 +12,9 @@ class ShopgateProductBuilder {
   constructor (mainProduct, bigCommerceStoreCurrency, variantId) {
     this.mainProduct = mainProduct
     this.variantId = variantId
-    this.variant = mainProduct.variants.find(variant => variant.id === variantId)
+    this.variant = variantId === 0
+      ? mainProduct.variants[0]
+      : mainProduct.variants.find(variant => variant.id === variantId)
     this.bigCommerceStoreCurrency = bigCommerceStoreCurrency
   }
 
@@ -49,7 +51,7 @@ class ShopgateProductBuilder {
    * @private
    */
   _isActive () {
-    return this._isVariant() ? !this.variant.purchasing_disabled : true
+    return this._isAtLeatOneVariantPurchasable()
   }
 
   /**
@@ -133,7 +135,7 @@ class ShopgateProductBuilder {
     let type = ShopgateProductType.SIMPLE
     if (this._isVariant()) {
       type = ShopgateProductType.VARIANT
-    } else if (this._isAtLeatOneVariantPurchasable()) {
+    } else if (this.mainProduct.variants.length > 1) {
       type = ShopgateProductType.PARENT
     }
     return type
@@ -221,15 +223,15 @@ class ShopgateProductBuilder {
    * @private
    */
   _getFeaturedImageUrl () {
-    let bigCommerceProductImage = this._isVariant() ? this.variant.image_url : ''
+    let image = this._isVariant() ? this.variant.image_url : ''
 
-    if (typeof bigCommerceProductImage === 'undefined' || bigCommerceProductImage === '') {
+    if (typeof image === 'undefined' || image === '') {
       if (this.mainProduct.hasOwnProperty('images') && this.mainProduct.images.length > 0) {
-        bigCommerceProductImage = this.mainProduct.images[0].url_standard
+        image = this.mainProduct.images[0].url_standard
       }
     }
 
-    return bigCommerceProductImage
+    return image
   }
 
   /**
@@ -276,7 +278,7 @@ class ShopgateProductBuilder {
   _getFlags () {
     return {
       hasChildren: false,
-      hasVariants: this._isVariant() ? false : this._isAtLeatOneVariantPurchasable(this.mainProduct.variants),
+      hasVariants: !this._isVariant() && this.mainProduct.variants.length > 1,
       hasOptions: false
     }
   }
@@ -323,9 +325,6 @@ class ShopgateProductBuilder {
    * @private
    */
   _getQty () {
-    if (this.mainProduct.inventory_tracking === BigCommerceProduct.Inventory.PARENT) {
-      return this.mainProduct.inventory_level
-    }
     return this._getProduct().inventory_level
   }
 
@@ -335,7 +334,7 @@ class ShopgateProductBuilder {
    * @private
    */
   _isVariant () {
-    return this.variantId !== 0 && this.variant !== undefined
+    return this.variantId !== 0
   }
 
   /**
