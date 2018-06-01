@@ -87,14 +87,17 @@ describe('Pricing related tests: ', () => {
       assert.equal(resultProduct.price.unitPriceStriked, tempVariant.price)
     })
   })
+})
+
+describe('Pipeline firing flags: ', () => {
+  let tempProduct = tempVariant = {}
+
+  beforeEach(() => {
+    tempProduct = { id: 1, variants: [{ id: 1 }] }
+    tempVariant = { id: 2 }
+  })
 
   describe('Checks if product hasVariants flag is set correctly', () => {
-    let tempProduct = tempVariant = {}
-    beforeEach(() => {
-      tempProduct = { id: 1, variants: [{ id: 1 }] }
-      tempVariant = { id: 2 }
-    })
-
     it('Should not have variants as it is a Parent product with 1 variant', () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.equal(resultProduct.flags.hasVariants, false)
@@ -119,126 +122,134 @@ describe('Pricing related tests: ', () => {
     })
   })
 
-  describe('Stock levels: ', () => {
-    let tempProduct = tempVariant = {}
+  describe('Options and children flags', () => {
+    it('Should have both flags off as they are not implemented', () => {
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.equal(resultProduct.flags.hasChildren, false)
+      assert.equal(resultProduct.flags.hasOptions, false)
+    })
+  })
+})
 
-    describe('Purchasability of a product', () => {
-      beforeEach(() => {
-        tempProduct = { id: 1, variants: [{ id: 1, purchasing_disabled: false }] }
-        tempVariant = { id: 2, purchasing_disabled: false }
-      })
+describe('Stock levels: ', () => {
+  let tempProduct = tempVariant = {}
 
-      it('Should be orderable if Parent\'s variant is not disabled', () => {
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.ok(resultProduct.stock.orderable)
-      })
-
-      it('Should be orderable if neither variants are disabled', () => {
-        tempProduct.variants.push(tempVariant)
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.ok(resultProduct.stock.orderable)
-      })
-
-      it('Should be orderable if  at least one variant is enabled', () => {
-        tempVariant.purchasing_disabled = true
-        tempProduct.variants.push(tempVariant)
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.ok(resultProduct.stock.orderable)
-      })
-
-      it('Should be not be orderable if the only variant is disabled', () => {
-        tempProduct.variants[0].purchasing_disabled = true
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.equal(resultProduct.stock.orderable, false)
-      })
-
-      it('Should be not be orderable if all variants are disabled', () => {
-        tempProduct.variants.push(tempVariant)
-        tempProduct.variants.map(variant => variant.purchasing_disabled = true)
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.equal(resultProduct.stock.orderable, false)
-      })
+  describe('Purchasability of a product', () => {
+    beforeEach(() => {
+      tempProduct = { id: 1, variants: [{ id: 1, purchasing_disabled: false }] }
+      tempVariant = { id: 2, purchasing_disabled: false }
     })
 
-    describe('Quantity of a product', () => {
-      beforeEach(() => {
-        tempProduct = {
-          id: 1,
-          inventory_tracking: BigCommerceProduct.Inventory.TRACKING_OFF,
-          inventory_level: 5,
-          variants: [{ id: 1, inventory_level: 10 }]
-        }
-        tempVariant = { id: 2, inventory_level: 15 }
-      })
-
-      it('Should use the parent\'s Qty when not tracking', () => {
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.equal(resultProduct.stock.quantity, tempProduct.inventory_level)
-        assert.equal(resultProduct.stock.ignoreQuantity, true)
-      })
-
-      it('Should track the parents Qty when tracking it', () => {
-        tempProduct.inventory_tracking = BigCommerceProduct.Inventory.TRACKING_PRODUCT
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.equal(resultProduct.stock.quantity, tempProduct.inventory_level)
-        assert.equal(resultProduct.stock.ignoreQuantity, false)
-      })
-
-      it('Should track the variants Qty when tracking it, ID:1', () => {
-        tempProduct.inventory_tracking = BigCommerceProduct.Inventory.TRACKING_VARIANT
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 1).build()
-        assert.equal(resultProduct.stock.quantity, tempProduct.variants[0].inventory_level)
-        assert.equal(resultProduct.stock.ignoreQuantity, false)
-      })
-
-      it('Should track the variants Qty when tracking it, ID:2', () => {
-        tempProduct.inventory_tracking = BigCommerceProduct.Inventory.TRACKING_VARIANT
-        tempProduct.variants.push(tempVariant)
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
-        assert.equal(resultProduct.stock.quantity, tempVariant.inventory_level)
-        assert.equal(resultProduct.stock.ignoreQuantity, false)
-      })
-
-      it('Should ignore quantity despite it being a variant', () => {
-        tempProduct.variants.push(tempVariant)
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
-        assert.equal(resultProduct.stock.ignoreQuantity, true)
-      })
+    it('Should be orderable if Parent\'s variant is not disabled', () => {
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.ok(resultProduct.stock.orderable)
     })
 
-    describe('Order min/max allowances', () => {
-      beforeEach(() => {
-        tempProduct = {
-          id: 1,
-          order_quantity_minimum: 0,
-          order_quantity_maximum: 0,
-          variants: [{ id: 1 }]
-        }
-        tempVariant = { id: 2 }
-      })
+    it('Should be orderable if neither variants are disabled', () => {
+      tempProduct.variants.push(tempVariant)
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.ok(resultProduct.stock.orderable)
+    })
 
-      it('Should not have a min/max order qty when not set', () => {
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.equal(resultProduct.stock.minOrderQuantity, 0)
-        assert.equal(resultProduct.stock.maxOrderQuantity, 0)
-      })
+    it('Should be orderable if  at least one variant is enabled', () => {
+      tempVariant.purchasing_disabled = true
+      tempProduct.variants.push(tempVariant)
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.ok(resultProduct.stock.orderable)
+    })
 
-      it('Should have a min/max order qty when set', () => {
-        tempProduct.order_quantity_minimum = 2
-        tempProduct.order_quantity_maximum = 10
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
-        assert.equal(resultProduct.stock.minOrderQuantity, 2)
-        assert.equal(resultProduct.stock.maxOrderQuantity, 10)
-      })
+    it('Should be not be orderable if the only variant is disabled', () => {
+      tempProduct.variants[0].purchasing_disabled = true
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.equal(resultProduct.stock.orderable, false)
+    })
 
-      it('Being a variant has no effect on min/max order qty', () => {
-        tempProduct.order_quantity_minimum = 2
-        tempProduct.order_quantity_maximum = 10
-        tempProduct.variants.push(tempVariant)
-        const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
-        assert.equal(resultProduct.stock.minOrderQuantity, 2)
-        assert.equal(resultProduct.stock.maxOrderQuantity, 10)
-      })
+    it('Should be not be orderable if all variants are disabled', () => {
+      tempProduct.variants.push(tempVariant)
+      tempProduct.variants.map(variant => variant.purchasing_disabled = true)
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.equal(resultProduct.stock.orderable, false)
+    })
+  })
+
+  describe('Quantity of a product', () => {
+    beforeEach(() => {
+      tempProduct = {
+        id: 1,
+        inventory_tracking: BigCommerceProduct.Inventory.TRACKING_OFF,
+        inventory_level: 5,
+        variants: [{ id: 1, inventory_level: 10 }]
+      }
+      tempVariant = { id: 2, inventory_level: 15 }
+    })
+
+    it('Should use the parent\'s Qty when not tracking', () => {
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.equal(resultProduct.stock.quantity, tempProduct.inventory_level)
+      assert.equal(resultProduct.stock.ignoreQuantity, true)
+    })
+
+    it('Should track the parents Qty when tracking it', () => {
+      tempProduct.inventory_tracking = BigCommerceProduct.Inventory.TRACKING_PRODUCT
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.equal(resultProduct.stock.quantity, tempProduct.inventory_level)
+      assert.equal(resultProduct.stock.ignoreQuantity, false)
+    })
+
+    it('Should track the variants Qty when tracking it, ID:1', () => {
+      tempProduct.inventory_tracking = BigCommerceProduct.Inventory.TRACKING_VARIANT
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 1).build()
+      assert.equal(resultProduct.stock.quantity, tempProduct.variants[0].inventory_level)
+      assert.equal(resultProduct.stock.ignoreQuantity, false)
+    })
+
+    it('Should track the variants Qty when tracking it, ID:2', () => {
+      tempProduct.inventory_tracking = BigCommerceProduct.Inventory.TRACKING_VARIANT
+      tempProduct.variants.push(tempVariant)
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
+      assert.equal(resultProduct.stock.quantity, tempVariant.inventory_level)
+      assert.equal(resultProduct.stock.ignoreQuantity, false)
+    })
+
+    it('Should ignore quantity despite it being a variant', () => {
+      tempProduct.variants.push(tempVariant)
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
+      assert.equal(resultProduct.stock.ignoreQuantity, true)
+    })
+  })
+
+  describe('Order min/max allowances', () => {
+    beforeEach(() => {
+      tempProduct = {
+        id: 1,
+        order_quantity_minimum: 0,
+        order_quantity_maximum: 0,
+        variants: [{ id: 1 }]
+      }
+      tempVariant = { id: 2 }
+    })
+
+    it('Should not have a min/max order qty when not set', () => {
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.equal(resultProduct.stock.minOrderQuantity, 0)
+      assert.equal(resultProduct.stock.maxOrderQuantity, 0)
+    })
+
+    it('Should have a min/max order qty when set', () => {
+      tempProduct.order_quantity_minimum = 2
+      tempProduct.order_quantity_maximum = 10
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
+      assert.equal(resultProduct.stock.minOrderQuantity, 2)
+      assert.equal(resultProduct.stock.maxOrderQuantity, 10)
+    })
+
+    it('Being a variant has no effect on min/max order qty', () => {
+      tempProduct.order_quantity_minimum = 2
+      tempProduct.order_quantity_maximum = 10
+      tempProduct.variants.push(tempVariant)
+      const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
+      assert.equal(resultProduct.stock.minOrderQuantity, 2)
+      assert.equal(resultProduct.stock.maxOrderQuantity, 10)
     })
   })
 })
