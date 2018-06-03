@@ -34,7 +34,7 @@ describe('Product get by id', () => {
     }
 
     return Promise.all([
-      subjectUnderTest.get(114).should.eventually.be.fulfilled.and.be.instanceOf(ShopgateProduct).and.containSubset(expectedProduct)
+      subjectUnderTest.get('114').should.eventually.be.fulfilled.and.be.instanceOf(ShopgateProduct).and.containSubset(expectedProduct)
     ])
   })
 })
