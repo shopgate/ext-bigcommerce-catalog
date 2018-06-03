@@ -1,6 +1,6 @@
 const ShopgateVariantBuilder = require('../../../../../../../extension/lib/catalog/product/service/ShopgateVariantBuilder')
 const BigCommerceProduct = require('../../../../../../../extension/lib/catalog/product/read_model/BigCommerceProduct')
-const assert = require('assert').strict
+const assert = require('assert')
 
 describe('Variant Builder > ', () => {
   let tempProduct = tempVariant = {}

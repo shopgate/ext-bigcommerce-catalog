@@ -2,7 +2,7 @@ const ShopgateProductBuilder = require('../../../../../../../extension/lib/catal
 const ShopgateProduct = require('../../../../../../../extension/lib/catalog/product/entity/ShopgateProduct')
 const ShopgateType = require('../../../../../../../extension/lib/catalog/product/value_objects/ShopgateType')
 const BigCommerceProduct = require('../../../../../../../extension/lib/catalog/product/read_model/BigCommerceProduct')
-const assert = require('assert').strict
+const assert = require('assert')
 
 describe('Shopgate product builder ', () => {
   it('buildes ShopgateProduct for provided bigcommerce data', () => {
