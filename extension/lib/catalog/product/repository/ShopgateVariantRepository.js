@@ -16,7 +16,7 @@ class ShopgateVariantRepository {
 
   /**
    * @param {number} id
-   * @returns {Promise<ShopgateProduct>}
+   * @returns {Object}
    */
   async get (id) {
     const response = await this._client.get('/catalog/products/' + id + '?include=variants,images')

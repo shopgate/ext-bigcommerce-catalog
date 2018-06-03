@@ -31,7 +31,7 @@ class ShopgateVariantBuilder {
    * @private
    */
   _isVariantPurchasable () {
-    return (!this.variant.purchasing_disabled && this._getQty() > 0) || this._getIgnoreQty()
+    return !this.variant.purchasing_disabled && (this._getQty() > 0 || this._getIgnoreQty())
   }
 
   /**
@@ -40,12 +40,24 @@ class ShopgateVariantBuilder {
    * @private
    */
   _getAvailablity () {
-    return {
+    let stock = {
       text: this._isVariantPurchasable() ? this.parent.availability_description : this.variant.purchasing_disabled_message,
-      state: this._isVariantPurchasable() ? ShopgateAvailibility.OK : ShopgateAvailibility.ALERT
+      state: ShopgateAvailibility.ALERT
     }
+    if (this._isVariantPurchasable()) {
+      stock.state = ShopgateAvailibility.OK
+    } else if (this._isLowStock) {
+      stock.state = ShopgateAvailibility.WARNING
+    }
+
+    return stock
   }
 
+  /**
+   * @returns {boolean}
+   *
+   * @private
+   */
   _isLowStock () {
     return this._getQty() <= this._getInventoryProduct().inventory_warning_level
   }
@@ -66,7 +78,7 @@ class ShopgateVariantBuilder {
    */
   _getCharacteristics () {
     let response = {}
-    this.variant.option_values.forEach((option) => {
+    this.variant.option_values && this.variant.option_values.forEach((option) => {
       response[option.option_id] = option.id.toString()
     })
     return response
