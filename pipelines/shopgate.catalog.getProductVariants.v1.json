@@ -1,0 +1,73 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "shopgate.catalog.getProductVariants.v1",
+    "input": [
+      {
+        "id": "1",
+        "key": "productId"
+      },
+      {
+        "id": "2",
+        "key": "showInactive",
+        "optional": true
+      }
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getProductVariants.js",
+        "input": [
+          {
+            "id": "1",
+            "key": "productId"
+          },
+          {
+            "id": "2",
+            "key": "showInactive",
+            "optional": true
+          }
+        ],
+        "output": [
+          {
+            "id": "400",
+            "key": "products"
+          },
+          {
+            "id": "201",
+            "key": "characteristics"
+          }
+        ]
+      },
+      {
+        "id": "@shopgate/products",
+        "path": "@shopgate/products/products/sortCharacteristics.js",
+        "type": "extension",
+        "input": [
+          {
+            "id": "201",
+            "key": "characteristics"
+          }
+        ],
+        "output": [
+          {
+            "id": "301",
+            "key": "characteristics"
+          }
+        ]
+      }
+    ],
+    "output": [
+      {
+        "id": "400",
+        "key": "products"
+      },
+      {
+        "id": "301",
+        "key": "characteristics"
+      }
+    ],
+    "public": true
+  }
+}

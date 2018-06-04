@@ -28,11 +28,7 @@ describe('BigcommerceCategoryTest', function () {
         {
           "_id": 19,
           "_imageUrl": "",
-          "_name": "Integration test *Do not touch*",
-          "_parent": null,
-          "_productCount": 5,
-          "_children": [],
-          "_childrenCount": 0
+          "_name": "Integration test *Do not touch*"
         }
       ])
     })

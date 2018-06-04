@@ -16,12 +16,17 @@ class ShopgateProductRepository {
   }
 
   /**
-   * @param {number} id
+   * @param {string} id
    * @returns {Promise<ShopgateProduct>}
    */
   async get (id) {
-    const response = await this._client.get('/catalog/products/' + id + '?include=variants')
-    const shopgateProductBuilder = new ShopgateProductBuilder(response.data, await this._bigCommerceStoreConfigurationRepository.getCurrency())
+    let variantId = 0
+    if (id.includes('-')) {
+      variantId = Number.parseInt(id.split('-').pop())
+    }
+
+    const response = await this._client.get('/catalog/products/' + Number.parseInt(id) + '?include=variants,images')
+    const shopgateProductBuilder = new ShopgateProductBuilder(response.data, await this._bigCommerceStoreConfigurationRepository.getCurrency(), variantId)
 
     const shopgateProduct = shopgateProductBuilder.build()
     shopgateProduct.manufacturer = await this._bigCommerceBrandRepository.get(response.data.brand_id)

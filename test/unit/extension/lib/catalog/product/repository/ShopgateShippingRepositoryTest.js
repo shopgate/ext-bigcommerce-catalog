@@ -1,10 +1,10 @@
-const ShopgateProductShippingRepository = require('../../../../../../extension/lib/catalog/product/repository/ShopgateShippingRepository')
+const ShopgateProductShippingRepository = require('../../../../../../../extension/lib/catalog/product/repository/ShopgateShippingRepository')
 const sinon = require('sinon')
 const BigCommerceClient = require('node-bigcommerce')
-const BigCommerceProductEntityFactory = require('../../../../../../extension/lib/catalog/product/factory/BigCommerceEntityFactory')
-const ShopgateProductShipping = require('../../../../../../extension/lib/catalog/product/entity/ShopgateShipping')
-const BigCommerceProductEntity = require('./../../../../../../extension/lib/catalog/product/entity/BigCommerceProduct')
-const BigCommerceConfiguration = require('./../../../../../../extension/lib/store/configuration/BigCommerceRepository')
+const BigCommerceProductEntityFactory = require('../../../../../../../extension/lib/catalog/product/factory/BigCommerceEntityFactory')
+const ShopgateProductShipping = require('../../../../../../../extension/lib/catalog/product/entity/ShopgateShipping')
+const BigCommerceProductEntity = require('../../../../../../../extension/lib/catalog/product/entity/BigCommerceProduct')
+const BigCommerceConfiguration = require('../../../../../../../extension/lib/store/configuration/BigCommerceRepository')
 
 describe('ShopgateProductShippingRepositoryTest', () => {
   let clientStub

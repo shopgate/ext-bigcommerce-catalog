@@ -5,16 +5,21 @@ const ShopgateProductType = require('../value_objects/ShopgateType.js')
 
 class ShopgateProductBuilder {
   /**
-   * @param {BigCommerceProduct} bigCommereProduct
+   * @param {BigCommerceProduct} mainProduct - either regular product or parent of a variant
    * @param {string} bigCommerceStoreCurrency
+   * @param {number} variantId - 0 if it is not a variant
    */
-  constructor (bigCommereProduct, bigCommerceStoreCurrency) {
-    this.bigCommerceProduct = bigCommereProduct
-    this.bigCommerceVariant = bigCommereProduct.variants[0]
+  constructor (mainProduct, bigCommerceStoreCurrency, variantId) {
+    this.mainProduct = mainProduct
+    this.variantId = variantId
+    this.variant = variantId === 0
+      ? mainProduct.variants[0]
+      : mainProduct.variants.find(variant => variant.id === variantId)
     this.bigCommerceStoreCurrency = bigCommerceStoreCurrency
   }
 
   /**
+   * @see {@link https://developer.shopgate.com/docs/references/shopgate-pipelines/product-pipelines/getproduct-v1}
    * @returns {ShopgateProduct}
    */
   build () {
@@ -46,8 +51,7 @@ class ShopgateProductBuilder {
    * @private
    */
   _isActive () {
-    // TODO: global setting don't show "When a product is out of stock"
-    return true
+    return this._isAtLeatOneVariantPurchasable()
   }
 
   /**
@@ -56,8 +60,10 @@ class ShopgateProductBuilder {
    *
    * @private
    */
-  _isAtLeatOneVariantPurchasable (variants) {
-    for (let i = 0; i < variants.length; ++i) {
+  _isAtLeatOneVariantPurchasable () {
+    let variants = this.mainProduct.variants
+    let size = variants.length
+    for (let i = 0; i < size; ++i) {
       if (!variants[i].purchasing_disabled) {
         return true
       }
@@ -73,8 +79,12 @@ class ShopgateProductBuilder {
    */
   _getAvailablity () {
     return {
-      text: this.bigCommerceVariant.purchasing_disabled ? this.bigCommerceVariant.purchasing_disabled_message : this.bigCommerceProduct.availability_description,
-      state: (this.bigCommerceProduct.availability === BigCommerceProduct.Availability.AVAILABLE || this.bigCommerceProduct.availability === BigCommerceProduct.Availability.PREORDER ? ShopgateAvailibility.OK : ShopgateAvailibility.ALERT)
+      text: this._isVariant() && this.variant.purchasing_disabled
+        ? this.variant.purchasing_disabled_message
+        : this.mainProduct.availability_description,
+      state: this.mainProduct.availability !== BigCommerceProduct.Availability.DISABLED
+        ? ShopgateAvailibility.OK
+        : ShopgateAvailibility.ALERT
     }
   }
 
@@ -84,9 +94,9 @@ class ShopgateProductBuilder {
    * @private
    */
   _getId () {
-    return this.bigCommerceVariant && this.bigCommerceVariant.id
-      ? `${this.bigCommerceProduct.id}-${this.bigCommerceVariant.id}`
-      : this.bigCommerceProduct.id
+    return this._isVariant()
+      ? `${this.mainProduct.id}-${this.variant.id}`
+      : this.mainProduct.id
   }
 
   /**
@@ -97,20 +107,20 @@ class ShopgateProductBuilder {
   _getIdentifiers () {
     const identifiers = {}
 
-    if (this.bigCommerceProduct.sku) {
-      identifiers.sku = this.bigCommerceProduct.sku
+    if (this.mainProduct.sku) {
+      identifiers.sku = this.mainProduct.sku
     }
 
-    if (this.bigCommerceProduct.upc) {
-      identifiers.upc = this.bigCommerceProduct.upc
+    if (this.mainProduct.upc) {
+      identifiers.upc = this.mainProduct.upc
     }
 
-    if (this.bigCommerceProduct.gtin) {
-      identifiers.gtin = this.bigCommerceProduct.gtin
+    if (this.mainProduct.gtin) {
+      identifiers.gtin = this.mainProduct.gtin
     }
 
-    if (this.bigCommerceProduct.mpn) {
-      identifiers.mpn = this.bigCommerceProduct.mpn
+    if (this.mainProduct.mpn) {
+      identifiers.mpn = this.mainProduct.mpn
     }
 
     return identifiers
@@ -122,10 +132,18 @@ class ShopgateProductBuilder {
    * @private
    */
   _getType () {
-    return ShopgateProductType.SIMPLE
+    let type = ShopgateProductType.SIMPLE
+    if (this._isVariant()) {
+      type = ShopgateProductType.VARIANT
+    } else if (this.mainProduct.variants.length > 1) {
+      type = ShopgateProductType.PARENT
+    }
+    return type
   }
 
   /**
+   * Characteristics for the time this product is a variant
+   *
    * @returns {ShopgateProductCharacteristics[]}
    *
    * @private
@@ -151,44 +169,34 @@ class ShopgateProductBuilder {
   _getStock () {
     return {
       info: '',
-      orderable: this._isAtLeatOneVariantPurchasable(this.bigCommerceProduct.variants),
-      quantity: this._getStockQuantity(),
-      ignoreQuantity: this.bigCommerceProduct.inventory_tracking !== BigCommerceProduct.Inventory.TRACKING_OFF
+      orderable: this._isPurchasable(),
+      quantity: this._getQty(),
+      ignoreQuantity: this._getIgnoreQty(),
+      minOrderQuantity: this.mainProduct.order_quantity_minimum,
+      maxOrderQuantity: this.mainProduct.order_quantity_maximum
     }
   }
 
   /**
-   * @returns {number}
+   * Whether the quantity tracking should be ignored
+   *
+   * @return {boolean}
    *
    * @private
    */
-  _getStockQuantity () {
-    return this._getMaximumStockQuantityForVariants(this.bigCommerceProduct.variants)
+  _getIgnoreQty () {
+    return this.mainProduct.inventory_tracking === BigCommerceProduct.Inventory.TRACKING_OFF
   }
 
   /**
-   * @param {BigCommerceProductVariant[]} variants
-   *
-   * @returns {number}
+   * @returns {boolean}
    *
    * @private
    */
-  _getMaximumStockQuantityForVariants (variants) {
-    let maximumVariantStockQuantity = 0
-
-    variants.forEach(variant => {
-      if (maximumVariantStockQuantity > variant.inventory_level) {
-        maximumVariantStockQuantity = variant.inventory_level
-      }
-    })
-
-    for (let variant in variants) {
-      if (maximumVariantStockQuantity > variant.inventory_level) {
-        maximumVariantStockQuantity = variant.inventory_level
-      }
-    }
-
-    return maximumVariantStockQuantity
+  _isPurchasable () {
+    return this._isVariant()
+      ? !this.variant.purchasing_disabled
+      : this._isAtLeatOneVariantPurchasable(this.mainProduct.variants)
   }
 
   /**
@@ -199,11 +207,11 @@ class ShopgateProductBuilder {
   _getRating () {
     const rating = {
       // count : 0,
-      reviewCount: this.bigCommerceProduct.reviews_count
+      reviewCount: this.mainProduct.reviews_count
     }
 
-    if (this.bigCommerceProduct.reviews_count > 0) {
-      rating.average = this.bigCommerceProduct.reviews_rating_sum
+    if (this.mainProduct.reviews_count > 0) {
+      rating.average = this.mainProduct.reviews_rating_sum
     }
 
     return rating
@@ -215,15 +223,15 @@ class ShopgateProductBuilder {
    * @private
    */
   _getFeaturedImageUrl () {
-    let bigCommerceProductImage = this.bigCommerceVariant.image_url
+    let image = this._isVariant() ? this.variant.image_url : ''
 
-    if (typeof bigCommerceProductImage === 'undefined' || bigCommerceProductImage === '') {
-      if (this.bigCommerceProduct.hasOwnProperty('images') && this.bigCommerceProduct.images.length > 0) {
-        bigCommerceProductImage = this.bigCommerceProduct.images[0].url_standard
+    if (typeof image === 'undefined' || image === '') {
+      if (this.mainProduct.hasOwnProperty('images') && this.mainProduct.images.length > 0) {
+        image = this.mainProduct.images[0].url_standard
       }
     }
 
-    return bigCommerceProductImage
+    return image
   }
 
   /**
@@ -235,25 +243,28 @@ class ShopgateProductBuilder {
     const prices = {
       tiers: [],
       info: '',
-      unitPrice: this.bigCommerceProduct.calculated_price,
+      unitPrice: this._getProduct().calculated_price,
       // unitPriceMin: 5,
       // unitPriceMax: 20,
-      unitPriceNet: this.bigCommerceProduct.calculated_price,
-      unitPriceWithTax: this.bigCommerceProduct.calculated_price,
+      unitPriceNet: this._getProduct().calculated_price,
+      unitPriceWithTax: this._getProduct().calculated_price,
       taxAmount: 0.00,
       taxPercent: 19.00,
       currency: this.bigCommerceStoreCurrency
     }
 
     if (
-      this.bigCommerceProduct.price !== this.bigCommerceProduct.calculated_price &&
-      this.bigCommerceProduct.price > this.bigCommerceProduct.calculated_price
+      this._getProduct().price !== this._getProduct().calculated_price &&
+      this._getProduct().price > this._getProduct().calculated_price
     ) {
-      prices.unitPriceStriked = this.bigCommerceProduct.price
+      prices.unitPriceStriked = this._getProduct().price
     }
 
-    if (this.bigCommerceProduct.retail_price > 0) {
-      prices.msrp = this.bigCommerceProduct.retail_price
+    /**
+     * Retail price is located on the mainProduct only
+     */
+    if (this.mainProduct.retail_price > 0) {
+      prices.msrp = this.mainProduct.retail_price
     }
 
     return prices
@@ -266,8 +277,8 @@ class ShopgateProductBuilder {
    */
   _getFlags () {
     return {
-      hasChildren: true,
-      hasVariants: false,
+      hasChildren: false,
+      hasVariants: !this._isVariant() && this.mainProduct.variants.length > 1,
       hasOptions: false
     }
   }
@@ -278,7 +289,7 @@ class ShopgateProductBuilder {
    * @private
    */
   _getHighlight () {
-    return this.bigCommerceProduct.is_featured
+    return this.mainProduct.is_featured
   }
 
   /**
@@ -296,7 +307,7 @@ class ShopgateProductBuilder {
    * @private
    */
   _getTags () {
-    return this.bigCommerceProduct.search_keywords
+    return this.mainProduct.search_keywords
   }
 
   /**
@@ -305,7 +316,34 @@ class ShopgateProductBuilder {
    * @private
    */
   _getName () {
-    return this.bigCommerceProduct.name
+    return this.mainProduct.name
+  }
+
+  /**
+   * @return {number} - only integers are supported
+   *
+   * @private
+   */
+  _getQty () {
+    return this._getProduct().inventory_level
+  }
+
+  /**
+   * @returns {boolean}
+   *
+   * @private
+   */
+  _isVariant () {
+    return this.variantId !== 0
+  }
+
+  /**
+   * @returns {BigCommerceProduct|BigCommerceProductVariant}
+   *
+   * @private
+   */
+  _getProduct () {
+    return this._isVariant() ? this.variant : this.mainProduct
   }
 }
 

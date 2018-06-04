@@ -108,7 +108,7 @@ class ShopgateProductListRepository {
     let promisesForBrands = []
     for (const bigCommerceProductRequest of bigCommerceProductReponses) {
       for (const bigCommerceProductData of bigCommerceProductRequest.data) {
-        const shopgateProductBuilder = new ShopgateProductBuilder(bigCommerceProductData, bigCommerceStoreCurrency)
+        const shopgateProductBuilder = new ShopgateProductBuilder(bigCommerceProductData, bigCommerceStoreCurrency, 0)
 
         products.push(shopgateProductBuilder.build())
 
