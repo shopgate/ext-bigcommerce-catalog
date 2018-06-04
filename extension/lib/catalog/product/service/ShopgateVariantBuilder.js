@@ -40,13 +40,13 @@ class ShopgateVariantBuilder {
    * @private
    */
   _getAvailablity () {
-    let stock = {
+    const stock = {
       text: this._isVariantPurchasable() ? this.parent.availability_description : this.variant.purchasing_disabled_message,
       state: ShopgateAvailibility.ALERT
     }
     if (this._isVariantPurchasable()) {
       stock.state = ShopgateAvailibility.OK
-    } else if (this._isLowStock) {
+    } else if (this._isLowStock()) {
       stock.state = ShopgateAvailibility.WARNING
     }
 
@@ -77,7 +77,7 @@ class ShopgateVariantBuilder {
    * @private
    */
   _getCharacteristics () {
-    let response = {}
+    const response = {}
     this.variant.option_values && this.variant.option_values.forEach((option) => {
       response[option.option_id] = option.id.toString()
     })

@@ -1,7 +1,6 @@
 class ShopgateCharacteristicBuilder {
   /**
    * @param {BigCommerceProductVariant[]} variants
-   * @param {boolean} trackVariantInventory
    */
   constructor (variants) {
     this.variants = variants
