@@ -13,7 +13,7 @@ module.exports = async (context) => {
     context.config.accessToken,
     context.config.storeHash,
     {
-      cacheLifetime: context.config.lifetime_sec,
+      cacheLifetime: context.config.cache.lifetime_sec,
       extensionStorage: context.storage.extension
     }
   )
