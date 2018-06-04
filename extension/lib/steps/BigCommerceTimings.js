@@ -32,7 +32,7 @@ class BigCommerceTimings {
     this._logger = logger
   }
 
- /**
+  /**
    * @param {BigCommerceWrapperTiming[]} timings
    */
   report (timings) {

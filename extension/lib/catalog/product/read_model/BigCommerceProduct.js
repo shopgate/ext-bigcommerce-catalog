@@ -67,7 +67,7 @@
  * @property {?number} width
  */
 
- /**
+/**
   * Takes into account `inventory_tracking` param where
   * the Qty is tracked based on the configuration set in
   * the Inventry Tracking section of the product page

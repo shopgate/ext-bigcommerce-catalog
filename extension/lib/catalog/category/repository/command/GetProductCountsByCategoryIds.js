@@ -13,10 +13,10 @@ class GetProductCountsByCategoryIds {
    */
   async execute () {
     return (await Promise.all(
-        this._categoryIds.map(
-          categoryId => this._apiVersion3Client.get('/catalog/products/?categories:in=' + categoryId + '&include_fields=id&limit=1')
-        )
+      this._categoryIds.map(
+        categoryId => this._apiVersion3Client.get('/catalog/products/?categories:in=' + categoryId + '&include_fields=id&limit=1')
       )
+    )
     ).map(productsResult => productsResult.meta.pagination.total)
   }
 }

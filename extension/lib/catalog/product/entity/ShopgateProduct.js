@@ -14,7 +14,7 @@
  * @property {string} [currency]
  */
 
- /**
+/**
  * @typedef {Object} ShopgateProductCharacteristicsList
  * @property {string} id - id of option set
  * @property {string} label - label of option set, e.g Color
