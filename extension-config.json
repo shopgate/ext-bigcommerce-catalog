@@ -1,11 +1,6 @@
 {
   "version": "0.1.6-beta4",
   "id": "@shopgate/bigcommerce-catalog",
-  "directories": {
-    "steps": "./extension/",
-    "pipelines": "./pipelines/"
-  },
-  "steps": [],
   "configuration": {
     "storeHash" : {
       "type" : "bigApi",
