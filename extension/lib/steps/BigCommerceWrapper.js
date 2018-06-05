@@ -58,7 +58,7 @@ class BigCommerceWrapper extends BigCommerce {
    * @return {Promise.<*>}
    */
   async request (type, path, data) {
-    const cacheKey = this.config.storeHash + path
+    const cacheKey = encodeURIComponent(this.config.storeHash + path).split('%3FdeviceId')[0]
     if (type === 'get') {
       const cacheData = await this._getCache(cacheKey)
       if (cacheData !== undefined) {
