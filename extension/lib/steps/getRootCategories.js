@@ -8,14 +8,18 @@ const ApiTimings = require('./BigCommerceTimings')
  * @returns {Promise<GetRootCategoriesResponse>}
  */
 module.exports = async (context) => {
+  let cacheConfig = {}
+  if (context.config.cache) {
+    cacheConfig = {
+      cacheLifetime: context.config.cache.lifetime_sec,
+      extensionStorage: context.storage.extension
+    }
+  }
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
     context.config.storeHash,
-    {
-      cacheLifetime: context.config.cache.lifetime_sec,
-      extensionStorage: context.storage.extension
-    }
+    cacheConfig
   )
   const bigCommerceClientV3 = bigCommerceFactory.createV3()
   const shopgateCategoryRepository = new ShopgateCategoryRepository(

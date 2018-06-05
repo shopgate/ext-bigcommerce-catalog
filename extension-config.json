@@ -1,5 +1,5 @@
 {
-  "version": "0.1.6-beta4",
+  "version": "0.1.6-beta5",
   "id": "@shopgate/bigcommerce-catalog",
   "configuration": {
     "storeHash" : {

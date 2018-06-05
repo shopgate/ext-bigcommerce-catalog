@@ -10,14 +10,18 @@ const ApiTimings = require('./BigCommerceTimings')
  * @returns {Promise<ShopgateProductShippingResponse>}
  */
 module.exports = async (context, input) => {
+  let cacheConfig = {}
+  if (context.config.cache) {
+    cacheConfig = {
+      cacheLifetime: context.config.cache.lifetime_sec,
+      extensionStorage: context.storage.extension
+    }
+  }
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
     context.config.storeHash,
-    {
-      cacheLifetime: context.config.cache.lifetime_sec,
-      extensionStorage: context.storage.extension
-    }
+    cacheConfig
   )
   const bigCommerceClientV2 = bigCommerceFactory.createV2()
   const bigCommerceClientV3 = bigCommerceFactory.createV3()

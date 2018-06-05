@@ -21,14 +21,18 @@ module.exports = async (context, input) => {
     }
   }
 
+  let cacheConfig = {}
+  if (context.config.cache) {
+    cacheConfig = {
+      cacheLifetime: context.config.cache.lifetime_sec,
+      extensionStorage: context.storage.extension
+    }
+  }
   const bigCommerceFactory = new BigCommerceFactory(
     context.config.clientId,
     context.config.accessToken,
     context.config.storeHash,
-    {
-      cacheLifetime: context.config.cache.lifetime_sec,
-      extensionStorage: context.storage.extension
-    }
+    cacheConfig
   )
 
   const bigCommerceApiVersion3 = bigCommerceFactory.createV3()
