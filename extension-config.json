@@ -1,5 +1,5 @@
 {
-  "version": "0.1.6-beta.6",
+  "version": "0.1.6-beta.7",
   "id": "@shopgate/bigcommerce-catalog",
   "configuration": {
     "storeHash" : {
@@ -51,6 +51,17 @@
       "destination": "backend",
       "params": {
         "value": "15000"
+      }
+    },
+    "cache" : {
+      "type": "bigApi",
+      "destination" : "backend",
+      "default": null,
+      "params": {
+        "method":  "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/checkout_web_checkout_shopify?parsed=true",
+        "key": "value.backend.cache"
       }
     }
   }
