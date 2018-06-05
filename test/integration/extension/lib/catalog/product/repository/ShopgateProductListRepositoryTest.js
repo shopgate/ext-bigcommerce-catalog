@@ -46,7 +46,7 @@ describe('ShopgateProductListRepository', function () {
 
       const integrationTestProducts = [
         {
-          'id': "112-3107",
+          'id': 112,
           'active': true,
           'manufacturer': 'Anna',
           'name': '[Integration Test] Nutellabrot *Do not touch* ',
@@ -60,7 +60,7 @@ describe('ShopgateProductListRepository', function () {
           }
         },
         {
-          'id': "113-3109",
+          'id': 113,
           'active': true,
           'manufacturer': 'Collette',
           'name': '[Integration Test][Sample] Collette, alligator clutch *Do not touch*',
