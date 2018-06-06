@@ -73,12 +73,12 @@ describe('Pricing related tests: ', () => {
   })
 
   describe('Price strikken out due to discount', () => {
-    it("Should strike out the parent's original price as it's higher than the original", () => {
+    it('Should strike out the parent original price as it is higher than the original', () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.equal(resultProduct.price.unitPriceStriked, tempProduct.price)
     })
 
-    it("Should strike out the variant's original price as it's higher than the original", () => {
+    it('Should strike out the variant original price as it is higher than the original', () => {
       tempProduct.variants.push(tempVariant)
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
       assert.equal(resultProduct.price.unitPriceStriked, tempVariant.price)
@@ -137,7 +137,7 @@ describe('Stock levels: ', () => {
       tempVariant = {id: 2, purchasing_disabled: false}
     })
 
-    it("Should be orderable if Parent's variant is not disabled", () => {
+    it('Should be orderable if Parent variant is not disabled', () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.ok(resultProduct.stock.orderable)
     })
@@ -180,7 +180,7 @@ describe('Stock levels: ', () => {
       tempVariant = {id: 2, inventory_level: 15}
     })
 
-    it("Should use the parent's Qty when not tracking", () => {
+    it('Should use the parents Qty when not tracking', () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.equal(resultProduct.stock.quantity, tempProduct.inventory_level)
       assert.equal(resultProduct.stock.ignoreQuantity, true)

@@ -25,7 +25,7 @@ describe('Shopgate Image Builder > ', () => {
   })
 
   describe('Variants > ', () => {
-    it("Returns parent's images if no variants exist", function() {
+    it('Returns parent images if no variants exist', function() {
       const expectedImages = ['1.jpg', '2.jpg']
       tempProduct.images = [{url_standard: '1.jpg'}, {url_standard: '2.jpg'}]
 
