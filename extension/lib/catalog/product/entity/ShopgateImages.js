@@ -1,16 +1,16 @@
 /**
- * @typedef {Object} ShopgateProductImagesDefinition
+ * @typedef {Object} ShopgateImagesDefinition
  * @property {string[]} [images]
  */
 
 /**
- * @type ShopgateProductImagesDefinition
+ * @type ShopgateImagesDefinition
  */
 class ShopgateImages {
   /**
    * @param {string[]} [images]
    */
-  constructor (/** @type {ShopgateProductImagesDefinition} */ { images }) {
+  constructor (/** @type {ShopgateImagesDefinition} */ {images}) {
     this.images = images
   }
 }

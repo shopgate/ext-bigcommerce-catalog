@@ -6,40 +6,39 @@ const assert = require('assert')
 
 describe('Shopgate product builder ', () => {
   it('buildes ShopgateProduct for provided bigcommerce data', () => {
-    const productBuilder = new ShopgateProductBuilder({ id: 11, variants: [{ id: 1 }] }, '', 0)
+    const productBuilder = new ShopgateProductBuilder({id: 11, variants: [{id: 1}]}, '', 0)
 
     assert.ok(productBuilder.build() instanceof ShopgateProduct)
   })
 })
 
 describe('Product types are correct in all three scenarios', () => {
-
   it('Parent product if it has more than 1 variant', () => {
-    const resultProduct = new ShopgateProductBuilder({ id: 11, variants: [{ id: 1 }, { id: 2 }] }, '', 0).build()
+    const resultProduct = new ShopgateProductBuilder({id: 11, variants: [{id: 1}, {id: 2}]}, '', 0).build()
     assert.equal(resultProduct.type, ShopgateType.PARENT)
   })
 
   it('Simple product if it only has 1 variant', () => {
-    const resultProduct = new ShopgateProductBuilder({ id: 11, variants: [{ id: 1 }] }, '', 0).build()
+    const resultProduct = new ShopgateProductBuilder({id: 11, variants: [{id: 1}]}, '', 0).build()
     assert.equal(resultProduct.type, ShopgateType.SIMPLE)
   })
 
   it('Variant product if it has more than 1 variant & a variantId passed', () => {
-    const resultProduct = new ShopgateProductBuilder({ id: 11, variants: [{ id: 1 }, { id: 2 }] }, '', 1).build()
+    const resultProduct = new ShopgateProductBuilder({id: 11, variants: [{id: 1}, {id: 2}]}, '', 1).build()
     assert.equal(resultProduct.type, ShopgateType.VARIANT)
   })
 
   it('Variant product if it has 1 variant & a variantId passed', () => {
-    const resultProduct = new ShopgateProductBuilder({ id: 11, variants: [{ id: 1 }] }, '', 1).build()
+    const resultProduct = new ShopgateProductBuilder({id: 11, variants: [{id: 1}]}, '', 1).build()
     assert.equal(resultProduct.type, ShopgateType.VARIANT)
   })
 })
 
 describe('Pricing related tests: ', () => {
-  let tempProduct = tempVariant = {}
+  let tempProduct = (tempVariant = {})
   beforeEach(() => {
-    tempProduct = { id: 1, price: 100, calculated_price: 95, variants: [{ id: 1 }] }
-    tempVariant = { id: 2, price: 90, calculated_price: 10 }
+    tempProduct = {id: 1, price: 100, calculated_price: 95, variants: [{id: 1}]}
+    tempVariant = {id: 2, price: 90, calculated_price: 10}
   })
 
   describe('Produce prices should be correctly assigned', () => {
@@ -62,7 +61,6 @@ describe('Pricing related tests: ', () => {
   })
 
   describe('It should use the correct currency of the store', () => {
-
     it('Correct currency is used to price the product: USD', () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, 'USD', 0).build()
       assert.equal(resultProduct.price.currency, 'USD')
@@ -75,13 +73,12 @@ describe('Pricing related tests: ', () => {
   })
 
   describe('Price strikken out due to discount', () => {
-
-    it('Should strike out the parent\'s original price as it\'s higher than the original', () => {
+    it("Should strike out the parent's original price as it's higher than the original", () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.equal(resultProduct.price.unitPriceStriked, tempProduct.price)
     })
 
-    it('Should strike out the variant\'s original price as it\'s higher than the original', () => {
+    it("Should strike out the variant's original price as it's higher than the original", () => {
       tempProduct.variants.push(tempVariant)
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 2).build()
       assert.equal(resultProduct.price.unitPriceStriked, tempVariant.price)
@@ -90,11 +87,11 @@ describe('Pricing related tests: ', () => {
 })
 
 describe('Pipeline firing flags: ', () => {
-  let tempProduct = tempVariant = {}
+  let tempProduct = (tempVariant = {})
 
   beforeEach(() => {
-    tempProduct = { id: 1, variants: [{ id: 1 }] }
-    tempVariant = { id: 2 }
+    tempProduct = {id: 1, variants: [{id: 1}]}
+    tempVariant = {id: 2}
   })
 
   describe('Checks if product hasVariants flag is set correctly', () => {
@@ -132,15 +129,15 @@ describe('Pipeline firing flags: ', () => {
 })
 
 describe('Stock levels: ', () => {
-  let tempProduct = tempVariant = {}
+  let tempProduct = (tempVariant = {})
 
   describe('Purchasability of a product', () => {
     beforeEach(() => {
-      tempProduct = { id: 1, variants: [{ id: 1, purchasing_disabled: false }] }
-      tempVariant = { id: 2, purchasing_disabled: false }
+      tempProduct = {id: 1, variants: [{id: 1, purchasing_disabled: false}]}
+      tempVariant = {id: 2, purchasing_disabled: false}
     })
 
-    it('Should be orderable if Parent\'s variant is not disabled', () => {
+    it("Should be orderable if Parent's variant is not disabled", () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.ok(resultProduct.stock.orderable)
     })
@@ -166,7 +163,7 @@ describe('Stock levels: ', () => {
 
     it('Should be not be orderable if all variants are disabled', () => {
       tempProduct.variants.push(tempVariant)
-      tempProduct.variants.map(variant => variant.purchasing_disabled = true)
+      tempProduct.variants.map(variant => (variant.purchasing_disabled = true))
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.equal(resultProduct.stock.orderable, false)
     })
@@ -178,12 +175,12 @@ describe('Stock levels: ', () => {
         id: 1,
         inventory_tracking: BigCommerceProduct.Inventory.TRACKING_OFF,
         inventory_level: 5,
-        variants: [{ id: 1, inventory_level: 10 }]
+        variants: [{id: 1, inventory_level: 10}]
       }
-      tempVariant = { id: 2, inventory_level: 15 }
+      tempVariant = {id: 2, inventory_level: 15}
     })
 
-    it('Should use the parent\'s Qty when not tracking', () => {
+    it("Should use the parent's Qty when not tracking", () => {
       const resultProduct = new ShopgateProductBuilder(tempProduct, '', 0).build()
       assert.equal(resultProduct.stock.quantity, tempProduct.inventory_level)
       assert.equal(resultProduct.stock.ignoreQuantity, true)
@@ -224,9 +221,9 @@ describe('Stock levels: ', () => {
         id: 1,
         order_quantity_minimum: 0,
         order_quantity_maximum: 0,
-        variants: [{ id: 1 }]
+        variants: [{id: 1}]
       }
-      tempVariant = { id: 2 }
+      tempVariant = {id: 2}
     })
 
     it('Should not have a min/max order qty when not set', () => {

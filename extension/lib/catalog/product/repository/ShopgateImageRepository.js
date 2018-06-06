@@ -17,9 +17,8 @@ class ShopgateImageRepository {
   async get (id) {
     const variantId = id.includes('-') ? Number.parseInt(id.split('-').pop()) : 0
     const response = await this._client.get('/catalog/products/' + Number.parseInt(id) + '?include=variants,images')
-    const images = new ShopgateImageBuilder(response.data, variantId).build()
 
-    return images
+    return new ShopgateImageBuilder(response.data, variantId).build()
   }
 }
 
