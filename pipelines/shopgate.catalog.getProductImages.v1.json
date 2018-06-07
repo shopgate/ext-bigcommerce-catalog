@@ -1,0 +1,38 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "shopgate.catalog.getProductImages.v1",
+    "public": true,
+    "input": [
+      {
+        "id": "1",
+        "key": "productId"
+      }
+    ],
+    "output": [
+      {
+        "id": "100",
+        "key": "images"
+      }
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/bigcommerce-catalog",
+        "path": "@shopgate/bigcommerce-catalog/lib/steps/getProductImages.js",
+        "input": [
+          {
+            "id": "1",
+            "key": "productId"
+          }
+        ],
+        "output": [
+          {
+            "id": "100",
+            "key": "images"
+          }
+        ]
+      }
+    ]
+  }
+}
