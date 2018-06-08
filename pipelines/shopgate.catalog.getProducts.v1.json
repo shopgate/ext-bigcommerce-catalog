@@ -12,11 +12,12 @@
       {"key": "sort", "id": "6", "optional": true},
       {"key": "productIds", "id": "7", "optional": true},
       {"key": "showInactive", "id": "15", "optional": true},
-      {"key": "characteristics", "id": "751", "optional": true}
+      {"key": "characteristics", "id": "20", "optional": true},
+      {"key": "skipHighlightLoading", "id": "30", "optional": true}
     ],
     "output": [
-      {"key": "totalProductCount", "id": "1000"},
-      {"key": "products", "id": "1001"}
+      {"key": "totalProductCount", "id": "100"},
+      {"key": "products", "id": "200"}
     ],
     "steps": [
       {
@@ -32,11 +33,12 @@
           {"key": "sort", "id": "6", "optional": true},
           {"key": "productIds", "id": "7", "optional": true},
           {"key": "showInactive", "id": "15", "optional": true},
-          {"key": "characteristics", "id": "751", "optional": true}
+          {"key": "characteristics", "id": "20", "optional": true},
+          {"key": "skipHighlightLoading", "id": "30", "optional": true}
         ],
         "output": [
-          {"key": "totalProductCount", "id": "1000"},
-          {"key": "products", "id": "1001"}
+          {"key": "totalProductCount", "id": "100"},
+          {"key": "products", "id": "200"}
         ]
       }
     ]
