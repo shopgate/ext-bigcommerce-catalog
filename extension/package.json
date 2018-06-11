@@ -1,6 +1,6 @@
 {
   "name": "@shopgate/bigcommerce-catalog",
-  "version": "0.1.6-beta.8",
+  "version": "0.1.6-beta.10",
   "description": "Shopgate Cloud BigCommerce Catalog",
   "scripts": {
     "precommit": "npm run test && npm run lint-staged",
