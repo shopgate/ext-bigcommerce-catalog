@@ -32,7 +32,7 @@ describe('getProducts step > ', () => {
       assert.equal(result.products.length, input.productIds.length)
       assert.equal(result.totalProductCount, input.productIds.length)
     })
-    it('Should return no products when highligh returning is skipped', async () => {
+    it('Should return no products when highlight returning is skipped', async () => {
       input.skipHighlightLoading = true
       const result = await getProductsPipeline(context, input)
       assert.equal(result.products.length, 0)
