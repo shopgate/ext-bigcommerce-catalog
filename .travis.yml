@@ -1,6 +1,7 @@
 language: node_js
 
 install:
+- npm i -g npm@6
 - cd extension; npm install; cd ..
 
 env: # important! Without the top-level env, no job will be allowed to fail.
@@ -15,7 +16,7 @@ matrix:
       - cd extension
       - npm run test
       - npm run lint
-      - npm run check
+      - npm audit
     - node_js: 8
       env: TYPE=INTEGRATION
       script:
